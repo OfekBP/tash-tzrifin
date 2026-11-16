@@ -12,7 +12,7 @@ const branches = (await getCollection('quiz')).sort((a, b) => a.data.order - b.d
 const rights = Object.fromEntries(
   (await getCollection('rights')).filter(isVisible).map((r) => [r.id, { title: r.data.title, summary: r.data.summary, url: href(`/rights/${r.id}/`) }]),
 );
-const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'), banks: href('/guides/banks/'), docs: href('/guides/financial-documents/') });
+const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'), logo: href('/logos/tash-btouch-badge.png'), banks: href('/guides/banks/'), docs: href('/guides/financial-documents/') });
 ---
 <Base title="לא יודע מאיפה להתחיל?" lead="כמה שאלות קצרות, ונראה לך על מה כדאי לדבר עם מש״קית הת״ש." back="/" description="שאלון קצר שמכוון לזכויות ולמסלולי הסיוע הרלוונטיים">
   <div id="app" data-payload={payload}>
@@ -26,7 +26,7 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
 <script>
   type Branch = { id: string; label: string; base: string[]; questions: { q: string; options: { label: string; add: string[] }[] }[] };
   const root = document.getElementById('app')!;
-  const data = JSON.parse(root.dataset.payload!) as { branches: Branch[]; rights: Record<string, { title: string; summary: string; url: string }>; contacts: string; banks: string; docs: string };
+  const data = JSON.parse(root.dataset.payload!) as { branches: Branch[]; rights: Record<string, { title: string; summary: string; url: string }>; contacts: string; logo: string; banks: string; docs: string };
   const title = document.getElementById('step-title')!;
   const box = document.getElementById('options')!;
   const restart = document.getElementById('restart')!;
@@ -67,7 +67,7 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
     box.innerHTML = `${docs}${items ? `<div class="group">${items}</div>` : ''}
       <div class="card-soft" style="margin-top: var(--s5)"><strong>הצעד הבא</strong><p>כדאי לדבר עם מש״קית הת״ש ולהכין את המסמכים שמופיעים בכל עמוד.</p>
       <a class="btn purple block" href="${data.contacts}">למש״קית הת״ש שלי</a>
-      <a class="btn ghost block" style="margin-top: var(--s2)" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener">כניסה לת״ש בטאץ׳</a></div>`;
+      <a class="tash-btn compact" style="margin-top: var(--s3)" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener"><img class="tb-logo" src="${data.logo}" alt="" width="48" height="48" decoding="async" /><span class="tb-tx"><strong>כניסה לת״ש בטאץ׳</strong></span></a></div>`;
     restart.hidden = false;
   }
 

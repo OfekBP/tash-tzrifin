@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import TashButton from '../components/TashButton.astro';
 import Icon from '../components/Icon.astro';
 import HeroSky from '../components/HeroSky.astro';
 import LogoTrio from '../components/LogoTrio.astro';
@@ -83,7 +84,7 @@ const needs = [
       </a>
     ))}
   </div>
-  {tash ? <a class="btn block" style="margin-top: var(--s4)" href={tash.data.url} target="_blank" rel="noopener"><Icon name="external" />כניסה לת״ש בטאץ׳</a> : null}
+  {tash ? <div style="margin-top: var(--s4)"><TashButton url={tash.data.url} /></div> : null}
 
   <p class="notice" style="margin-top: var(--s6)">אתר עזר בלבד, לא תחליף לפנייה לסגל הת״ש. הזכאות נקבעת על ידי הגורמים המוסמכים.</p>
 

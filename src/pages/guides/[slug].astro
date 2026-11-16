@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import { marked } from 'marked';
 import Base from '../../layouts/Base.astro';
+import TashButton from '../../components/TashButton.astro';
 import Icon from '../../components/Icon.astro';
 import { href, isDraft, visible } from '../../lib/site';
 
@@ -22,10 +23,15 @@ const parts = chunks.slice(1).map((c) => {
 ---
 <Base title={d.title} lead={d.summary} back="/guides/" draft={isDraft(entry)}>
   {d.link ? (
-    <a class="cta-card" href={d.link} target="_blank" rel="noopener">
-      <span class="cta-ico"><Icon name="external" /></span>
-      <span class="cta-tx"><strong>{d.linkLabel ?? 'לפתיחה'}</strong><span>נפתח באתר המערכת, בלשונית חדשה</span></span>
-    </a>
+    d.link.includes('tash.digital.idf.il') ? (
+      <TashButton url={d.link} label={d.linkLabel} />
+    ) : (
+      <a class="tash-btn" href={d.link} target="_blank" rel="noopener">
+        <span class="tb-logo tb-ico"><Icon name="external" /></span>
+        <span class="tb-tx"><strong>{d.linkLabel ?? 'לפתיחה'}</strong><span>נפתח בלשונית חדשה</span></span>
+        <span class="tb-go" aria-hidden="true"><Icon name="external" /></span>
+      </a>
+    )
   ) : null}
 
   {intro ? <div class="prose" style="margin-top: var(--s5)" set:html={intro} /> : null}

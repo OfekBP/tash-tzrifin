@@ -1489,47 +1489,81 @@ ol.steps li::before {
   color: #2563c9;
 }
 
-/* כרטיס כניסה למערכת חיצונית */
-.cta-card {
+/* כפתור כניסה למערכת חיצונית (ת״ש בטאץ׳): פסטלי, בהתאם לשפת האתר */
+.tash-btn {
   display: flex;
   align-items: center;
-  gap: var(--s4);
-  padding: var(--s4);
+  gap: var(--s3);
+  padding: var(--s3) var(--s4) var(--s3) var(--s3);
   border-radius: var(--r-lg);
   text-decoration: none;
-  color: #fff;
-  background: linear-gradient(135deg, #2f6ad0, #8050e8);
-  box-shadow: 0 14px 30px -16px rgb(80 60 200 / 0.7);
-  transition: transform 0.15s var(--ease);
+  color: var(--navy);
+  background: linear-gradient(135deg, #f5f1ff 0%, #e8f1ff 100%);
+  border: 1.5px solid rgb(128 80 232 / 0.18);
+  box-shadow: 0 10px 24px -18px rgb(80 60 200 / 0.55);
+  transition: transform 0.15s var(--ease), background 0.2s;
 }
-.cta-card:active {
+.tash-btn:active {
   transform: scale(0.98);
+  background: linear-gradient(135deg, #ece5ff 0%, #dfeafe 100%);
 }
-.cta-ico {
+.tb-logo {
   flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px -8px rgb(108 63 209 / 0.8);
+}
+.tb-ico {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  background: rgb(255 255 255 / 0.2);
+  background: var(--lavender);
+  color: var(--purple-deep, #6c3fd1);
+  box-shadow: none;
 }
-.cta-ico svg {
+.tb-ico svg {
   width: 24px;
   height: 24px;
 }
-.cta-tx {
+.tb-tx {
+  flex: 1;
   display: grid;
-  gap: 2px;
+  gap: 1px;
   min-width: 0;
 }
-.cta-tx strong {
+.tb-tx strong {
   font-family: var(--display);
-  font-size: 19px;
+  font-size: 18px;
+  line-height: 1.25;
 }
-.cta-tx span {
+.tb-tx span {
   font-size: 14px;
-  opacity: 0.88;
+  color: var(--ink-soft);
+}
+.tb-go {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  color: #6c3fd1;
+}
+.tb-go svg {
+  width: 18px;
+  height: 18px;
+}
+.tash-btn.compact {
+  padding: var(--s2) var(--s3) var(--s2) var(--s2);
+}
+.tash-btn.compact .tb-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+.tash-btn.compact .tb-tx strong {
+  font-size: 16px;
 }
 
 /* סרטוני הדרכה: הכרטיס בגודל הסרטון בדיוק */

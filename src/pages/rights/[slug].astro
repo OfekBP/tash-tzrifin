@@ -2,6 +2,7 @@
 import { marked } from 'marked';
 import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import TashButton from '../../components/TashButton.astro';
 import Icon from '../../components/Icon.astro';
 import { href, isDraft, isVisible, SHOW_DRAFTS, visible } from '../../lib/site';
 
@@ -140,7 +141,7 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
     <strong>למי פונים?</strong>
     <p>הזכאות נקבעת על ידי הגורמים המוסמכים. מש״קית הת״ש תעזור לבדוק מה מתאים לך.</p>
     <a class="btn purple block" href={href('/contacts/')}><Icon name="contacts" />למש״קית הת״ש שלי</a>
-    {d.tashButton ? <a class="btn ghost block" style="margin-top: var(--s2)" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener"><Icon name="external" />כניסה לת״ש בטאץ׳</a> : null}
+    {d.tashButton ? <div style="margin-top: var(--s3)"><TashButton compact /></div> : null}
   </div>
 
   <p class="sources">

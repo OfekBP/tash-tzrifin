@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import { href } from '../lib/site';
+
+interface Props {
+  url?: string;
+  /** compact: שורה נמוכה לשימוש בתוך כרטיסים */
+  compact?: boolean;
+  label?: string;
+}
+const { url = 'https://tash.digital.idf.il/landing/', compact = false, label = 'כניסה לת״ש בטאץ׳' } = Astro.props;
+---
+<a class:list={['tash-btn', { compact }]} href={url} target="_blank" rel="noopener">
+  <img class="tb-logo" src={href('/logos/tash-btouch-badge.png')} alt="" width="48" height="48" decoding="async" />
+  <span class="tb-tx">
+    <strong>{label}</strong>
+    {!compact ? <span>נפתח באתר המערכת, בלשונית חדשה</span> : null}
+  </span>
+  <span class="tb-go" aria-hidden="true"><Icon name="external" /></span>
+</a>
