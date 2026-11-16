@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import { marked } from 'marked';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import { href, isDraft, visible } from '../../lib/site';
@@ -10,22 +11,65 @@ export async function getStaticPaths() {
 }
 const { entry } = Astro.props;
 const d = entry.data;
-const { Content } = await render(entry);
+
+// גוף המדריך: פתיח + כרטיסים נפתחים לפי "## כותרת"
+const chunks = (entry.body ?? '').trim().split(/^## /m);
+const intro = chunks[0].trim() ? (marked.parse(chunks[0].trim()) as string) : '';
+const parts = chunks.slice(1).map((c) => {
+  const nl = c.indexOf('\n');
+  return { title: c.slice(0, nl).trim(), html: marked.parse(c.slice(nl + 1).trim()) as string };
+});
 ---
 <Base title={d.title} lead={d.summary} back="/guides/" draft={isDraft(entry)}>
-  {d.link ? <a class="btn block" href={d.link} target="_blank" rel="noopener"><Icon name="external" />{d.linkLabel ?? 'לפתיחה'}</a> : null}
-  <div class="prose" style="margin-top: var(--s5)"><Content /></div>
+  {d.link ? (
+    <a class="cta-card" href={d.link} target="_blank" rel="noopener">
+      <span class="cta-ico"><Icon name="external" /></span>
+      <span class="cta-tx"><strong>{d.linkLabel ?? 'לפתיחה'}</strong><span>נפתח באתר המערכת, בלשונית חדשה</span></span>
+    </a>
+  ) : null}
+
+  {intro ? <div class="prose" style="margin-top: var(--s5)" set:html={intro} /> : null}
+
   {d.videos.length > 0 ? (
-    <section>
+    <section class="videos-sec">
       <h2 class="section">סרטוני הדרכה</h2>
       <div class="videos">
-        {d.videos.map((v) => (
+        {d.videos.map((v, i) => (
           <figure class="video-card">
-            <video controls playsinline preload="metadata" src={href(`/videos/${entry.id}/${v.file}`)} aria-label={v.title}></video>
-            <figcaption>{v.title}{v.note ? <span class="muted small"> · {v.note}</span> : null}</figcaption>
+            <figcaption>
+              <span class="vnum">{i + 1}</span>
+              <span class="vtitle">{v.title}</span>
+              <span class="vdur" data-dur></span>
+            </figcaption>
+            <video controls playsinline preload="metadata" width="480" height="672" src={href(`/videos/${entry.id}/${v.file}#t=0.1`)} aria-label={v.title}></video>
+            {v.note ? <p class="vnote">{v.note}</p> : null}
           </figure>
         ))}
       </div>
     </section>
   ) : null}
+
+  {parts.length > 0 ? (
+    <div style="margin-top: var(--s5)">
+      {parts.map((p, i) => (
+        <details class="acc" open={i === 0}>
+          <summary>{p.title}</summary>
+          <div class="acc-body prose" set:html={p.html} />
+        </details>
+      ))}
+    </div>
+  ) : null}
 </Base>
+
+<script>
+  // משך כל סרטון בכותרת הכרטיס
+  document.querySelectorAll<HTMLVideoElement>('.video-card video').forEach((v) => {
+    const out = v.closest('.video-card')!.querySelector<HTMLElement>('[data-dur]')!;
+    const show = () => {
+      const s = Math.round(v.duration);
+      if (s) out.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+    };
+    if (v.readyState >= 1) show();
+    else v.addEventListener('loadedmetadata', show, { once: true });
+  });
+</script>

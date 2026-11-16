@@ -1489,27 +1489,106 @@ ol.steps li::before {
   color: #2563c9;
 }
 
-/* סרטוני הדרכה */
+/* כרטיס כניסה למערכת חיצונית */
+.cta-card {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  padding: var(--s4);
+  border-radius: var(--r-lg);
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, #2f6ad0, #8050e8);
+  box-shadow: 0 14px 30px -16px rgb(80 60 200 / 0.7);
+  transition: transform 0.15s var(--ease);
+}
+.cta-card:active {
+  transform: scale(0.98);
+}
+.cta-ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 0.2);
+}
+.cta-ico svg {
+  width: 24px;
+  height: 24px;
+}
+.cta-tx {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.cta-tx strong {
+  font-family: var(--display);
+  font-size: 19px;
+}
+.cta-tx span {
+  font-size: 14px;
+  opacity: 0.88;
+}
+
+/* סרטוני הדרכה: הכרטיס בגודל הסרטון בדיוק */
 .videos {
   display: grid;
-  gap: var(--s4);
+  justify-items: center;
+  gap: var(--s5);
 }
 .video-card {
   margin: 0;
+  width: min(100%, 420px);
   background: #fff;
-  border-radius: var(--r-md);
+  border-radius: var(--r-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-1, 0 6px 20px -12px rgb(16 43 112 / 0.3));
+  box-shadow: 0 14px 30px -18px rgb(16 43 112 / 0.45);
+}
+.video-card figcaption {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+}
+.vnum {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--lavender);
+  color: var(--navy);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+}
+.vtitle {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  color: var(--navy);
+}
+.vdur {
+  flex: none;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
 }
 .video-card video {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 70dvh;
+  aspect-ratio: 480 / 672;
+  object-fit: contain;
   background: #0f1a44;
 }
-.video-card figcaption {
+.vnote {
+  margin: 0;
   padding: var(--s3) var(--s4);
-  font-weight: 600;
-  color: var(--navy);
+  font-size: 15px;
+  color: var(--ink-soft);
 }
