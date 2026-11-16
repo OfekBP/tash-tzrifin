@@ -7,16 +7,6 @@ import { href, SITE_NAME, visible } from '../lib/site';
 
 const links = await visible('links');
 const tash = links.find((l) => l.id === 'tash-btouch');
-const needs = [
-  { label: 'אני במצוקה כלכלית', url: '/rights/financial-aid/' },
-  { label: 'אני רוצה לבדוק אם מגיע לי הת״ש', url: '/rights/service-relief/' },
-  { label: 'אני צריך מקום מגורים', url: '/rights/housing/' },
-  { label: 'אני רוצה להוציא היתר עבודה', url: '/rights/private-work-permit/' },
-  { label: 'אני צריך חופשה מיוחדת', url: '/rights/special-leave/' },
-  { label: 'אני רוצה לבדוק זכאות כחייל בודד', url: '/rights/lone-soldier/' },
-  { label: 'אני צריך עזרה עם מסמכים מהבנק', url: '/guides/banks/' },
-  { label: 'אני לא יודע לאיזו בקשה אני זכאי', url: '/guide-me/' },
-];
 ---
 <Base hero>
   <section class="hero">
@@ -74,26 +64,24 @@ const needs = [
     </div>
   </a>
 
-  <h2 class="section" style="margin-top: var(--s6)">במה אפשר לעזור?</h2>
-  <div class="group">
-    {needs.map((n) => (
-      <a class="row" href={href(n.url)}>
-        <span class="tx"><span class="t">{n.label}</span></span>
-        <Icon name="chevron" class="chev" />
-      </a>
-    ))}
-  </div>
   {tash ? <div style="margin-top: var(--s4)"><TashButton url={tash.data.url} /></div> : null}
 
   <p class="notice" style="margin-top: var(--s6)">אתר עזר בלבד, לא תחליף לפנייה לסגל הת״ש. הזכאות נקבעת על ידי הגורמים המוסמכים.</p>
 
   <footer class="foot" aria-hidden="true">
-    <svg viewBox="0 0 375 120" preserveAspectRatio="none">
-      <defs><linearGradient id="wv" x1="0" x2="1"><stop offset="0" stop-color="#8050E8" stop-opacity=".55" /><stop offset="1" stop-color="#397DE8" stop-opacity=".35" /></linearGradient></defs>
-      <path d="M0 40C90 0 150 70 260 55S350 30 375 20V120H0Z" fill="url(#wv)" />
-      <path d="M0 62C100 30 170 92 280 74S350 56 375 48V120H0Z" fill="#dbe7fb" fill-opacity=".9" />
-      <g fill="#a9bde6" opacity=".75"><rect x="300" y="60" width="9" height="40" /><rect x="296" y="52" width="17" height="10" rx="2" /><rect x="262" y="84" width="76" height="16" /></g>
+    <svg viewBox="0 0 375 150" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="w1" x1="0" x2="1"><stop offset="0" stop-color="#8050E8" stop-opacity=".5" /><stop offset="1" stop-color="#397DE8" stop-opacity=".4" /></linearGradient>
+        <linearGradient id="w2" x1="0" x2="1"><stop offset="0" stop-color="#b9a3f5" stop-opacity=".65" /><stop offset="1" stop-color="#9cc8f7" stop-opacity=".6" /></linearGradient>
+      </defs>
+      <path d="M0 62C80 28 150 88 250 66S345 38 375 46V150H0Z" fill="url(#w1)" />
+      <path d="M0 84C90 56 170 112 270 92S350 74 375 80V150H0Z" fill="url(#w2)" />
+      <path d="M0 110C100 90 180 130 280 114S352 104 375 108V150H0Z" fill="#dbe7fb" />
     </svg>
-    <span class="script">ביחד, תמיד</span>
+    <svg class="foot-jet" viewBox="0 0 120 40" aria-hidden="true">
+      <path d="M0 30C30 30 55 26 82 20" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7" />
+      <g transform="translate(96 17) rotate(-14) scale(.5)"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#fff" /><path d="M28 0 14-2.2-24-3l-2 1.4v3.2L-24 3 14 2.2Z" fill="#fff" stroke="#8050E8" stroke-width="1.6" /></g>
+    </svg>
+    <div class="foot-cloud c1"></div><div class="foot-cloud c2"></div>
   </footer>
 </Base>
