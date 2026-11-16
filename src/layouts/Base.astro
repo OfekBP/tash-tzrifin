@@ -79,6 +79,10 @@ const tabs = [
           <a class="icon-btn" href={href(back)} data-back aria-label="חזרה">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
           </a>
+        ) : hero ? (
+          <div class="unit-mark" role="img" aria-label="ת״ש חובה בח״א צריפין">
+            {['ofek', 'lahav', 'f108', 'f502'].map((u) => <img src={href(`/logos/${u}.png`)} alt="" width="44" height="44" decoding="async" />)}
+          </div>
         ) : (
           <a class="app-mark" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית"><img src={href('/logos/app-logo-96.webp')} alt="" width="40" height="40" decoding="async" /></a>
         )}

@@ -1854,36 +1854,20 @@ dialog.sheet.dragging {
   transition: none;
 }
 
-/* סמלי היחידות בראש דף הבית */
-.unit-strip {
-  position: absolute;
-  inset-inline: 0;
-  top: calc(var(--header-h) + env(safe-area-inset-top) + 4px);
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-}
-.unit-strip ul {
-  list-style: none;
-  margin: 0;
-  padding: 8px 14px;
+/* סמלי היחידות בפינה הימנית העליונה של דף הבית */
+.unit-mark {
   display: flex;
   align-items: center;
-  gap: 14px;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.72);
-  box-shadow: 0 8px 24px -12px rgb(16 43 112 / 0.35), inset 0 0 0 1px rgb(255 255 255 / 0.8);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  gap: 8px;
 }
-.unit-strip img {
+.unit-mark img {
   display: block;
-  height: 54px;
-  width: auto;
-  max-width: 64px;
+  height: 44px;
+  width: 44px;
   object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgb(16 43 112 / 0.22));
 }
 @media (max-width: 360px) {
-  .unit-strip img { height: 46px; max-width: 54px; }
-  .unit-strip ul { gap: 10px; padding-inline: 10px; }
+  .unit-mark { gap: 5px; }
+  .unit-mark img { height: 38px; width: 38px; }
 }
