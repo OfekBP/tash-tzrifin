@@ -63,7 +63,7 @@ const rights = defineCollection({
       benefits: z.array(z.string()).default([]), // מה מקבלים בפועל
       faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
       related: z.array(reference('rights')).default([]), // זכויות קשורות
-      tashButton: z.boolean().default(true), // כפתור מעבר לת״ש בטאץ׳
+      tashButton: z.boolean().default(true), // כפתור מעבר לת״ש בטאצ׳
       to_verify: z.array(z.string()).default([]), // פרטים לבדיקה לפני פרסום: מוצגים רק בסביבת פיתוח
       figures: z
         .array(

@@ -8,13 +8,13 @@ interface Props {
   compact?: boolean;
   label?: string;
 }
-const { url = 'https://tash.digital.idf.il/landing/', compact = false, label = 'כניסה לת״ש בטאץ׳' } = Astro.props;
+const { url = 'https://tash.digital.idf.il/landing/', compact = false, label = 'כניסה לת״ש בטאצ׳' } = Astro.props;
 const logo = href('/logos/tash-btouch-badge.png');
 ---
 {compact ? (
   <a class="tash-row" href={url} target="_blank" rel="noopener">
     <img class="tb-logo" src={logo} alt="" width="44" height="44" decoding="async" />
-    <span class="tb-tx"><strong>ת״ש בטאץ׳</strong><span>בקשות ומעקב במערכת הדיגיטלית</span></span>
+    <span class="tb-tx"><strong>ת״ש בטאצ׳</strong><span>בקשות ומעקב במערכת הדיגיטלית</span></span>
     <span class="tb-go" aria-hidden="true"><Icon name="external" /></span>
     <span class="sr-only">{label}, נפתח בלשונית חדשה</span>
   </a>
@@ -22,7 +22,7 @@ const logo = href('/logos/tash-btouch-badge.png');
   <div class="tash-card">
     <div class="tc-head">
       <img class="tb-logo" src={logo} alt="" width="56" height="56" decoding="async" />
-      <div class="tb-tx"><strong>ת״ש בטאץ׳</strong><span>המערכת הדיגיטלית של צה״ל לבקשות ת״ש: הגשה, מסמכים ומעקב</span></div>
+      <div class="tb-tx"><strong>ת״ש בטאצ׳</strong><span>המערכת הדיגיטלית של צה״ל לבקשות ת״ש: הגשה, מסמכים ומעקב</span></div>
     </div>
     <a class="btn purple block" href={url} target="_blank" rel="noopener"><Icon name="external" />{label}</a>
   </div>
