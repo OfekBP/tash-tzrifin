@@ -61,12 +61,16 @@ const tabs = [
   </head>
   <body>
     <div class="splash" id="splash" aria-hidden="true">
-      <div class="splash-in">
-        <div class="splash-halo"></div>
-        <img class="splash-logo" src={href('/logos/app-logo-264.webp')} alt="" width="132" height="132" />
-        <div class="splash-name">ת״ש חובה בח״א צריפין</div>
-        <div class="splash-dots"><i></i><i></i><i></i></div>
+      <div class="sp-cloud c1"></div><div class="sp-cloud c2"></div><div class="sp-cloud c3"></div>
+      <div class="sp-stage">
+        <div class="sp-ping"></div><div class="sp-ping p2"></div>
+        <div class="sp-orbit">
+          <svg class="sp-plane" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2c2 0 3 5 3 11l17 17v4L27 27v10l6 4v4l-9-2-9 2v-4l6-4V27L4 34v-4l17-17c0-6 1-11 3-11z" fill="#fff" stroke="#1b2a6b" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <img class="sp-logo" src={href('/logos/app-logo-264.webp')} alt="" width="132" height="132" />
       </div>
+      <div class="sp-name">ת״ש חובה בח״א צריפין</div>
+      <div class="sp-sub">ממריאים<span class="sp-dots"><i>.</i><i>.</i><i>.</i></span></div>
     </div>
     <a class="skip" href="#main">דילוג לתוכן</a>
     <div class:list={['app', { 'has-head': !hero }]} data-tone={tone}>
@@ -123,7 +127,7 @@ const tabs = [
     };
     if (!document.documentElement.classList.contains('splash-on')) return;
     const started = performance.now();
-    const ready = () => setTimeout(hide, Math.max(0, 600 - (performance.now() - started)));
+    const ready = () => setTimeout(hide, Math.max(0, 1000 - (performance.now() - started)));
     if (document.readyState === 'complete') ready();
     else addEventListener('load', ready, { once: true });
     setTimeout(hide, 2500);

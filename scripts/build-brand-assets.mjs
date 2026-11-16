@@ -46,7 +46,8 @@ fs.mkdirSync('public/icons', { recursive: true });
 const SKY = '#C5E4FB';
 
 // לוגו ראשי (שקוף, פינות מעוגלות)
-await sharp(logo).resize(512, 512).png({ compressionLevel: 9 }).toFile('public/logos/app-logo.png');
+await sharp(logo).resize(96, 96).webp({ quality: 90, effort: 6 }).toFile('public/logos/app-logo-96.webp');
+await sharp(logo).resize(264, 264).webp({ quality: 88, effort: 6 }).toFile('public/logos/app-logo-264.webp');
 // אייקוני PWA / iOS
 await sharp(logo).resize(192, 192).png().toFile('public/icons/192.png');
 await sharp(logo).resize(512, 512).png().toFile('public/icons/512.png');
@@ -68,4 +69,8 @@ fs.writeFileSync('public/favicon.ico', Buffer.concat([ico, png32]));
 // תמונת שיתוף (וואטסאפ וכו')
 const og = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4F1FF"/><stop offset="1" stop-color="#E6DDFF"/></linearGradient></defs><rect width="1200" height="630" fill="url(#g)"/></svg>');
 await sharp(og).composite([{ input: await sharp(logo).resize(460, 460).toBuffer(), gravity: 'center' }]).png().toFile('public/og.png');
+for (const f of ['icons/512.png', 'icons/maskable-512.png', 'icons/192.png', 'icons/180.png', 'og.png']) {
+  const b = await sharp('public/' + f).png({ palette: true, quality: 92, compressionLevel: 9, effort: 10 }).toBuffer();
+  fs.writeFileSync('public/' + f, b);
+}
 console.log('done');
