@@ -5,6 +5,13 @@ order: 1
 keywords: [תש בטאץ, תש בטאץ׳, מערכת תש דיגיטלית, סטטוס בקשה, הגשת בקשה, צירוף מסמכים, שאלון התאמה, צה״ל 360]
 link: https://tash.digital.idf.il/landing/
 linkLabel: כניסה לת״ש בטאץ׳
+videos:
+  - title: "מילוי הצהרות: פתיחת בקשה"
+    file: open-request.mp4
+  - title: "מילוי הצהרות: ויתור"
+    file: waiver.mp4
+  - title: "מילוי הצהרות: כלליות"
+    file: general.mp4
 sources: []
 status: approved
 approvedBy: "אופק בן פורת"

@@ -1488,3 +1488,28 @@ details.acc > summary:focus-visible {
 ol.steps li::before {
   color: #2563c9;
 }
+
+/* סרטוני הדרכה */
+.videos {
+  display: grid;
+  gap: var(--s4);
+}
+.video-card {
+  margin: 0;
+  background: #fff;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-1, 0 6px 20px -12px rgb(16 43 112 / 0.3));
+}
+.video-card video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70dvh;
+  background: #0f1a44;
+}
+.video-card figcaption {
+  padding: var(--s3) var(--s4);
+  font-weight: 600;
+  color: var(--navy);
+}

@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
-import { isDraft, visible } from '../../lib/site';
+import { href, isDraft, visible } from '../../lib/site';
 
 export async function getStaticPaths() {
   const guides = await visible('guides');
@@ -15,4 +15,17 @@ const { Content } = await render(entry);
 <Base title={d.title} lead={d.summary} back="/guides/" draft={isDraft(entry)}>
   {d.link ? <a class="btn block" href={d.link} target="_blank" rel="noopener"><Icon name="external" />{d.linkLabel ?? 'לפתיחה'}</a> : null}
   <div class="prose" style="margin-top: var(--s5)"><Content /></div>
+  {d.videos.length > 0 ? (
+    <section>
+      <h2 class="section">סרטוני הדרכה</h2>
+      <div class="videos">
+        {d.videos.map((v) => (
+          <figure class="video-card">
+            <video controls playsinline preload="metadata" src={href(`/videos/${entry.id}/${v.file}`)} aria-label={v.title}></video>
+            <figcaption>{v.title}{v.note ? <span class="muted small"> · {v.note}</span> : null}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  ) : null}
 </Base>
