@@ -6,10 +6,11 @@ import { href } from '../lib/site';
 <Base title="חיפוש" lead="זכות, מדריך, בנק, יחידה או שם." back="/">
   <div slot="head" class="searchbar">
     <Icon name="search" />
-    <input type="search" id="q" placeholder="למשל: ריכוז יתרות, חופשה, ליאן" aria-label="חיפוש" autocomplete="off" enterkeyhint="search" autofocus />
+    <input type="search" id="q" placeholder="למשל: ריכוז יתרות, חופשה, ליאן" aria-label="חיפוש" autocomplete="off" enterkeyhint="search" />
   </div>
   <p class="muted small" id="hint">התחילו להקליד, והתוצאות יופיעו כאן.</p>
-  <div class="group" id="results" aria-live="polite"></div>
+  <p class="sr-only" role="status" id="count"></p>
+  <div class="group" id="results"></div>
 </Base>
 
 <script define:vars={{ indexUrl: href('/search-index.json') }}>
@@ -23,6 +24,7 @@ import { href } from '../lib/site';
   const results = document.getElementById('results')!;
   const hint = document.getElementById('hint')!;
 
+  const count = document.getElementById('count')!;
   const ready = (async () => {
     const res = await fetch((window as any).__indexUrl);
     const docs = await res.json();
@@ -34,7 +36,7 @@ import { href } from '../lib/site';
     });
     ms.addAll(docs);
     return ms;
-  })();
+  })().catch(() => null);
 
   const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
@@ -48,13 +50,20 @@ import { href } from '../lib/site';
     }
     hint.hidden = true;
     const ms = await ready;
+    if (!ms) {
+      results.innerHTML = '<p class="empty">החיפוש לא זמין כרגע. נסו שוב מאוחר יותר.</p>';
+      return;
+    }
     const hits = ms.search(term).slice(0, 20);
+    count.textContent = hits.length ? `נמצאו ${hits.length} תוצאות` : 'לא נמצאו תוצאות';
     results.innerHTML = hits.length
       ? hits.map((h: any) => `<a class="result" href="${esc(h.url)}"><div class="t">${esc(h.title)}</div><div class="s">${esc(h.type)}${h.summary ? ' · ' + esc(h.summary) : ''}</div></a>`).join('')
       : '<p class="empty">לא מצאנו תוצאות. נסו מילה אחרת, או פנו למש״קית הת״ש דרך לשונית אנשי הקשר.</p>';
   }
 
-  q.addEventListener('input', run);
+  let t: number;
+  q.addEventListener('input', () => { clearTimeout(t); t = window.setTimeout(run, 120); });
+  q.addEventListener('keydown', (e) => { if (e.key === 'Enter') q.blur(); });
   const initial = new URLSearchParams(location.search).get('q');
   if (initial) {
     q.value = initial;

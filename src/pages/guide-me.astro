@@ -16,7 +16,7 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
 ---
 <Base title="לא יודע מאיפה להתחיל?" lead="כמה שאלות קצרות, ונראה לך על מה כדאי לדבר עם מש״קית הת״ש." back="/" description="שאלון קצר שמכוון לזכויות ולמסלולי הסיוע הרלוונטיים">
   <div id="app" data-payload={payload}>
-    <h2 class="section" id="step-title">מה הקושי העיקרי שלך?</h2>
+    <h2 class="section" id="step-title" tabindex="-1" aria-live="polite">מה הקושי העיקרי שלך?</h2>
     <div class="group" id="options"></div>
     <button class="btn ghost block" id="restart" type="button" hidden style="margin-top: var(--s4)">להתחיל מחדש</button>
   </div>
@@ -40,6 +40,7 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
     box.innerHTML = data.branches.map((b) => row(b.label, `data-branch="${b.id}"`)).join('');
     restart.hidden = true;
   }
+  const focusTitle = () => { title.focus({ preventScroll: true }); scrollTo({ top: 0 }); };
 
   function ask(b: Branch, i: number, picked: string[]) {
     if (i >= b.questions.length) return result(b, picked);
@@ -50,7 +51,10 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
     box.onclick = (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-k]');
       if (!btn) return;
-      ask(b, i + 1, [...picked, ...q.options[+btn.dataset.k!].add]);
+      const next = [...picked, ...q.options[+btn.dataset.k!].add];
+      history.pushState({ b: b.id, i: i + 1, picked: next }, '');
+      ask(b, i + 1, next);
+      focusTitle();
     };
   }
 
@@ -71,7 +75,15 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
     const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-branch]');
     if (!btn) return;
     const b = data.branches.find((x) => x.id === btn.dataset.branch)!;
+    history.pushState({ b: b.id, i: 0, picked: [] }, '');
     ask(b, 0, []);
+    focusTitle();
+  });
+  addEventListener('popstate', (e) => {
+    const st = e.state as { b: string; i: number; picked: string[] } | null;
+    const b = st && data.branches.find((x) => x.id === st.b);
+    if (st && b) ask(b, st.i, st.picked);
+    else start();
   });
   restart.addEventListener('click', start);
   start();

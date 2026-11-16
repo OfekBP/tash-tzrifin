@@ -32,7 +32,7 @@ const groups = frameworks
     {groups.map((g) => (
       <section data-group={g.f.id}>
         <h2 class="section fw">
-          {logos[g.f.id] ? <img class="fw-logo" src={href(`/logos/${logos[g.f.id]}.png`)} alt="" /> : <span class="fw-logo fw-mono">{g.f.data.name}</span>}
+          {logos[g.f.id] ? <img class="fw-logo" src={href(`/logos/${logos[g.f.id]}.png`)} alt="" /> : <span class="fw-logo fw-mono" aria-hidden="true">{g.f.data.name}</span>}
           {g.f.data.name}
         </h2>
         <div class="group">
@@ -49,7 +49,7 @@ const groups = frameworks
   <dialog class="sheet" id="sheet" aria-labelledby="sheet-name">
     <div class="grab" aria-hidden="true"></div>
     <div class="sheet-head">
-      <span class="avatar" id="sheet-av"></span>
+      <span class="avatar" id="sheet-av" aria-hidden="true"></span>
       <div>
         <h2 id="sheet-name"></h2>
         <p class="muted small" id="sheet-sub" style="margin: 0"></p>
@@ -141,7 +141,11 @@ const groups = frameworks
     wa.hidden = !d.wa;
     if (d.wa) wa.href = d.wa;
     sheet.showModal();
+    history.pushState({ sheet: 1 }, '');
   });
+  // כפתור חזרה של המכשיר סוגר את החלון במקום לצאת מהעמוד
+  addEventListener('popstate', () => { if (sheet.open) sheet.close(); });
+  sheet.addEventListener('close', () => { if (history.state && history.state.sheet) history.back(); });
   $('sheet-close').addEventListener('click', () => sheet.close());
   sheet.addEventListener('click', (e) => {
     if (e.target === sheet) sheet.close();

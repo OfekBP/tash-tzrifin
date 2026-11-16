@@ -22,11 +22,12 @@ const { title, lead, description = 'מרכז שירות לחיילי חובה ב
 const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const path = Astro.url.pathname.replace(base, '') || '/';
+const path = (Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname) || '/';
+const onVercel = !!process.env.VERCEL;
 const tabs = [
-  { id: 'home', label: 'בית', url: '/', match: (p: string) => p === '/' },
+  { id: 'home', label: 'בית', url: '/', match: (p: string) => p === '/' || p.startsWith('/guide-me') || p.startsWith('/search') },
   { id: 'rights', label: 'זכויות', url: '/rights/', match: (p: string) => p.startsWith('/rights') },
-  { id: 'guides', label: 'מדריכים', url: '/guides/', match: (p: string) => p.startsWith('/guides') },
+  { id: 'guides', label: 'מדריכים', url: '/guides/', match: (p: string) => p.startsWith('/guides') || p.startsWith('/faq') || p.startsWith('/glossary') },
   { id: 'contacts', label: 'אנשי קשר', url: '/contacts/', match: (p: string) => p.startsWith('/contacts') },
 ];
 ---
@@ -34,19 +35,26 @@ const tabs = [
 <html lang="he" dir="rtl">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="color-scheme" content="light" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:type" content="website" />
     <meta name="theme-color" content={tone === 'lav' ? '#e0d3ff' : '#cde8fc'} />
     <meta name="description" content={description} />
     <meta name="robots" content="noindex" />
     <title>{fullTitle}</title>
     <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
-    <Analytics />
+    <link rel="alternate icon" href={href('/favicon.ico')} sizes="32x32" />
+    {onVercel ? <Analytics /> : null}
   </head>
   <body>
+    <a class="skip" href="#main">דילוג לתוכן</a>
     <div class:list={['app', { 'has-head': !hero }]} data-tone={tone}>
       <header class:list={['topbar', { 'hero-bar': hero }]}>
         {back ? (
-          <a class="icon-btn" href={href(back)} aria-label="חזרה">
+          <a class="icon-btn" href={href(back)} data-back aria-label="חזרה">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
           </a>
         ) : <LogoTrio size={32} />}
@@ -62,7 +70,7 @@ const tabs = [
         </div>
       ) : null}
 
-      <main>
+      <main id="main">
         {SHOW_DRAFTS && draft ? <div class="draft-bar">טיוטה: תוכן שטרם אושר, לא יפורסם באתר</div> : null}
         <slot />
       </main>
@@ -79,3 +87,28 @@ const tabs = [
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
+
+<script>
+  // חזרה אמיתית: אם הגענו מתוך האתר, חוזרים בהיסטוריה (מצב גלילה וסינון נשמרים)
+  document.addEventListener('click', (e) => {
+    const t = e.target as Element;
+    const back = t.closest('a[data-back]');
+    if (back && !e.defaultPrevented && !(e as MouseEvent).metaKey && !(e as MouseEvent).ctrlKey) {
+      try {
+        const r = new URL(document.referrer);
+        if (r.origin === location.origin && r.pathname.startsWith(import.meta.env.BASE_URL) && history.length > 1) {
+          e.preventDefault();
+          history.back();
+        }
+      } catch {}
+      return;
+    }
+    // לחיצה על הלשונית הפעילה: חזרה לראש העמוד
+    const tab = t.closest('.tab[aria-current="page"]');
+    if (tab) {
+      e.preventDefault();
+      scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+  document.addEventListener('touchstart', () => {}, { passive: true });
+</script>
