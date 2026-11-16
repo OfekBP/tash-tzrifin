@@ -1626,3 +1626,17 @@ ol.steps li::before {
   font-size: 15px;
   color: var(--ink-soft);
 }
+
+/* כפתור ת״ש בטאץ׳: ממורכז כמו שאר הכפתורים */
+.tash-btn {
+  justify-content: center;
+  padding-inline: var(--s4);
+  text-align: center;
+}
+.tash-btn .tb-tx {
+  flex: 0 1 auto;
+  text-align: center;
+}
+.tash-btn .tb-go {
+  display: none;
+}
