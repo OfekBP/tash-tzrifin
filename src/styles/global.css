@@ -1734,9 +1734,8 @@ ol.steps li::before {
   width: 100%;
   height: 100%;
   display: block;
-  -webkit-mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000 62%, transparent 100%);
-  mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000 62%, transparent 100%);
-  filter: drop-shadow(0 14px 22px rgb(16 43 112 / 0.22));
+  object-fit: contain;
+  filter: drop-shadow(0 12px 18px rgb(16 43 112 / 0.2));
 }
 .sp-wrap-glow {
   position: absolute;
@@ -1744,21 +1743,6 @@ ol.steps li::before {
   border-radius: 50%;
   background: radial-gradient(circle, rgb(255 255 255 / 0.85), rgb(255 255 255 / 0) 65%);
   z-index: -1;
-}
-/* חוגת מכשירי טיסה: סימוני דקות סביב הלוגו */
-.sp-dial {
-  position: absolute;
-  inset: 14px;
-  border-radius: 50%;
-  background: repeating-conic-gradient(rgb(27 42 107 / 0.4) 0 0.8deg, transparent 0.8deg 7.5deg);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
-  opacity: 0;
-  animation: dial-in 0.9s 0.2s var(--ease) forwards;
-}
-@keyframes dial-in {
-  from { opacity: 0; transform: scale(0.9) rotate(-30deg); }
-  to { opacity: 1; transform: none; }
 }
 @keyframes float {
   0%, 100% { transform: translateY(0); }
@@ -1838,7 +1822,7 @@ ol.steps li::before {
   from { opacity: 0; transform: translateY(10px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sp-cloud, .sp-ping, .sp-logo-wrap, .sp-dial, .sp-name, .sp-sub, .sp-dots i {
+  .sp-cloud, .sp-ping, .sp-logo-wrap, .sp-name, .sp-sub, .sp-dots i {
     animation: none;
   }
   .sp-orbit {
