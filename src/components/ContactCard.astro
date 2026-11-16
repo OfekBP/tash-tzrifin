@@ -33,5 +33,6 @@ const sub = units.length > 0 ? units.join(' · ') : (role ?? '');
       {sub ? <span class="s">{sub}</span> : null}
     </span>
   </button>
+  {whatsapp !== 'no' ? <a class="call wa" href={waHref(phone)} target="_blank" rel="noopener" aria-label={`וואטסאפ ל${name}`}><Icon name="whatsapp" /></a> : null}
   <a class="call" href={telHref(phone)} aria-label={`חיוג ל${name}`}><Icon name="phone" /></a>
 </div>
