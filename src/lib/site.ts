@@ -32,8 +32,11 @@ export const categoryLabels: Record<string, string> = {
   financial: 'כלכלה וסיוע',
   'service-relief': 'הקלות בשירות',
   'lone-soldier': 'חייל בודד',
-  family: 'משפחה',
+  family: 'משפחה והורות',
   health: 'בריאות',
   equipment: 'ציוד',
+  housing: 'דיור והלנה',
+  work: 'עבודה',
+  special: 'אוכלוסיות מיוחדות',
   other: 'אחר',
 };

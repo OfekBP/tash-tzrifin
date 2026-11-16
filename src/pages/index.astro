@@ -7,6 +7,16 @@ import { href, SITE_NAME, visible } from '../lib/site';
 
 const links = await visible('links');
 const tash = links.find((l) => l.id === 'tash-btouch');
+const needs = [
+  { label: 'אני במצוקה כלכלית', url: '/rights/financial-aid/' },
+  { label: 'אני רוצה לבדוק אם מגיע לי הת״ש', url: '/rights/service-relief/' },
+  { label: 'אני צריך מקום מגורים', url: '/rights/housing/' },
+  { label: 'אני רוצה להוציא היתר עבודה', url: '/rights/private-work-permit/' },
+  { label: 'אני צריך חופשה מיוחדת', url: '/rights/special-leave/' },
+  { label: 'אני רוצה לבדוק זכאות כחייל בודד', url: '/rights/lone-soldier/' },
+  { label: 'אני צריך עזרה עם מסמכים מהבנק', url: '/guides/banks/' },
+  { label: 'אני לא יודע לאיזו בקשה אני זכאי', url: '/guide-me/' },
+];
 ---
 <Base hero>
   <section class="hero">
@@ -15,7 +25,7 @@ const tash = links.find((l) => l.id === 'tash-btouch');
       <h1>{SITE_NAME}</h1>
       <p class="tagline">כאן בשבילך, בכל שלב בדרך</p>
       <svg class="swoosh" viewBox="0 0 160 10" aria-hidden="true"><path d="M2 7C40 1 100 1 158 6" fill="none" stroke="url(#sw)" stroke-width="3" stroke-linecap="round" /><defs><linearGradient id="sw"><stop offset="0" stop-color="#8050E8" /><stop offset="1" stop-color="#8050E8" stop-opacity=".2" /></linearGradient></defs></svg>
-      <p class="desc">הזכויות, המדריכים ואנשי הקשר של ת״ש, במקום אחד ובמגע אצבע. כי אתם במרכז.</p>
+      <p class="desc">כל המידע על הזכויות, ההטבות והסיוע שעומדים לרשותכם בשירות הצבאי, במקום אחד.</p>
       <form class="searchbar" action={href('/search/')} role="search">
         <Icon name="search" />
         <input type="search" name="q" placeholder="מה צריך? למשל: ריכוז יתרות" aria-label="חיפוש" enterkeyhint="search" autocomplete="off" />
@@ -27,19 +37,29 @@ const tash = links.find((l) => l.id === 'tash-btouch');
   <div class="bento">
     <a class="tile wide" href={href('/rights/')}>
       <span class="ico"><Icon name="rights" /></span>
-      <strong>זכויות ומענים</strong>
+      <strong>זכויות והטבות</strong>
       <span class="d">מה מגיע לך, מי מאשר ואילו מסמכים צריך</span>
       <svg class="big" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z" /></svg>
     </a>
     <a class="tile tint" href={href('/guides/')}>
       <span class="ico"><Icon name="guides" /></span>
-      <strong>עושים סדר</strong>
+      <strong>מדריכים וכלים</strong>
       <span class="d">אישורי בנק ות״ש בטאץ׳</span>
     </a>
     <a class="tile mist" href={href('/contacts/')}>
       <span class="ico"><Icon name="contacts" /></span>
       <strong>אנשי קשר</strong>
       <span class="d">המש״קית שלך, בלחיצה</span>
+    </a>
+    <a class="tile mist" href={href('/faq/')}>
+      <span class="ico"><Icon name="doc" /></span>
+      <strong>שאלות נפוצות</strong>
+      <span class="d">תשובות קצרות</span>
+    </a>
+    <a class="tile tint" href={href('/guide-me/')}>
+      <span class="ico"><Icon name="search" /></span>
+      <strong>לא יודע מאיפה להתחיל?</strong>
+      <span class="d">שאלון קצר</span>
     </a>
   </div>
 
@@ -54,13 +74,16 @@ const tash = links.find((l) => l.id === 'tash-btouch');
     </div>
   </a>
 
-  <h2 class="section" style="margin-top: var(--s6)">קיצורי דרך</h2>
-  <div class="quick">
-    <a href={href('/contacts/')}><span><Icon name="phone" /></span>אנשי קשר</a>
-    <a href={href('/guides/banks/')}><span class="p"><Icon name="bank" /></span>אישורי בנק</a>
-    {tash ? <a href={tash.data.url} target="_blank" rel="noopener"><span><Icon name="external" /></span>ת״ש בטאץ׳</a> : null}
-    <a href={href('/contacts/#bug')}><span class="p"><Icon name="bug" /></span>דיווח תקלה</a>
+  <h2 class="section" style="margin-top: var(--s6)">במה אפשר לעזור?</h2>
+  <div class="group">
+    {needs.map((n) => (
+      <a class="row" href={href(n.url)}>
+        <span class="tx"><span class="t">{n.label}</span></span>
+        <Icon name="chevron" class="chev" />
+      </a>
+    ))}
   </div>
+  {tash ? <a class="btn block" style="margin-top: var(--s4)" href={tash.data.url} target="_blank" rel="noopener"><Icon name="external" />כניסה לת״ש בטאץ׳</a> : null}
 
   <p class="notice" style="margin-top: var(--s6)">אתר עזר בלבד, לא תחליף לפנייה לסגל הת״ש. הזכאות נקבעת על ידי הגורמים המוסמכים.</p>
 

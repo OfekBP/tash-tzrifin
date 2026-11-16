@@ -8,9 +8,9 @@ origin: provided-by-owner
 approvedBy: אופק בן פורת
 approvedOn: 2026-11-16
 
-# המדריך הכתוב הועתק מהאתר הדוגמה (tashApp828) כטיוטה. לא יוצג באתר עד שיבדק מול האפליקציה
-# ויסומן guideStatus: approved + guideVerified.
-guideStatus: draft
+# המדריך הכתוב נלקח מהאתר הדוגמה (tashApp828). הוא יוצג באתר אחרי אישור:
+# npm run approve -- "שם המאשר"
+guideStatus: reviewed
 guide:
   ownership:
     pc:

@@ -29,6 +29,16 @@ const strip = (await visible('banks')).filter((b) => b.data.logo).sort((a, b) =>
         <Icon name="chevron" class="chev" />
       </a>
     ))}
+    <a class="row" href={href('/glossary/')}>
+      <span class="dot tint"><Icon name="doc" /></span>
+      <span class="tx"><span class="t">מילון מושגים</span><span class="s">הת״ש, תשמ״ש, הלנה, ריכוז יתרות ועוד</span></span>
+      <Icon name="chevron" class="chev" />
+    </a>
+    <a class="row" href={href('/faq/')}>
+      <span class="dot tint"><Icon name="doc" /></span>
+      <span class="tx"><span class="t">שאלות נפוצות</span><span class="s">תשובות קצרות לשאלות שחוזרות</span></span>
+      <Icon name="chevron" class="chev" />
+    </a>
     {!guides.some((g) => g.id === 'tash-btouch') && tashLink ? (
       <a class="row" href={tashLink.data.url} target="_blank" rel="noopener">
         <span class="dot tint"><Icon name="external" /></span>

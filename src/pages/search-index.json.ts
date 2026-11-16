@@ -50,5 +50,12 @@ export const GET: APIRoute = async () => {
     });
   }
 
+  for (const f of await getCollection('faq')) {
+    items.push({ id: `f-${f.id}`, title: f.data.q, type: 'שאלה נפוצה', summary: f.data.a, keywords: f.data.group, url: href('/faq/') });
+  }
+  for (const t of await getCollection('glossary')) {
+    items.push({ id: `t-${t.id}`, title: t.data.term, type: 'מילון', summary: t.data.meaning, keywords: t.data.aliases.join(' '), url: href('/glossary/') });
+  }
+
   return new Response(JSON.stringify(items), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
 };

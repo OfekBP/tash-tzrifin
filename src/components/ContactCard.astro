@@ -24,7 +24,7 @@ const sub = units.length > 0 ? units.join(' · ') : (role ?? '');
     data-phone={phone}
     data-shown={displayPhone(phone)}
     data-tel={telHref(phone)}
-    data-wa={whatsapp === 'yes' ? waHref(phone) : ''}
+    data-wa={whatsapp === 'no' ? '' : waHref(phone)}
     data-hue={hue}
   >
     <span class="avatar" data-h={hue}>{name.trim()[0]}</span>

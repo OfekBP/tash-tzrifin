@@ -27,6 +27,7 @@ const groups = frameworks
     {groups.map((g) => <button class="chip" type="button" data-fw={g.f.id} aria-pressed="false">{logos[g.f.id] ? <img class="fw-logo" src={href(`/logos/${logos[g.f.id]}.png`)} alt="" /> : null}{g.f.data.name}</button>)}
   </div>
 
+  <p class="notice" style="margin-bottom: var(--s4)">הפרטים מיועדים לפנייה בנושאי ת״ש בלבד.</p>
   <div id="groups">
     {groups.map((g) => (
       <section data-group={g.f.id}>
@@ -57,10 +58,8 @@ const groups = frameworks
     <span class="num" id="sheet-num"></span>
     <div class="acts">
       <a class="btn block" id="sheet-call" href="#"><Icon name="phone" />חיוג</a>
-      <div class="two">
-        <a class="btn wa" id="sheet-wa" href="#" target="_blank" rel="noopener" hidden><Icon name="whatsapp" />וואטסאפ</a>
-        <button class="btn ghost" id="sheet-copy" type="button"><Icon name="copy" />העתקת מספר</button>
-      </div>
+      <a class="btn wa block" id="sheet-wa" href="#" target="_blank" rel="noopener" hidden><Icon name="whatsapp" />פתיחת צ׳אט בוואטסאפ</a>
+      <button class="btn ghost block" id="sheet-copy" type="button"><Icon name="copy" />העתקת מספר</button>
       <button class="btn ghost" id="sheet-close" type="button">סגירה</button>
     </div>
   </dialog>

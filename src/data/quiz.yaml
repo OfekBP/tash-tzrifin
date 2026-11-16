@@ -1,0 +1,92 @@
+# "לא יודע מאיפה להתחיל?". כל ענף: קושי עיקרי. תוצאות = base + התוספות לפי התשובות.
+# שאלות ההמשך כאן נכתבו לפי המפרט. אפשר להוסיף שאלות ותוצאות לפי הצורך.
+# add ו-base הם שמות קבצים בתיקיית src/content/rights (בלי .md).
+
+- id: money
+  label: קושי כלכלי
+  order: 1
+  base: [financial-aid]
+  questions:
+    - q: האם אתה רוצה לעבוד כדי לסייע לעצמך?
+      options:
+        - { label: כן, add: [private-work-permit, special-leave] }
+        - { label: לא, add: [] }
+    - q: האם גם המשפחה שלך במצוקה כלכלית?
+      options:
+        - { label: כן, add: [family-payments] }
+        - { label: לא, add: [] }
+    - q: מה הצורך שלך?
+      options:
+        - { label: סיוע חד-פעמי, add: [] }
+        - { label: סיוע מתמשך, add: [assistance-eligible] }
+- id: home
+  label: קושי בבית או במשפחה
+  order: 2
+  base: [service-relief]
+  questions:
+    - q: האם אתה מתגורר בבית ההורים?
+      options:
+        - { label: כן, add: [] }
+        - { label: לא, add: [assistance-eligible, housing] }
+    - q: האם בן משפחה זקוק לעזרתך?
+      options:
+        - { label: כן, add: [service-relief] }
+        - { label: לא, add: [] }
+    - q: האם קיימת בעיה רפואית או סוציאלית?
+      options:
+        - { label: כן, add: [early-release-personal] }
+        - { label: לא, add: [] }
+- id: living
+  label: אני לא יכול להתגורר בבית
+  order: 3
+  base: [housing, assistance-eligible]
+  questions:
+    - q: למה אי אפשר להתגורר בבית?
+      options:
+        - { label: נסיבות משפחתיות, add: [lone-soldier] }
+        - { label: מרחק, add: [travel-refunds] }
+        - { label: צפיפות, add: [] }
+- id: work
+  label: אני צריך לעבוד
+  order: 4
+  base: [private-work-permit]
+  questions:
+    - q: האם אתה במצוקה כלכלית?
+      options:
+        - { label: כן, add: [special-leave, financial-aid] }
+        - { label: לא, add: [] }
+- id: leave
+  label: אני צריך חופשה
+  order: 5
+  base: [special-leave]
+  questions:
+    - q: מה הצורך?
+      options:
+        - { label: כלכלי, add: [private-work-permit, financial-aid] }
+        - { label: לימודים, add: [] }
+        - { label: משפחה, add: [married-soldier, pregnancy-parenthood] }
+        - { label: מעבר דירה או אירוע אישי, add: [lone-soldier] }
+- id: lone
+  label: אני חייל בודד או חושב שאני זכאי להכרה
+  order: 6
+  base: [lone-soldier, assistance-eligible]
+  questions: []
+- id: family
+  label: אני נשוי או הורה לילדים
+  order: 7
+  base: [married-soldier, pregnancy-parenthood]
+  questions:
+    - q: האם בן הזוג או ההורים שלך זקוקים לסיוע?
+      options:
+        - { label: כן, add: [family-payments] }
+        - { label: לא, add: [] }
+- id: docs
+  label: אני צריך עזרה עם מסמכים
+  order: 8
+  base: []
+  questions: []
+- id: other
+  label: נושא אחר
+  order: 9
+  base: [special-populations]
+  questions: []

@@ -59,7 +59,12 @@ const rights = defineCollection({
       documents: z.array(z.string()).default([]),
       how_to_apply: z.array(z.string()).default([]),
       approver: z.string().optional(),
-      exceptions: z.array(z.string()).default([]),
+      exceptions: z.array(z.string()).default([]), // "חשוב לדעת"
+      benefits: z.array(z.string()).default([]), // מה מקבלים בפועל
+      faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+      related: z.array(reference('rights')).default([]), // זכויות קשורות
+      tashButton: z.boolean().default(true), // כפתור מעבר לת״ש בטאץ׳
+      to_verify: z.array(z.string()).default([]), // פרטים לבדיקה לפני פרסום: מוצגים רק בסביבת פיתוח
       figures: z
         .array(
           z.object({
@@ -97,12 +102,13 @@ const banks = defineCollection({
       // המדריך הכתוב מאושר בנפרד מהקישור לפלייליסט. עד אישור הוא לא מוצג באתר.
       guideStatus: status.default('draft'),
       guideVerified: z.coerce.date().optional(), // מתי נבדקו הצעדים מול האפליקציה
+      guideApprovedBy: z.string().optional(), // מי אישר את המדריך הכתוב (חלופה ל-guideVerified)
       ...approvalFields,
     })
     .superRefine((d, ctx) => {
       approvalRules(d, ctx, { requireSources: false });
-      if (d.guideStatus === 'approved' && !d.guideVerified) {
-        ctx.addIssue({ code: 'custom', message: 'מדריך כתוב מאושר חייב לכלול guideVerified (תאריך בדיקה מול האפליקציה)' });
+      if (d.guideStatus === 'approved' && !d.guideVerified && !d.guideApprovedBy) {
+        ctx.addIssue({ code: 'custom', message: 'מדריך כתוב מאושר חייב לכלול guideVerified (תאריך בדיקה מול האפליקציה) או guideApprovedBy' });
       }
     }),
 });
@@ -161,4 +167,40 @@ const links = defineCollection({
   }),
 });
 
-export const collections = { rights, banks, guides, people, frameworks, assignments, links };
+/** שאלות נפוצות: src/data/faq.yaml */
+const faq = defineCollection({
+  loader: file('src/data/faq.yaml'),
+  schema: z.object({
+    q: z.string(),
+    a: z.string(),
+    group: z.string(),
+    rights: z.array(reference('rights')).default([]), // קישור לעמוד המלא
+    order: z.number().default(100),
+  }),
+});
+
+/** מילון מושגים: src/data/glossary.yaml */
+const glossary = defineCollection({
+  loader: file('src/data/glossary.yaml'),
+  schema: z.object({ term: z.string(), meaning: z.string(), aliases: z.array(z.string()).default([]) }),
+});
+
+/** "לא יודע מאיפה להתחיל?": src/data/quiz.yaml. כל ענף הוא קושי עיקרי עם שאלות המשך ותוצאות. */
+const quiz = defineCollection({
+  loader: file('src/data/quiz.yaml'),
+  schema: z.object({
+    label: z.string(),
+    order: z.number(),
+    base: z.array(reference('rights')).default([]), // תוצאות שמוצגות תמיד בענף
+    questions: z
+      .array(
+        z.object({
+          q: z.string(),
+          options: z.array(z.object({ label: z.string(), add: z.array(reference('rights')).default([]) })).min(2),
+        }),
+      )
+      .default([]),
+  }),
+});
+
+export const collections = { rights, banks, guides, people, frameworks, assignments, links, faq, glossary, quiz };

@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { href, isVisible } from '../lib/site';
+
+const faq = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
+const allRights = new Map((await getCollection('rights')).filter(isVisible).map((r) => [r.id, r]));
+const groups = [...new Set(faq.map((f) => f.data.group))];
+---
+<Base title="שאלות נפוצות" lead="תשובות קצרות לשאלות שחיילים שואלים הכי הרבה." description="שאלות ותשובות על ת״ש, זכויות, עבודה, חופשות ומסמכים">
+  <div slot="head" class="searchbar">
+    <Icon name="search" />
+    <input type="search" id="q" placeholder="חיפוש בשאלות" aria-label="חיפוש בשאלות" autocomplete="off" enterkeyhint="search" />
+  </div>
+
+  {groups.map((g) => (
+    <section data-group>
+      <h2 class="section">{g}</h2>
+      <div>
+        {faq.filter((f) => f.data.group === g).map((f) => (
+          <details class="acc" data-faq data-search={`${f.data.q} ${f.data.a}`}>
+            <summary>{f.data.q}</summary>
+            <div class="acc-body">
+              <p style="margin: 0">{f.data.a}</p>
+              {f.data.rights.filter((r) => allRights.has(r.id)).map((r) => (
+                <a class="btn ghost" style="margin-top: var(--s3); min-height: 44px" href={href(`/rights/${r.id}/`)}>{allRights.get(r.id)!.data.title}</a>
+              ))}
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  ))}
+  <p class="empty" id="none" hidden>לא נמצאה שאלה כזו. אפשר לשאול את מש״קית הת״ש.</p>
+
+  <div class="card-soft" style="margin-top: var(--s6)">
+    <strong>לא מצאת תשובה?</strong>
+    <p>מש״קית הת״ש תעזור לך, לפי המסגרת והענף שלך.</p>
+    <a class="btn purple block" href={href('/contacts/')}>לאנשי הקשר</a>
+  </div>
+</Base>
+
+<script>
+  import { normalize } from '../lib/text';
+  const q = document.getElementById('q') as HTMLInputElement;
+  const items = [...document.querySelectorAll<HTMLElement>('[data-faq]')];
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-group]')];
+  const none = document.getElementById('none')!;
+  q.addEventListener('input', () => {
+    const t = normalize(q.value.trim());
+    items.forEach((i) => (i.hidden = !!t && !normalize(i.dataset.search ?? '').includes(t)));
+    groups.forEach((g) => (g.hidden = ![...g.querySelectorAll<HTMLElement>('[data-faq]')].some((i) => !i.hidden)));
+    none.hidden = groups.some((g) => !g.hidden);
+  });
+</script>

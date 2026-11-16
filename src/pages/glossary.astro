@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const terms = (await getCollection('glossary')).sort((a, b) => a.data.term.localeCompare(b.data.term, 'he'));
+---
+<Base title="מילון מושגים" lead="המילים שחוזרות בעולם הת״ש, בלי ז׳רגון." back="/guides/" description="מילון מושגי ת״ש לחיילי חובה">
+  <div class="group">
+    {terms.map((t) => (
+      <div class="row" style="cursor: default; align-items: flex-start">
+        <span class="tx">
+          <span class="t">{t.data.term}</span>
+          <span class="s" style="-webkit-line-clamp: unset; display: block">{t.data.meaning}</span>
+        </span>
+      </div>
+    ))}
+  </div>
+</Base>

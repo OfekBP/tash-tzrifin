@@ -1,7 +1,9 @@
 ---
 import { marked } from 'marked';
+import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { href, isDraft, visible } from '../../lib/site';
+import Icon from '../../components/Icon.astro';
+import { href, isDraft, isVisible, SHOW_DRAFTS, visible } from '../../lib/site';
 
 export async function getStaticPaths() {
   const rights = await visible('rights');
@@ -9,6 +11,8 @@ export async function getStaticPaths() {
 }
 const { entry } = Astro.props;
 const d = entry.data;
+
+// פירוט נוסף בגוף הקובץ: כל "## כותרת" הופכת לכרטיס נפתח
 const chunks = (entry.body ?? '').trim().split(/^## /m);
 const introHtml = chunks[0].trim() ? (marked.parse(chunks[0].trim()) as string) : '';
 const parts = chunks.slice(1).map((c) => {
@@ -16,63 +20,147 @@ const parts = chunks.slice(1).map((c) => {
   return { title: c.slice(0, nl).trim(), html: marked.parse(c.slice(nl + 1).trim()) as string };
 });
 
-const sections = [
-  { title: 'מי זכאי?', items: d.eligibility },
-  { title: 'מה התנאים?', items: d.conditions },
-  { title: 'אילו מסמכים צריך?', items: d.documents },
-  { title: 'איך מגישים בקשה?', items: d.how_to_apply, ordered: true },
-  { title: 'חריגים והערות', items: d.exceptions },
+const related = (await Promise.all(d.related.map((r) => getEntry(r)))).filter((r) => r && isVisible(r as never)) as any[];
+
+const lists = [
+  { title: 'למי זה מיועד?', items: d.eligibility },
+  { title: 'תנאי זכאות', items: d.conditions },
+  { title: 'מה מקבלים בפועל', items: d.benefits },
 ].filter((s) => s.items.length > 0);
+
+const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 ---
 <Base title={d.title} lead={d.summary} back="/rights/" tone="lav" draft={isDraft(entry)}>
+  {SHOW_DRAFTS && d.to_verify.length > 0 ? (
+    <div class="draft-bar" style="margin-bottom: var(--s4)">לבדיקה לפני אישור: {d.to_verify.join(' · ')}</div>
+  ) : null}
 
   <div>
-    {sections.map((s, i) => (
+    {lists.map((s, i) => (
       <details class="acc" open={i === 0}>
         <summary>{s.title}</summary>
-        <div class="acc-body">
-          {s.ordered ? <ol>{s.items.map((x) => <li>{x}</li>)}</ol> : <ul>{s.items.map((x) => <li>{x}</li>)}</ul>}
-        </div>
+        <div class="acc-body"><ul>{s.items.map((x) => <li>{x}</li>)}</ul></div>
       </details>
     ))}
+
+    {d.figures.length > 0 ? (
+      <details class="acc" open>
+        <summary>סכומים ומספרים</summary>
+        <div class="acc-body">
+          <ul class="figs">
+            {d.figures.map((f) => (
+              <li>
+                <span>{f.label}</span>
+                <strong>{f.value}{f.unit ? ` ${f.unit}` : ''}</strong>
+                <span class="muted small">{asOf(f.asOf)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </details>
+    ) : null}
+
+    {d.documents.length > 0 ? (
+      <details class="acc" open data-docs={entry.id}>
+        <summary>מסמכים שצריך להכין</summary>
+        <div class="acc-body">
+          <p class="muted small" style="margin: 0 0 var(--s3)">סמנו מה כבר הכנתם. הסימון נשמר רק במכשיר הזה.</p>
+          <ul class="checklist">
+            {d.documents.map((x, i) => (
+              <li><label><input type="checkbox" data-i={i} /><span>{x}</span></label></li>
+            ))}
+          </ul>
+        </div>
+      </details>
+    ) : null}
+
+    {d.how_to_apply.length > 0 ? (
+      <details class="acc">
+        <summary>איך מגישים בקשה</summary>
+        <div class="acc-body"><ol class="steps">{d.how_to_apply.map((x) => <li>{x}</li>)}</ol></div>
+      </details>
+    ) : null}
+
     {d.approver ? (
       <details class="acc">
         <summary>מי מאשר?</summary>
         <div class="acc-body">{d.approver}</div>
       </details>
     ) : null}
-    {d.figures.length > 0 ? (
-      <details class="acc">
-        <summary>סכומים ומספרים</summary>
-        <div class="acc-body">
-          <ul>
-            {d.figures.map((f) => <li>{f.label}: <strong>{f.value}{f.unit ? ` ${f.unit}` : ''}</strong> <span class="muted small">(נכון ל-{f.asOf})</span></li>)}
-          </ul>
-        </div>
+
+    {d.exceptions.length > 0 ? (
+      <details class="acc" open>
+        <summary>חשוב לדעת</summary>
+        <div class="acc-body"><ul>{d.exceptions.map((x) => <li>{x}</li>)}</ul></div>
       </details>
     ) : null}
   </div>
 
-  {introHtml ? <div class="prose" set:html={introHtml} /> : null}
-  <div style="margin-top: var(--s3)">
-    {parts.map((p) => (
-      <details class="acc" open={parts.length === 1 || undefined}>
-        <summary>{p.title}</summary>
-        <div class="acc-body prose" set:html={p.html} />
-      </details>
-    ))}
-  </div>
+  {introHtml ? <div class="prose" set:html={introHtml} style="margin-top: var(--s4)" /> : null}
+  {parts.length > 0 ? (
+    <>
+      <h2 class="section">פירוט לפי נושא</h2>
+      <div>
+        {parts.map((p) => (
+          <details class="acc" open={parts.length === 1 || undefined}>
+            <summary>{p.title}</summary>
+            <div class="acc-body prose" set:html={p.html} />
+          </details>
+        ))}
+      </div>
+    </>
+  ) : null}
+
+  {d.faq.length > 0 ? (
+    <>
+      <h2 class="section">שאלות נפוצות</h2>
+      <div>
+        {d.faq.map((f) => (
+          <details class="acc"><summary>{f.q}</summary><div class="acc-body">{f.a}</div></details>
+        ))}
+      </div>
+    </>
+  ) : null}
+
+  {related.length > 0 ? (
+    <>
+      <h2 class="section">כדאי לראות גם</h2>
+      <div class="group">
+        {related.map((r) => (
+          <a class="row" href={href(`/rights/${r.id}/`)}>
+            <span class="tx"><span class="t">{r.data.title}</span><span class="s">{r.data.summary}</span></span>
+            <Icon name="chevron" class="chev" />
+          </a>
+        ))}
+      </div>
+    </>
+  ) : null}
 
   <div class="card-soft" style="margin-top: var(--s6)">
-    <strong>לא בטוחים אם זה מתאים לכם?</strong>
-    <p>הזכאות נקבעת על ידי הגורמים המוסמכים. מש״קית הת״ש תעזור.</p>
-    <a class="btn purple block" href={href('/contacts/')}>למש״קית הת״ש שלי</a>
+    <strong>למי פונים?</strong>
+    <p>הזכאות נקבעת על ידי הגורמים המוסמכים. מש״קית הת״ש תעזור לבדוק מה מתאים לך.</p>
+    <a class="btn purple block" href={href('/contacts/')}><Icon name="contacts" />למש״קית הת״ש שלי</a>
+    {d.tashButton ? <a class="btn ghost block" style="margin-top: var(--s2)" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener"><Icon name="external" />כניסה לת״ש בטאץ׳</a> : null}
   </div>
 
-  {d.sources.length > 0 || d.lastVerified ? (
-    <p class="sources">
-      {d.sources.length > 0 ? `מקור: ${d.sources.map((s) => `${s.doc === 'book' ? 'הספר המקצועי' : s.doc}, עמ׳ ${s.page}`).join('; ')}. ` : ''}
-      {d.lastVerified ? `אומת לאחרונה: ${d.lastVerified.toLocaleDateString('he-IL')}` : ''}
-    </p>
-  ) : null}
+  <p class="sources">
+    {d.lastVerified ? `עודכן לאחרונה: ${d.lastVerified.toLocaleDateString('he-IL')}. ` : ''}
+    {d.sources.length > 0 ? `מקור: ${d.sources.map((s) => `${s.doc === 'book' ? 'הספר המקצועי' : s.doc}, עמ׳ ${s.page}`).join('; ')}.` : ''}
+  </p>
 </Base>
+
+<script>
+  // רשימת מסמכים עם סימון שנשמר במכשיר
+  document.querySelectorAll<HTMLElement>('[data-docs]').forEach((box) => {
+    const key = `docs:${box.dataset.docs}`;
+    let saved: Record<string, boolean> = {};
+    try { saved = JSON.parse(localStorage.getItem(key) ?? '{}'); } catch {}
+    box.querySelectorAll<HTMLInputElement>('input[type=checkbox]').forEach((cb) => {
+      cb.checked = !!saved[cb.dataset.i!];
+      cb.addEventListener('change', () => {
+        saved[cb.dataset.i!] = cb.checked;
+        try { localStorage.setItem(key, JSON.stringify(saved)); } catch {}
+      });
+    });
+  });
+</script>
