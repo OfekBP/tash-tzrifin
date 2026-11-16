@@ -131,7 +131,7 @@ const tabs = [
     };
     if (!document.documentElement.classList.contains('splash-on')) return;
     const started = performance.now();
-    const ready = () => setTimeout(hide, Math.max(0, 1000 - (performance.now() - started)));
+    const ready = () => setTimeout(hide, Math.max(0, 700 - (performance.now() - started)));
     if (document.readyState === 'complete') ready();
     else addEventListener('load', ready, { once: true });
     setTimeout(hide, 2500);

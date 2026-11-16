@@ -404,8 +404,10 @@ h2.section:first-child {
   position: absolute;
   inset-inline-end: 6px;
   top: calc(var(--header-h) + env(safe-area-inset-top) - 6px);
-  width: 112px;
-  height: 72px;
+  width: clamp(72px, 24vw, 112px);
+  aspect-ratio: 150 / 96;
+  height: auto;
+  z-index: 0;
   pointer-events: none;
 }
 .sky-art svg {
@@ -419,11 +421,12 @@ h2.section:first-child {
   position: relative;
   padding: calc(var(--header-h) + env(safe-area-inset-top) + var(--s3)) var(--s5) 0;
   margin-top: 0;
+  z-index: 1;
 }
 .hero h1 {
   margin: 0;
   white-space: nowrap;
-  font-size: clamp(22px, 6.6vw, 28px);
+  font-size: clamp(20px, 6.2vw, 28px);
   line-height: 1.08;
   font-weight: 700;
   letter-spacing: 0;
@@ -433,19 +436,13 @@ h2.section:first-child {
   margin: var(--s2) 0 0;
   font-family: var(--display);
   font-size: 17px;
-  font-weight: 300;
+  font-weight: 500;
 }
 .swoosh {
   display: block;
   width: 150px;
   height: 10px;
   margin: 2px 0 var(--s3);
-}
-.desc {
-  margin: 0 0 var(--s4);
-  color: var(--ink-soft);
-  max-width: 32ch;
-  text-wrap: pretty;
 }
 
 .bento {
@@ -1502,9 +1499,6 @@ details.acc > summary:focus-visible {
   -webkit-line-clamp: 3;
   line-clamp: 3;
 }
-.hero-copy .searchbar {
-  margin-bottom: var(--s3);
-}
 .logo-strip {
   flex-wrap: wrap;
 }
@@ -1860,6 +1854,8 @@ dialog.sheet.dragging {
   gap: 8px;
 }
 .unit-mark img {
+  flex: 0 1 44px;
+  min-width: 0;
   display: block;
   height: 44px;
   width: 44px;
@@ -1870,3 +1866,9 @@ dialog.sheet.dragging {
   .unit-mark { gap: 5px; }
   .unit-mark img { height: 38px; width: 38px; }
 }
+
+.tile .d { font-size: 15px; }
+.notice { font-size: 16px; }
+/* רשת ביטחון: אם הסקריפט נכשל, מסך הטעינה נעלם מעצמו */
+.splash-on .splash { animation: splash-out 0.01s 3.2s forwards; }
+@keyframes splash-out { to { opacity: 0; visibility: hidden; pointer-events: none; } }
