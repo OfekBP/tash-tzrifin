@@ -31,7 +31,9 @@ faq:
   - q: "האם מגיע לי החזר על גן הילדים?"
     a: "אם אתה הורה לילד בגילאי 3 חודשים עד 5 שנים, ברמת פעילות ב׳ ומעלה, ויש קבלות על תשלום בפועל, ייתכן שכן."
 related: [special-leave, family-payments, pregnancy-parenthood, housing, meal-allowance]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

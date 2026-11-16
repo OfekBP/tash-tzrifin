@@ -4,7 +4,9 @@ summary: עו״ש, ריכוז יתרות, פירוט אשראי וההבדלים
 order: 3
 keywords: [עו״ש, ריכוז יתרות, פירוט אשראי, אישור הכנסות, אישור חובות, עיקולים, חוזה שכירות, גן ילדים]
 sources: []
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

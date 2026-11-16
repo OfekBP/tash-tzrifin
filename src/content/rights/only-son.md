@@ -14,7 +14,9 @@ exceptions:
 to_verify:
   - "הסבר מלא: הגדרת בן יחיד, מתי נדרשת הסכמת הורים, משמעות כתב ההתנדבות, אופן ההגשה (לא פורט)"
 related: [special-populations]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

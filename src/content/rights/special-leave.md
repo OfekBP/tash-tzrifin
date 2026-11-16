@@ -32,7 +32,9 @@ faq:
   - q: "האם מגיעה חופשה לצורך מעבר דירה?"
     a: "יומיים לכל מעבר דירה, לחיילים בודדים ונשואים."
 related: [private-work-permit, financial-aid, lone-soldier, pregnancy-parenthood, married-soldier]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

@@ -40,7 +40,9 @@ faq:
   - q: "האם הגשת בקשה מבטיחה הת״ש?"
     a: "לא. הזכאות נקבעת אחרי בירור, ובהתאם לצורך גם ביקור בית."
 related: [lone-soldier, financial-aid, special-leave]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

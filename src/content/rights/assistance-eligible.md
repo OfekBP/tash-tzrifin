@@ -47,7 +47,9 @@ faq:
   - q: "האם אפשר להיות זכאי סיוע בלי להיות חייל בודד?"
     a: "כן. זו בדיוק האוכלוסייה שההכרה נועדה לה."
 related: [lone-soldier, financial-aid, housing]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

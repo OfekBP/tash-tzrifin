@@ -21,7 +21,9 @@ how_to_apply:
   - "מקבלים המלצה מרופא שיניים צבאי"
   - "מגישים את המסמכים הכלכליים"
 related: [financial-aid, assistance-eligible]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

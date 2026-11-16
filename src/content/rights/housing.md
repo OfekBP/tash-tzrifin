@@ -25,7 +25,9 @@ exceptions:
 to_verify:
   - "תנאי הזכאות והמסמכים בכל סוג הלנה (לא פורטו)"
 related: [lone-soldier, assistance-eligible, travel-refunds, financial-aid]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

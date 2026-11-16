@@ -26,7 +26,9 @@ how_to_apply:
 exceptions:
   - "הגשת בקשה אינה מבטיחה קיצור שירות"
 related: [early-release-admin, service-relief, financial-aid]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

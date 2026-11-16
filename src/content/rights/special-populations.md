@@ -17,7 +17,9 @@ how_to_apply:
 to_verify:
   - "פירוט הזכויות והסיוע לכל אוכלוסייה (לא פורט). יש להסביר בלי לחשוף נהלים פנימיים"
 related: [only-son, financial-aid]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

@@ -11,7 +11,8 @@ approvedOn: 2026-11-16
 
 # המדריך הכתוב נלקח מהאתר הדוגמה (tashApp828). הוא יוצג באתר אחרי אישור:
 # npm run approve -- "שם המאשר"
-guideStatus: reviewed
+guideStatus: approved
+guideApprovedBy: "אופק בן פורת"
 guide:
   ownership:
     pc:

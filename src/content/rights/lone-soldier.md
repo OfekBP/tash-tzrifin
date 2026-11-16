@@ -37,7 +37,9 @@ faq:
   - q: "האם מגיע לי סיוע בשכר דירה?"
     a: "לחיילים בודדים יש מסלול השתתפות בשכר דירה. כדאי לבדוק זכאות מול מש״קית הת״ש."
 related: [assistance-eligible, housing, special-leave, financial-aid]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

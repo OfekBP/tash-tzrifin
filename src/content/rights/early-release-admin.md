@@ -12,7 +12,9 @@ exceptions:
 to_verify:
   - "הפירוט של תנאי הסף (לא פורט)"
 related: [early-release-personal]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

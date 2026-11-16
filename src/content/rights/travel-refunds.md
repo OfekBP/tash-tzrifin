@@ -25,7 +25,9 @@ to_verify:
   - "הסכומים, וההתאמה של כל סכום לרמת הפעילות"
 related: [housing, financial-aid]
 tashButton: false
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

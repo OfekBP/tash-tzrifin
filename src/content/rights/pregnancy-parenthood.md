@@ -22,7 +22,9 @@ exceptions:
 to_verify:
   - "זכויות חיילת בהריון ולאחר לידה, התאמות בתנאי שירות ושעות פעילות הורה (לא פורטו)"
 related: [married-soldier, special-leave]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

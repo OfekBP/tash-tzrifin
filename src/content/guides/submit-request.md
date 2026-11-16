@@ -6,7 +6,9 @@ keywords: [הגשת בקשה, בקשת תש, איך מגישים, מסמכים, 
 link: https://tash.digital.idf.il/landing/
 linkLabel: כניסה לת״ש בטאץ׳
 sources: []
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

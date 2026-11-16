@@ -24,7 +24,9 @@ exceptions:
 to_verify:
   - "כל הסכומים ותוקפם, ואיזו אוכלוסייה מקבלת איזה תעריף"
 related: [family-payments, financial-aid]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

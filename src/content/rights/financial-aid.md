@@ -32,7 +32,9 @@ faq:
   - q: "האם אפשר לקבל יותר מסוג אחד של סיוע?"
     a: "ייתכן, בהתאם לנסיבות ולמסלולים. המש״קית תבדוק איתך."
 related: [assistance-eligible, lone-soldier, private-work-permit, special-leave, dental]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

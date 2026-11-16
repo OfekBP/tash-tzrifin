@@ -40,7 +40,9 @@ faq:
   - q: "מה ההבדל בין היתר עבודה לחופשה מיוחדת כלכלית?"
     a: "היתר עבודה מאפשר לעבוד מחוץ לשעות השירות. חופשה מיוחדת כלכלית משחררת אותך מהשירות לימים מסוימים כדי לעבוד. אפשר להזדקק לשניהם."
 related: [special-leave, financial-aid]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []

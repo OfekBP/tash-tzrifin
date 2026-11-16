@@ -33,7 +33,9 @@ exceptions:
 to_verify:
   - "גובה התשלום החודשי ותנאי הזכאות המדויקים (לא פורטו)"
 related: [married-soldier, financial-aid, meal-allowance]
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-16
 origin: provided-by-owner
 lastVerified: 2026-11-16
 open_issues: []
