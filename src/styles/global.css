@@ -1690,7 +1690,10 @@ ol.steps li::before {
   justify-items: center;
   gap: var(--s4);
   overflow: hidden;
-  background: linear-gradient(180deg, #bfe0ff 0%, #dcebff 45%, #ebe4ff 100%);
+  /* מרכז הרקע בצבע הרקע של הלוגו, כך שהלוגו נשזר בשמיים ולא נראה כתמונה מודבקת */
+  background:
+    radial-gradient(circle at 50% 44%, #c4e8fe 0, #c4e8fe 26%, rgb(196 232 254 / 0) 62%),
+    linear-gradient(180deg, #b5dafc 0%, #d9eafe 50%, #e7e1ff 100%);
   transition: opacity 0.45s var(--ease);
 }
 .splash.hide {
@@ -1717,31 +1720,65 @@ ol.steps li::before {
   position: relative;
   display: grid;
   place-items: center;
-  width: 260px;
-  height: 260px;
+  width: 300px;
+  height: 300px;
+}
+/* הלוגו: קצוות הריבוע מתמזגים לרקע, צף בעדינות ומקבל ברק חולף */
+.sp-logo-wrap {
+  position: relative;
+  width: 196px;
+  height: 196px;
+  animation: logo-pop 0.8s var(--ease) both, float 3.2s 0.8s ease-in-out infinite;
 }
 .sp-logo {
-  position: relative;
-  width: 132px;
-  height: 132px;
-  filter: drop-shadow(0 16px 26px rgb(16 43 112 / 0.3));
-  animation: logo-pop 0.7s var(--ease) both;
+  width: 100%;
+  height: 100%;
+  display: block;
+  -webkit-mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(ellipse 72% 72% at 50% 50%, #000 62%, transparent 100%);
+  filter: drop-shadow(0 14px 22px rgb(16 43 112 / 0.22));
+}
+.sp-wrap-glow {
+  position: absolute;
+  inset: -18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.85), rgb(255 255 255 / 0) 65%);
+  z-index: -1;
+}
+/* חוגת מכשירי טיסה: סימוני דקות סביב הלוגו */
+.sp-dial {
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgb(27 42 107 / 0.4) 0 0.8deg, transparent 0.8deg 7.5deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+  opacity: 0;
+  animation: dial-in 0.9s 0.2s var(--ease) forwards;
+}
+@keyframes dial-in {
+  from { opacity: 0; transform: scale(0.9) rotate(-30deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 /* מעגלי מכ״ם שמתרחבים מהלוגו */
 .sp-ping {
   position: absolute;
-  width: 132px;
-  height: 132px;
+  width: 196px;
+  height: 196px;
   border-radius: 50%;
-  border: 2px solid rgb(128 80 232 / 0.45);
+  border: 2px solid rgb(128 80 232 / 0.4);
   animation: ping 2.4s ease-out infinite;
 }
 .sp-ping.p2 {
   animation-delay: 1.2s;
 }
 @keyframes ping {
-  from { transform: scale(0.8); opacity: 0.9; }
-  to { transform: scale(2); opacity: 0; }
+  from { transform: scale(0.85); opacity: 0.8; }
+  to { transform: scale(1.7); opacity: 0; }
 }
 /* המטוס מקיף את הלוגו וזנב עשן נמשך אחריו */
 .sp-orbit {
@@ -1763,9 +1800,9 @@ ol.steps li::before {
   position: absolute;
   top: -15px;
   left: 50%;
-  width: 32px;
-  height: 32px;
-  margin-left: -16px;
+  width: 34px;
+  height: 34px;
+  margin-left: -17px;
   transform: rotate(90deg);
   filter: drop-shadow(0 4px 6px rgb(16 43 112 / 0.35));
 }
@@ -1801,7 +1838,7 @@ ol.steps li::before {
   from { opacity: 0; transform: translateY(10px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sp-cloud, .sp-ping, .sp-logo, .sp-name, .sp-sub, .sp-dots i {
+  .sp-cloud, .sp-ping, .sp-logo-wrap, .sp-dial, .sp-name, .sp-sub, .sp-dots i {
     animation: none;
   }
   .sp-orbit {

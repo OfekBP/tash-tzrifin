@@ -47,7 +47,7 @@ const SKY = '#C5E4FB';
 
 // לוגו ראשי (שקוף, פינות מעוגלות)
 await sharp(logo).resize(96, 96).webp({ quality: 90, effort: 6 }).toFile('public/logos/app-logo-96.webp');
-await sharp(logo).resize(264, 264).webp({ quality: 88, effort: 6 }).toFile('public/logos/app-logo-264.webp');
+await sharp(logo).resize(400, 400).webp({ quality: 88, effort: 6 }).toFile('public/logos/app-logo-400.webp');
 // אייקוני PWA / iOS
 await sharp(logo).resize(192, 192).png().toFile('public/icons/192.png');
 await sharp(logo).resize(512, 512).png().toFile('public/icons/512.png');
