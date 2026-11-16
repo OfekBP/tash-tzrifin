@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { href } from '../lib/site';
+---
+<Base title="חיפוש" lead="זכות, מדריך, בנק, יחידה או שם." back="/">
+  <div slot="head" class="searchbar">
+    <Icon name="search" />
+    <input type="search" id="q" placeholder="למשל: ריכוז יתרות, חופשה, ליאן" aria-label="חיפוש" autocomplete="off" enterkeyhint="search" autofocus />
+  </div>
+  <p class="muted small" id="hint">התחילו להקליד, והתוצאות יופיעו כאן.</p>
+  <div class="group" id="results" aria-live="polite"></div>
+</Base>
+
+<script define:vars={{ indexUrl: href('/search-index.json') }}>
+  window.__indexUrl = indexUrl;
+</script>
+<script>
+  import MiniSearch from 'minisearch';
+  import { normalize, tokenize } from '../lib/text';
+
+  const q = document.getElementById('q') as HTMLInputElement;
+  const results = document.getElementById('results')!;
+  const hint = document.getElementById('hint')!;
+
+  const ready = (async () => {
+    const res = await fetch((window as any).__indexUrl);
+    const docs = await res.json();
+    const ms = new MiniSearch({
+      fields: ['title', 'keywords', 'summary'],
+      storeFields: ['title', 'type', 'summary', 'url'],
+      tokenize,
+      searchOptions: { prefix: true, fuzzy: (t: string) => (t.length > 4 ? 0.15 : 0), boost: { title: 3, keywords: 2 }, combineWith: 'AND', tokenize },
+    });
+    ms.addAll(docs);
+    return ms;
+  })();
+
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+  async function run() {
+    const term = q.value.trim();
+    history.replaceState(null, '', term ? `?q=${encodeURIComponent(term)}` : location.pathname);
+    if (!normalize(term)) {
+      results.innerHTML = '';
+      hint.hidden = false;
+      return;
+    }
+    hint.hidden = true;
+    const ms = await ready;
+    const hits = ms.search(term).slice(0, 20);
+    results.innerHTML = hits.length
+      ? hits.map((h: any) => `<a class="result" href="${esc(h.url)}"><div class="t">${esc(h.title)}</div><div class="s">${esc(h.type)}${h.summary ? ' · ' + esc(h.summary) : ''}</div></a>`).join('')
+      : '<p class="empty">לא מצאנו תוצאות. נסו מילה אחרת, או פנו למש״קית הת״ש דרך לשונית אנשי הקשר.</p>';
+  }
+
+  q.addEventListener('input', run);
+  const initial = new URLSearchParams(location.search).get('q');
+  if (initial) {
+    q.value = initial;
+    run();
+  }
+</script>

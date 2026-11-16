@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/site';
+---
+<Base title="העמוד לא נמצא">
+  <div class="empty">
+    <p>ייתכן שהקישור ישן. אפשר לחזור לדף הבית או לחפש.</p>
+    <a class="btn" style="margin-top: var(--s3)" href={href('/')}>לדף הבית</a>
+  </div>
+</Base>

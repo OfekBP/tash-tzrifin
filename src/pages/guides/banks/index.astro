@@ -1,0 +1,17 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { href, visible } from '../../../lib/site';
+
+const banks = (await visible('banks')).sort((a, b) => a.data.order - b.data.order);
+const initial = (n: string) => n.replace(/^בנק\s+/, '').trim()[0];
+---
+<Base title="אישורים מהבנק" lead="בחרו את הבנק שלכם, וצפו בהדרכה להפקת האישורים." back="/guides/" description="הדרכות להפקת אישורים מכל בנק">
+  <div class="bank-grid">
+    {banks.map((b) => (
+      <a class="plate" href={href(`/guides/banks/${b.id}/`)}>
+        <span class="logo">{b.data.logo ? <img src={href(b.data.logo)} alt="" loading="lazy" /> : <span class="avatar">{initial(b.data.name)}</span>}</span>
+        <span class="nm">{b.data.name}</span>
+      </a>
+    ))}
+  </div>
+</Base>

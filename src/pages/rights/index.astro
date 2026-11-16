@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { categoryLabels, href, isDraft, visible } from '../../lib/site';
+
+const rights = (await visible('rights')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'he'));
+const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data.category.includes(c as never)));
+---
+<Base title="זכויות ומענים" lead="בחרו נושא ותראו מי זכאי, אילו מסמכים צריך ואיך מגישים." tone="lav" description="זכויות, הטבות ומענים לחיילי חובה">
+
+  {rights.length === 0 ? (
+    <div class="card-soft">
+      <strong>התוכן בהכנה ובבדיקה</strong>
+      <p>אנחנו מוודאים כל זכות מול המקור הרשמי לפני שהיא עולה לאתר. בינתיים אפשר לפנות ישירות למש״קית הת״ש.</p>
+      <a class="btn purple" href={href('/contacts/')}>לאנשי הקשר</a>
+    </div>
+  ) : (
+    <>
+      <div class="chips" role="group" aria-label="קטגוריה">
+        <button class="chip" type="button" data-cat="all" aria-pressed="true">הכול</button>
+        {used.map((c) => <button class="chip" type="button" data-cat={c} aria-pressed="false">{categoryLabels[c]}</button>)}
+      </div>
+      <div class="group" id="list">
+        {rights.map((r) => (
+          <a class="row" href={href(`/rights/${r.id}/`)} data-cats={r.data.category.join(' ')}>
+            <span class="tx">
+              <span class="t">{r.data.title}{isDraft(r) ? <span class="badge" style="margin-inline-start: 8px">טיוטה</span> : null}</span>
+              <span class="s">{r.data.summary}</span>
+            </span>
+            <Icon name="chevron" class="chev" />
+          </a>
+        ))}
+      </div>
+    </>
+  )}
+</Base>
+
+<script>
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-cat]')];
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-cats]')];
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      const cat = c.dataset.cat!;
+      chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      cards.forEach((card) => (card.hidden = cat !== 'all' && !card.dataset.cats!.split(' ').includes(cat)));
+    }),
+  );
+</script>

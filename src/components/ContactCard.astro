@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import { displayPhone, telHref, waHref } from '../lib/site';
+
+interface Props {
+  id: string;
+  name: string;
+  phone: string;
+  whatsapp: 'yes' | 'no' | 'unknown';
+  units?: string[];
+  role?: string;
+  hue?: 'a' | 'b' | 'c' | 'd';
+}
+const { id, name, phone, whatsapp, units = [], role, hue = 'a' } = Astro.props;
+const sub = units.length > 0 ? units.join(' · ') : (role ?? '');
+---
+<div class="prow" id={`p-${id}`} data-person data-search={[name, ...units, role ?? ''].join(' ')}>
+  <button
+    class="row"
+    type="button"
+    data-open
+    data-name={name}
+    data-sub={sub}
+    data-phone={phone}
+    data-shown={displayPhone(phone)}
+    data-tel={telHref(phone)}
+    data-wa={whatsapp === 'yes' ? waHref(phone) : ''}
+    data-hue={hue}
+  >
+    <span class="avatar" data-h={hue}>{name.trim()[0]}</span>
+    <span class="tx">
+      <span class="t">{name}</span>
+      {sub ? <span class="s">{sub}</span> : null}
+    </span>
+  </button>
+  <a class="call" href={telHref(phone)} aria-label={`חיוג ל${name}`}><Icon name="phone" /></a>
+</div>

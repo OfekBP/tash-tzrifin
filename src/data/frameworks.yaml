@@ -1,0 +1,13 @@
+# מסגרות. order קובע את סדר ההצגה.
+- id: ofek
+  name: אופק
+  order: 1
+- id: lahav
+  name: לה״ב
+  order: 2
+- id: f108
+  name: "108"
+  order: 3
+- id: f502
+  name: "502"
+  order: 4

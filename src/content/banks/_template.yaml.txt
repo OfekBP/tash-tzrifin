@@ -1,0 +1,17 @@
+# תבנית לבנק חדש: העתיקו לקובץ חדש בשם <שם-באנגלית>.yaml (בלי הסיומת txt)
+name: שם הבנק
+order: 20                 # סדר הצגה
+aliases: [כינוי לחיפוש]
+playlist: https://youtube.com/playlist?list=...     # אם אין, מחקו את השורה
+status: draft             # draft | reviewed | approved
+origin: provided-by-owner
+# approvedBy: שם המאשר     # חובה כש-status: approved
+# approvedOn: 2026-01-01   # חובה כש-status: approved
+guideStatus: draft        # המדריך הכתוב מאושר בנפרד
+# guideVerified: 2026-01-01 # חובה כש-guideStatus: approved
+guide:
+  balance:
+    pc:
+      - שלב ראשון
+    phone:
+      - שלב ראשון

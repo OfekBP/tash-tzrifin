@@ -1,0 +1,79 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import LogoTrio from '../components/LogoTrio.astro';
+import { href, SITE_NAME, SHOW_DRAFTS } from '../lib/site';
+
+interface Props {
+  title?: string;
+  /** שורת הסבר מתחת לכותרת בראש העמוד */
+  lead?: string;
+  description?: string;
+  /** חזרה: אם מוגדר מוצג חץ חזרה */
+  back?: string;
+  draft?: boolean;
+  /** גוון השמיים של העמוד */
+  tone?: 'sky' | 'lav';
+  /** דף הבית: בלי ראש עמוד, הירו משלו */
+  hero?: boolean;
+}
+const { title, lead, description = 'מרכז שירות לחיילי חובה בחיל האוויר בצריפין: זכויות, מדריכים ואנשי קשר בת״ש.', back, draft, tone = 'sky', hero = false } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.replace(base, '') || '/';
+const tabs = [
+  { id: 'home', label: 'בית', url: '/', match: (p: string) => p === '/' },
+  { id: 'rights', label: 'זכויות', url: '/rights/', match: (p: string) => p.startsWith('/rights') },
+  { id: 'guides', label: 'מדריכים', url: '/guides/', match: (p: string) => p.startsWith('/guides') },
+  { id: 'contacts', label: 'אנשי קשר', url: '/contacts/', match: (p: string) => p.startsWith('/contacts') },
+];
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content={tone === 'lav' ? '#e0d3ff' : '#cde8fc'} />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <title>{fullTitle}</title>
+    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+  </head>
+  <body>
+    <div class:list={['app', { 'has-head': !hero }]} data-tone={tone}>
+      <header class:list={['topbar', { 'hero-bar': hero }]}>
+        {back ? (
+          <a class="icon-btn" href={href(back)} aria-label="חזרה">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
+          </a>
+        ) : <LogoTrio size={32} />}
+        <span class="grow"></span>
+        <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a>
+      </header>
+
+      {!hero ? (
+        <div class="page-head">
+          <h1>{title ?? SITE_NAME}</h1>
+          {lead ? <p class="lead">{lead}</p> : null}
+          <div class="head-extra"><slot name="head" /></div>
+        </div>
+      ) : null}
+
+      <main>
+        {SHOW_DRAFTS && draft ? <div class="draft-bar">טיוטה: תוכן שטרם אושר, לא יפורסם באתר</div> : null}
+        <slot />
+      </main>
+
+      <nav class="dock" aria-label="ניווט ראשי">
+        {tabs.map((t) => (
+          <a class="tab" data-id={t.id} href={href(t.url)} aria-current={t.match(path) ? 'page' : undefined}>
+            <Icon name={t.id} />
+            <span>{t.label}</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

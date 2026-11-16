@@ -1,0 +1,63 @@
+# שיוכים: מסגרת + יחידות/תחומי אחריות + איש קשר.
+# להוספת שורה: העתיקו שורה קיימת, שנו id למשהו ייחודי, ובחרו person מתוך people.yaml.
+# אם איש קשר אחראי על כמה יחידות באותה מסגרת, רשמו אותן ברשימה אחת (units).
+
+# ---- אופק ----
+- id: ofek-mat
+  framework: ofek
+  units: [מע״ת]
+  person: roee-atzmon
+- id: ofek-mab
+  framework: ofek
+  units: [מא״ב, מע״מ, מט״ס]
+  person: lian-yerushalmi
+- id: ofek-engineering
+  framework: ofek
+  units: [מטה הנדסי, AI, טייסת מנהלה, תשתיות, מת״ן]
+  person: elian-lisbron
+- id: ofek-mahan
+  framework: ofek
+  units: [מה״ן]
+  person: lian-ben-gigi
+
+# ---- לה״ב ----
+- id: lahav-hq
+  framework: lahav
+  units: [מפקדה, מהלול]
+  person: lin-subai
+- id: lahav-yakal
+  framework: lahav
+  units: [יחק״ל]
+  person: michelle-isakov
+- id: lahav-haruvit
+  framework: lahav
+  units: [חרובית]
+  person: liel-maya
+
+# ---- 108 ----
+- id: f108-admin
+  framework: f108
+  units: [מנהלה]
+  person: liel-maya
+- id: f108-integration
+  framework: f108
+  units: [אינטגרציה, תוה״ן]
+  person: roni-levi
+- id: f108-mofat
+  framework: f108
+  units: [מופ״ת]
+  person: roni-tzoref
+- id: f108-mitnam
+  framework: f108
+  units: [מתנ״ם]
+  person: lian-ben-gigi
+
+# ---- 502 ----
+- id: f502-ops
+  framework: f502
+  units: [מבצעים, אמל״ח, סייבר]
+  person: noga-suissa
+- id: f502-admin
+  framework: f502
+  units: [מנהלה, איתן דרום מרכז צפון]
+  person: maya-neta

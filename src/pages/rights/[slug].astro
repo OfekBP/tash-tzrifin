@@ -1,0 +1,78 @@
+---
+import { marked } from 'marked';
+import Base from '../../layouts/Base.astro';
+import { href, isDraft, visible } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const rights = await visible('rights');
+  return rights.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const chunks = (entry.body ?? '').trim().split(/^## /m);
+const introHtml = chunks[0].trim() ? (marked.parse(chunks[0].trim()) as string) : '';
+const parts = chunks.slice(1).map((c) => {
+  const nl = c.indexOf('\n');
+  return { title: c.slice(0, nl).trim(), html: marked.parse(c.slice(nl + 1).trim()) as string };
+});
+
+const sections = [
+  { title: 'מי זכאי?', items: d.eligibility },
+  { title: 'מה התנאים?', items: d.conditions },
+  { title: 'אילו מסמכים צריך?', items: d.documents },
+  { title: 'איך מגישים בקשה?', items: d.how_to_apply, ordered: true },
+  { title: 'חריגים והערות', items: d.exceptions },
+].filter((s) => s.items.length > 0);
+---
+<Base title={d.title} lead={d.summary} back="/rights/" tone="lav" draft={isDraft(entry)}>
+
+  <div>
+    {sections.map((s, i) => (
+      <details class="acc" open={i === 0}>
+        <summary>{s.title}</summary>
+        <div class="acc-body">
+          {s.ordered ? <ol>{s.items.map((x) => <li>{x}</li>)}</ol> : <ul>{s.items.map((x) => <li>{x}</li>)}</ul>}
+        </div>
+      </details>
+    ))}
+    {d.approver ? (
+      <details class="acc">
+        <summary>מי מאשר?</summary>
+        <div class="acc-body">{d.approver}</div>
+      </details>
+    ) : null}
+    {d.figures.length > 0 ? (
+      <details class="acc">
+        <summary>סכומים ומספרים</summary>
+        <div class="acc-body">
+          <ul>
+            {d.figures.map((f) => <li>{f.label}: <strong>{f.value}{f.unit ? ` ${f.unit}` : ''}</strong> <span class="muted small">(נכון ל-{f.asOf})</span></li>)}
+          </ul>
+        </div>
+      </details>
+    ) : null}
+  </div>
+
+  {introHtml ? <div class="prose" set:html={introHtml} /> : null}
+  <div style="margin-top: var(--s3)">
+    {parts.map((p) => (
+      <details class="acc" open={parts.length === 1 || undefined}>
+        <summary>{p.title}</summary>
+        <div class="acc-body prose" set:html={p.html} />
+      </details>
+    ))}
+  </div>
+
+  <div class="card-soft" style="margin-top: var(--s6)">
+    <strong>לא בטוחים אם זה מתאים לכם?</strong>
+    <p>הזכאות נקבעת על ידי הגורמים המוסמכים. מש״קית הת״ש תעזור.</p>
+    <a class="btn purple block" href={href('/contacts/')}>למש״קית הת״ש שלי</a>
+  </div>
+
+  {d.sources.length > 0 || d.lastVerified ? (
+    <p class="sources">
+      {d.sources.length > 0 ? `מקור: ${d.sources.map((s) => `${s.doc === 'book' ? 'הספר המקצועי' : s.doc}, עמ׳ ${s.page}`).join('; ')}. ` : ''}
+      {d.lastVerified ? `אומת לאחרונה: ${d.lastVerified.toLocaleDateString('he-IL')}` : ''}
+    </p>
+  ) : null}
+</Base>

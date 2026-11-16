@@ -1,0 +1,159 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ContactCard from '../components/ContactCard.astro';
+import Icon from '../components/Icon.astro';
+import { href, isVisible, TECH_CONTACT_ID } from '../lib/site';
+const logos: Record<string, string> = { ofek: 'ofek', lahav: 'lahav', f108: 'f108' };
+const hues: Record<string, 'a' | 'b' | 'c' | 'd'> = { ofek: 'a', lahav: 'b', f108: 'c', f502: 'd' };
+
+const frameworks = (await getCollection('frameworks')).sort((a, b) => a.data.order - b.data.order);
+const people = new Map((await getCollection('people')).filter(isVisible).map((p) => [p.id, p]));
+const assignments = (await getCollection('assignments')).filter((a) => people.has(a.data.person.id));
+const tech = people.get(TECH_CONTACT_ID);
+
+const groups = frameworks
+  .map((f) => ({ f, items: assignments.filter((a) => a.data.framework.id === f.id) }))
+  .filter((g) => g.items.length > 0);
+---
+<Base title="אנשי קשר" lead="המש״קית של היחידה שלך, במרחק לחיצה." description="מש״קיות ומש״קי הת״ש לפי מסגרת ויחידה">
+  <div slot="head" class="searchbar">
+    <Icon name="search" />
+    <input type="search" id="q" placeholder="חיפוש יחידה או שם" aria-label="חיפוש יחידה או שם" autocomplete="off" enterkeyhint="search" />
+  </div>
+
+  <div class="chips" role="group" aria-label="מסגרת">
+    <button class="chip" type="button" data-fw="all" aria-pressed="true">הכול</button>
+    {groups.map((g) => <button class="chip" type="button" data-fw={g.f.id} aria-pressed="false">{logos[g.f.id] ? <img class="fw-logo" src={href(`/logos/${logos[g.f.id]}.png`)} alt="" /> : null}{g.f.data.name}</button>)}
+  </div>
+
+  <div id="groups">
+    {groups.map((g) => (
+      <section data-group={g.f.id}>
+        <h2 class="section fw">
+          {logos[g.f.id] ? <img class="fw-logo" src={href(`/logos/${logos[g.f.id]}.png`)} alt="" /> : <span class="fw-logo fw-mono">{g.f.data.name}</span>}
+          {g.f.data.name}
+        </h2>
+        <div class="group">
+          {g.items.map((a) => {
+            const p = people.get(a.data.person.id)!;
+            return <ContactCard id={`${a.id}`} name={p.data.name} phone={p.data.phone} whatsapp={p.data.whatsapp} units={a.data.units} hue={hues[g.f.id] ?? 'a'} />;
+          })}
+        </div>
+      </section>
+    ))}
+  </div>
+  <p class="empty" id="none" hidden>לא נמצאו תוצאות. נסו שם או יחידה אחרים.</p>
+
+  <dialog class="sheet" id="sheet" aria-labelledby="sheet-name">
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <span class="avatar" id="sheet-av"></span>
+      <div>
+        <h2 id="sheet-name"></h2>
+        <p class="muted small" id="sheet-sub" style="margin: 0"></p>
+      </div>
+    </div>
+    <span class="num" id="sheet-num"></span>
+    <div class="acts">
+      <a class="btn block" id="sheet-call" href="#"><Icon name="phone" />חיוג</a>
+      <div class="two">
+        <a class="btn wa" id="sheet-wa" href="#" target="_blank" rel="noopener" hidden><Icon name="whatsapp" />וואטסאפ</a>
+        <button class="btn ghost" id="sheet-copy" type="button"><Icon name="copy" />העתקת מספר</button>
+      </div>
+      <button class="btn ghost" id="sheet-close" type="button">סגירה</button>
+    </div>
+  </dialog>
+
+  {tech ? (
+    <section id="bug">
+      <h2 class="section">דיווח על תקלה / הצעה לשיפור</h2>
+      <div class="group"><ContactCard id={tech.id} name={tech.data.name} phone={tech.data.phone} whatsapp={tech.data.whatsapp} role="תקלה באתר או הצעה לשיפור" hue="b" /></div>
+    </section>
+  ) : null}
+</Base>
+
+<script>
+  import { normalize } from '../lib/text';
+
+  const q = document.getElementById('q') as HTMLInputElement;
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-fw]')];
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-group]')];
+  const none = document.getElementById('none')!;
+  let fw = 'all';
+
+  function apply() {
+    const term = normalize(q.value.trim());
+    let shown = 0;
+    for (const g of groups) {
+      let any = false;
+      for (const card of g.querySelectorAll<HTMLElement>('[data-person]')) {
+        const ok = (fw === 'all' || g.dataset.group === fw) && (!term || normalize(card.dataset.search ?? '').includes(term));
+        card.hidden = !ok;
+        if (ok) any = true;
+      }
+      g.hidden = !any;
+      if (any) shown++;
+    }
+    none.hidden = shown > 0;
+  }
+
+  chips.forEach((c) =>
+    c.addEventListener('click', () => {
+      fw = c.dataset.fw!;
+      chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      apply();
+    }),
+  );
+  q.addEventListener('input', apply);
+
+  const initial = new URLSearchParams(location.search).get('q');
+  if (initial) {
+    q.value = initial;
+    apply();
+  }
+
+  // דף תחתון: פרטי איש קשר, חיוג, העתקה
+  const sheet = document.getElementById('sheet') as HTMLDialogElement;
+  const $ = (id: string) => document.getElementById(id)!;
+  const toast = $('toast');
+  let timer: number;
+  let current = '';
+  function say(msg: string) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(timer);
+    timer = window.setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-open]');
+    if (!btn) return;
+    const d = btn.dataset;
+    current = d.phone!;
+    $('sheet-name').textContent = d.name!;
+    $('sheet-sub').textContent = d.sub ?? '';
+    $('sheet-sub').hidden = !d.sub;
+    const av = $('sheet-av');
+    av.textContent = d.name!.trim()[0];
+    av.dataset.h = d.hue;
+    $('sheet-num').textContent = d.shown!;
+    ($('sheet-call') as HTMLAnchorElement).href = d.tel!;
+    const wa = $('sheet-wa') as HTMLAnchorElement;
+    wa.hidden = !d.wa;
+    if (d.wa) wa.href = d.wa;
+    sheet.showModal();
+  });
+  $('sheet-close').addEventListener('click', () => sheet.close());
+  sheet.addEventListener('click', (e) => {
+    if (e.target === sheet) sheet.close();
+  });
+  $('sheet-copy').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(current);
+      say('המספר הועתק');
+    } catch {
+      say(`המספר: ${current}`);
+    }
+    sheet.close();
+  });
+</script>

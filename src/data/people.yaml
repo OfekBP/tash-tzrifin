@@ -1,0 +1,117 @@
+# אנשי קשר. כל אדם מופיע כאן פעם אחת בלבד. שיוכים ליחידות נמצאים ב-assignments.yaml
+#
+# whatsapp:  yes     = יש וואטסאפ (יוצג כפתור וואטסאפ)
+#            no      = אין
+#            unknown = לא ידוע (כפתור וואטסאפ לא יוצג). שנו ל-yes רק אחרי בדיקה.
+# phone:     10 ספרות ללא מקפים
+# status:    approved = מותר לפרסום. כל אנשי הקשר כאן נמסרו על ידי אופק בן פורת.
+
+- id: roee-atzmon
+  name: רועי עצמון
+  phone: "0534289108"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: lian-yerushalmi
+  name: ליאן ירושלמי
+  phone: "0534305629"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: elian-lisbron
+  name: אליאן ליסברון
+  phone: "0527928311"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: lian-ben-gigi
+  name: ליאן בן גיגי
+  phone: "0558874818"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: lin-subai
+  name: לין סובעי
+  phone: "0532701958"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: michelle-isakov
+  name: מישל איסחקוב
+  phone: "0526556150"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: liel-maya
+  name: ליאל מאיה
+  phone: "0534233643"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: roni-levi
+  name: רוני לוי
+  phone: "0547214814"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: roni-tzoref
+  name: רוני צורף
+  phone: "0548380953"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: noga-suissa
+  name: נוגה סויסה
+  phone: "0548702270"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+- id: maya-neta
+  name: מאיה נטע
+  phone: "0532479926"
+  whatsapp: unknown
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16
+
+# איש קשר טכני לאתר (מוצג בכרטיס "דיווח על תקלה / הצעה לשיפור")
+- id: ofek-ben-porat
+  name: אופק בן פורת
+  phone: "0528818554"
+  whatsapp: unknown
+  role: דיווח על תקלה באתר / הצעה לשיפור
+  status: approved
+  origin: provided-by-owner
+  approvedBy: אופק בן פורת
+  approvedOn: 2026-11-16

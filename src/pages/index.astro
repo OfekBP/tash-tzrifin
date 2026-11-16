@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import HeroSky from '../components/HeroSky.astro';
+import LogoTrio from '../components/LogoTrio.astro';
+import { href, SITE_NAME, visible } from '../lib/site';
+
+const links = await visible('links');
+const tash = links.find((l) => l.id === 'tash-btouch');
+---
+<Base hero>
+  <section class="hero">
+    <HeroSky />
+    <div class="hero-copy">
+      <h1>{SITE_NAME}</h1>
+      <p class="tagline">כאן בשבילך, בכל שלב בדרך</p>
+      <svg class="swoosh" viewBox="0 0 160 10" aria-hidden="true"><path d="M2 7C40 1 100 1 158 6" fill="none" stroke="url(#sw)" stroke-width="3" stroke-linecap="round" /><defs><linearGradient id="sw"><stop offset="0" stop-color="#8050E8" /><stop offset="1" stop-color="#8050E8" stop-opacity=".2" /></linearGradient></defs></svg>
+      <p class="desc">הזכויות, המדריכים ואנשי הקשר של ת״ש, במקום אחד ובמגע אצבע. כי אתם במרכז.</p>
+      <form class="searchbar" action={href('/search/')} role="search">
+        <Icon name="search" />
+        <input type="search" name="q" placeholder="מה צריך? למשל: ריכוז יתרות" aria-label="חיפוש" enterkeyhint="search" autocomplete="off" />
+      </form>
+      <a class="btn purple" href={href('/rights/')}>לכל השירותים והמידע <span class="arr">←</span></a>
+    </div>
+  </section>
+
+  <div class="bento">
+    <a class="tile wide" href={href('/rights/')}>
+      <span class="ico"><Icon name="rights" /></span>
+      <strong>זכויות ומענים</strong>
+      <span class="d">מה מגיע לך, מי מאשר ואילו מסמכים צריך</span>
+      <svg class="big" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.2 7.8 8 9 4.8-1.2 8-4.5 8-9V6z" /></svg>
+    </a>
+    <a class="tile tint" href={href('/guides/')}>
+      <span class="ico"><Icon name="guides" /></span>
+      <strong>עושים סדר</strong>
+      <span class="d">אישורי בנק ות״ש בטאץ׳</span>
+    </a>
+    <a class="tile mist" href={href('/contacts/')}>
+      <span class="ico"><Icon name="contacts" /></span>
+      <strong>אנשי קשר</strong>
+      <span class="d">המש״קית שלך, בלחיצה</span>
+    </a>
+  </div>
+
+  <a class="banner" href={href('/contacts/')}>
+    <svg viewBox="0 0 120 120" class="b-art" aria-hidden="true">
+      <g fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"><circle cx="90" cy="60" r="30" /><circle cx="90" cy="60" r="52" /><circle cx="90" cy="60" r="74" /></g>
+      <g transform="translate(78 54) rotate(-24) scale(.95)"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#fff" fill-opacity=".85" /><path d="M28 0 14-2.2-24-3l-2 1.4v3.2L-24 3 14 2.2Z" fill="#fff" /></g>
+    </svg>
+    <div class="b-tx">
+      <span class="b-h"><Icon name="heart" />אנחנו כאן בשבילך</span>
+      <span class="b-p">ליווי אישי ותמיכה מקצועית. לא בטוחים למי לפנות? נמצא לכם את איש הקשר.</span>
+    </div>
+  </a>
+
+  <h2 class="section" style="margin-top: var(--s6)">קיצורי דרך</h2>
+  <div class="quick">
+    <a href={href('/contacts/')}><span><Icon name="phone" /></span>אנשי קשר</a>
+    <a href={href('/guides/banks/')}><span class="p"><Icon name="bank" /></span>אישורי בנק</a>
+    {tash ? <a href={tash.data.url} target="_blank" rel="noopener"><span><Icon name="external" /></span>ת״ש בטאץ׳</a> : null}
+    <a href={href('/contacts/#bug')}><span class="p"><Icon name="bug" /></span>דיווח תקלה</a>
+  </div>
+
+  <p class="notice" style="margin-top: var(--s6)">אתר עזר בלבד, לא תחליף לפנייה לסגל הת״ש. הזכאות נקבעת על ידי הגורמים המוסמכים.</p>
+
+  <footer class="foot" aria-hidden="true">
+    <svg viewBox="0 0 375 120" preserveAspectRatio="none">
+      <defs><linearGradient id="wv" x1="0" x2="1"><stop offset="0" stop-color="#8050E8" stop-opacity=".55" /><stop offset="1" stop-color="#397DE8" stop-opacity=".35" /></linearGradient></defs>
+      <path d="M0 40C90 0 150 70 260 55S350 30 375 20V120H0Z" fill="url(#wv)" />
+      <path d="M0 62C100 30 170 92 280 74S350 56 375 48V120H0Z" fill="#dbe7fb" fill-opacity=".9" />
+      <g fill="#a9bde6" opacity=".75"><rect x="300" y="60" width="9" height="40" /><rect x="296" y="52" width="17" height="10" rx="2" /><rect x="262" y="84" width="76" height="16" /></g>
+    </svg>
+    <span class="script">ביחד, תמיד</span>
+  </footer>
+</Base>

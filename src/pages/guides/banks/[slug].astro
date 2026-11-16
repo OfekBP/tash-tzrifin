@@ -1,0 +1,74 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import { docTypeLabels } from '../../../lib/constants';
+import { href, SHOW_DRAFTS, visible } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  const banks = await visible('banks');
+  return banks.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const d = entry.data;
+
+const guideShown = d.guide && (d.guideStatus === 'approved' || SHOW_DRAFTS);
+const guideIsDraft = d.guideStatus !== 'approved';
+const docs = (Object.keys(docTypeLabels) as (keyof typeof docTypeLabels)[]).filter((k) => d.guide?.[k]);
+---
+<Base title={d.name} lead="הדרכה להפקת אישורים לת״ש." back="/guides/banks/">
+  {d.logo ? <div class="bank-hero"><img src={href(d.logo)} alt={d.name} /></div> : null}
+
+  {d.playlist ? (
+    <>
+      <a class="tile video" href={d.playlist} target="_blank" rel="noopener">
+        <span class="ico"><Icon name="play" /></span>
+        <span style="display: grid; gap: 2px"><strong>צפו בהדרכה בווידאו</strong><span class="d">נפתח ביוטיוב</span></span>
+      </a>
+      {d.playlistNote ? <p class="muted small" style="margin-top: var(--s2)">{d.playlistNote}</p> : null}
+    </>
+  ) : null}
+
+  {guideShown && docs.length > 0 ? (
+    <>
+      {SHOW_DRAFTS && guideIsDraft ? <div class="draft-bar" style="margin-top: var(--s4)">מדריך כתוב: טיוטה לא מאומתת, לא יפורסם</div> : null}
+      <h2 class="section">מדריך כתוב</h2>
+      <div class="seg" role="group" aria-label="סוג מכשיר">
+        <button type="button" data-device="phone" aria-pressed="true">בטלפון</button>
+        <button type="button" data-device="pc" aria-pressed="false">במחשב</button>
+      </div>
+      <div style="margin-top: var(--s3)">
+        {docs.map((k) => (
+          <details class="acc">
+            <summary>{docTypeLabels[k]}</summary>
+            <div class="acc-body">
+              {(['phone', 'pc'] as const).map((dev) => (
+                <ol class="steps" data-device-panel={dev} hidden={dev !== 'phone'}>
+                  {(d.guide?.[k]?.[dev] ?? []).map((s) => <li>{s}</li>)}
+                </ol>
+              ))}
+            </div>
+          </details>
+        ))}
+      </div>
+      {d.guideVerified ? <p class="muted small" style="margin-top: var(--s3)">נבדק מול האפליקציה: {d.guideVerified.toLocaleDateString('he-IL')}. אם משהו נראה אחרת, ייתכן שהאפליקציה התעדכנה.</p> : null}
+    </>
+  ) : (
+    <p class="notice" style="margin-top: var(--s4)">המדריך הכתוב לבנק הזה בהכנה. בינתיים אפשר לצפות בהדרכה בווידאו, או לפנות למש״קית הת״ש.</p>
+  )}
+
+  <a class="btn ghost block" style="margin-top: var(--s6)" href={href('/contacts/')}>נתקעתי? לאנשי הקשר</a>
+</Base>
+
+<script>
+  const btns = [...document.querySelectorAll<HTMLButtonElement>('[data-device]')];
+  const panels = [...document.querySelectorAll<HTMLElement>('[data-device-panel]')];
+  let saved: string | null = null;
+  try { saved = localStorage.getItem('device'); } catch {}
+  function set(dev: string) {
+    btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.device === dev)));
+    panels.forEach((p) => (p.hidden = p.dataset.devicePanel !== dev));
+    try { localStorage.setItem('device', dev); } catch {}
+  }
+  btns.forEach((b) => b.addEventListener('click', () => set(b.dataset.device!)));
+  if (saved === 'pc' || saved === 'phone') set(saved);
+</script>
