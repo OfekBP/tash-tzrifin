@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import LogoTrio from '../components/LogoTrio.astro';
 import { href, SITE_NAME, SHOW_DRAFTS } from '../lib/site';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title?: string;
@@ -40,6 +41,7 @@ const tabs = [
     <meta name="robots" content="noindex" />
     <title>{fullTitle}</title>
     <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <Analytics />
   </head>
   <body>
     <div class:list={['app', { 'has-head': !hero }]} data-tone={tone}>
