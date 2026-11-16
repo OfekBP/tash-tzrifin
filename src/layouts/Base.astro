@@ -46,6 +46,11 @@ const tabs = [
     <meta name="robots" content="noindex" />
     <title>{fullTitle}</title>
     <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <link rel="manifest" href={href('/manifest.webmanifest')} />
+    <link rel="apple-touch-icon" href={href('/icons/180.png')} />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="ת״ש צריפין" />
     <link rel="alternate icon" href={href('/favicon.ico')} sizes="32x32" />
     {onVercel ? <Analytics /> : null}
   </head>
