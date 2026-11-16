@@ -18,6 +18,7 @@ interface Props {
   hero?: boolean;
 }
 const { title, lead, description = 'מרכז שירות לחיילי חובה בחיל האוויר בצריפין: זכויות, מדריכים ואנשי קשר בת״ש.', back, draft, tone = 'sky', hero = false } = Astro.props;
+const onVercel = !!process.env.VERCEL;
 const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -74,6 +75,7 @@ const tabs = [
         ))}
       </nav>
     </div>
+    {onVercel ? <script is:inline defer src="/_vercel/insights/script.js"></script> : null}
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
