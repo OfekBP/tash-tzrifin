@@ -69,19 +69,19 @@ const tash = links.find((l) => l.id === 'tash-btouch');
   <p class="notice" style="margin-top: var(--s6)">אתר עזר בלבד, לא תחליף לפנייה לסגל הת״ש. הזכאות נקבעת על ידי הגורמים המוסמכים.</p>
 
   <footer class="foot" aria-hidden="true">
-    <svg viewBox="0 0 375 150" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="w1" x1="0" x2="1"><stop offset="0" stop-color="#8050E8" stop-opacity=".5" /><stop offset="1" stop-color="#397DE8" stop-opacity=".4" /></linearGradient>
-        <linearGradient id="w2" x1="0" x2="1"><stop offset="0" stop-color="#b9a3f5" stop-opacity=".65" /><stop offset="1" stop-color="#9cc8f7" stop-opacity=".6" /></linearGradient>
-      </defs>
-      <path d="M0 62C80 28 150 88 250 66S345 38 375 46V150H0Z" fill="url(#w1)" />
-      <path d="M0 84C90 56 170 112 270 92S350 74 375 80V150H0Z" fill="url(#w2)" />
-      <path d="M0 110C100 90 180 130 280 114S352 104 375 108V150H0Z" fill="#dbe7fb" />
+    <svg viewBox="0 0 375 150" preserveAspectRatio="xMidYMid slice">
+      <g stroke="url(#tr)" stroke-linecap="round" fill="none">
+        <path d="M-10 92 150 36" stroke-width="3.2" />
+        <path d="M-10 128 210 52" stroke-width="3.2" />
+      </g>
+      <use href="#jet" x="124" y="-2" width="52" height="36" transform="rotate(-22 150 16)" />
+      <use href="#jet" x="184" y="28" width="52" height="36" transform="rotate(-22 210 46)" />
+      <g filter="url(#blur)" fill="#fff" opacity=".92">
+        <ellipse cx="50" cy="146" rx="95" ry="26" />
+        <ellipse cx="190" cy="158" rx="110" ry="26" />
+        <ellipse cx="335" cy="146" rx="95" ry="28" />
+        <ellipse cx="320" cy="60" rx="46" ry="11" opacity=".6" />
+      </g>
     </svg>
-    <svg class="foot-jet" viewBox="0 0 120 40" aria-hidden="true">
-      <path d="M0 30C30 30 55 26 82 20" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7" />
-      <g transform="translate(96 17) rotate(-14) scale(.5)"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#fff" /><path d="M28 0 14-2.2-24-3l-2 1.4v3.2L-24 3 14 2.2Z" fill="#fff" stroke="#8050E8" stroke-width="1.6" /></g>
-    </svg>
-    <div class="foot-cloud c1"></div><div class="foot-cloud c2"></div>
   </footer>
 </Base>
