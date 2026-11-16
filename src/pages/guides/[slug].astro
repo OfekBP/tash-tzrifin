@@ -26,11 +26,7 @@ const parts = chunks.slice(1).map((c) => {
     d.link.includes('tash.digital.idf.il') ? (
       <TashButton url={d.link} label={d.linkLabel} />
     ) : (
-      <a class="tash-btn" href={d.link} target="_blank" rel="noopener">
-        <span class="tb-logo tb-ico"><Icon name="external" /></span>
-        <span class="tb-tx"><strong>{d.linkLabel ?? 'לפתיחה'}</strong><span>נפתח בלשונית חדשה</span></span>
-        <span class="tb-go" aria-hidden="true"><Icon name="external" /></span>
-      </a>
+      <a class="btn purple block" href={d.link} target="_blank" rel="noopener"><Icon name="external" />{d.linkLabel ?? 'לפתיחה'}</a>
     )
   ) : null}
 

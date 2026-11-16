@@ -1489,83 +1489,95 @@ ol.steps li::before {
   color: #2563c9;
 }
 
-/* כפתור כניסה למערכת חיצונית (ת״ש בטאץ׳): פסטלי, בהתאם לשפת האתר */
-.tash-btn {
+/* ת״ש בטאץ׳: כרטיס שירות (לוגו + הסבר + כפתור פעולה) ושורה קומפקטית */
+.tash-card {
+  display: grid;
+  gap: var(--s4);
+  padding: var(--s4);
+  border-radius: var(--r-lg);
+  background: linear-gradient(160deg, #f6f2ff 0%, #e9f2ff 100%);
+  border: 1.5px solid rgb(128 80 232 / 0.16);
+  box-shadow: 0 14px 30px -22px rgb(80 60 200 / 0.6);
+}
+.tc-head {
   display: flex;
   align-items: center;
-  gap: var(--s3);
-  padding: var(--s3) var(--s4) var(--s3) var(--s3);
-  border-radius: var(--r-lg);
-  text-decoration: none;
-  color: var(--navy);
-  background: linear-gradient(135deg, #f5f1ff 0%, #e8f1ff 100%);
-  border: 1.5px solid rgb(128 80 232 / 0.18);
-  box-shadow: 0 10px 24px -18px rgb(80 60 200 / 0.55);
-  transition: transform 0.15s var(--ease), background 0.2s;
-}
-.tash-btn:active {
-  transform: scale(0.98);
-  background: linear-gradient(135deg, #ece5ff 0%, #dfeafe 100%);
+  gap: var(--s4);
 }
 .tb-logo {
   flex: none;
-  width: 52px;
-  height: 52px;
   border-radius: 16px;
-  box-shadow: 0 6px 14px -8px rgb(108 63 209 / 0.8);
+  box-shadow: 0 8px 16px -10px rgb(108 63 209 / 0.9);
+}
+.tb-tx {
+  flex: 1;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.tb-tx strong {
+  font-family: var(--display);
+  font-size: 19px;
+  color: var(--navy);
+  line-height: 1.25;
+}
+.tb-tx span {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-soft);
 }
 .tb-ico {
   display: grid;
   place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
   background: var(--lavender);
-  color: var(--purple-deep, #6c3fd1);
-  box-shadow: none;
+  color: #6c3fd1;
 }
 .tb-ico svg {
   width: 24px;
   height: 24px;
 }
-.tb-tx {
-  flex: 1;
-  display: grid;
-  gap: 1px;
-  min-width: 0;
+.tash-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s2) var(--s3);
+  border-radius: var(--r-md);
+  text-decoration: none;
+  color: var(--navy);
+  background: linear-gradient(160deg, #f6f2ff 0%, #e9f2ff 100%);
+  border: 1.5px solid rgb(128 80 232 / 0.16);
+  transition: transform 0.15s var(--ease);
 }
-.tb-tx strong {
-  font-family: var(--display);
-  font-size: 18px;
-  line-height: 1.25;
+.tash-row:active {
+  transform: scale(0.98);
 }
-.tb-tx span {
+.tash-row .tb-logo {
+  border-radius: 13px;
+}
+.tash-row .tb-tx strong {
+  font-size: 17px;
+}
+.tash-row .tb-tx span {
   font-size: 14px;
-  color: var(--ink-soft);
 }
 .tb-go {
   flex: none;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: #fff;
   color: #6c3fd1;
 }
 .tb-go svg {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
 }
-.tash-btn.compact {
-  padding: var(--s2) var(--s3) var(--s2) var(--s2);
-}
-.tash-btn.compact .tb-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-}
-.tash-btn.compact .tb-tx strong {
-  font-size: 16px;
-}
-
+/* שאר העיצוב של .tash-btn הישן בוטל */
 /* סרטוני הדרכה: הכרטיס בגודל הסרטון בדיוק */
 .videos {
   display: grid;
@@ -1625,18 +1637,4 @@ ol.steps li::before {
   padding: var(--s3) var(--s4);
   font-size: 15px;
   color: var(--ink-soft);
-}
-
-/* כפתור ת״ש בטאץ׳: ממורכז כמו שאר הכפתורים */
-.tash-btn {
-  justify-content: center;
-  padding-inline: var(--s4);
-  text-align: center;
-}
-.tash-btn .tb-tx {
-  flex: 0 1 auto;
-  text-align: center;
-}
-.tash-btn .tb-go {
-  display: none;
 }

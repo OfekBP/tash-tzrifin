@@ -67,7 +67,7 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
     box.innerHTML = `${docs}${items ? `<div class="group">${items}</div>` : ''}
       <div class="card-soft" style="margin-top: var(--s5)"><strong>הצעד הבא</strong><p>כדאי לדבר עם מש״קית הת״ש ולהכין את המסמכים שמופיעים בכל עמוד.</p>
       <a class="btn purple block" href="${data.contacts}">למש״קית הת״ש שלי</a>
-      <a class="tash-btn compact" style="margin-top: var(--s3)" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener"><img class="tb-logo" src="${data.logo}" alt="" width="48" height="48" decoding="async" /><span class="tb-tx"><strong>כניסה לת״ש בטאץ׳</strong></span></a></div>`;
+      <a class="tash-row" style="margin-top: var(--s3)" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener"><img class="tb-logo" src="${data.logo}" alt="" width="44" height="44" decoding="async" /><span class="tb-tx"><strong>ת״ש בטאץ׳</strong><span>בקשות ומעקב במערכת הדיגיטלית</span></span></a></div>`;
     restart.hidden = false;
   }
 
