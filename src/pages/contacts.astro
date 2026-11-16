@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import ContactCard from '../components/ContactCard.astro';
 import Icon from '../components/Icon.astro';
 import { href, isVisible, TECH_CONTACT_ID } from '../lib/site';
-const logos: Record<string, string> = { ofek: 'ofek', lahav: 'lahav', f108: 'f108' };
+const logos: Record<string, string> = { ofek: 'ofek', lahav: 'lahav', f108: 'f108', f502: 'f502' };
 const hues: Record<string, 'a' | 'b' | 'c' | 'd'> = { ofek: 'a', lahav: 'b', f108: 'c', f502: 'd' };
 
 const frameworks = (await getCollection('frameworks')).sort((a, b) => a.data.order - b.data.order);
