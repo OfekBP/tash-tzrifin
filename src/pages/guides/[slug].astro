@@ -43,7 +43,7 @@ const parts = chunks.slice(1).map((c) => {
               <span class="vtitle">{v.title}</span>
               <span class="vdur" data-dur></span>
             </figcaption>
-            <video controls playsinline preload="metadata" width="480" height="672" src={href(`/videos/${entry.id}/${v.file}#t=0.1`)} aria-label={v.title}></video>
+            <video controls playsinline preload="none" width="480" height="672" data-src={href(`/videos/${entry.id}/${v.file}#t=0.1`)} aria-label={v.title}></video>
             {v.note ? <p class="vnote">{v.note}</p> : null}
           </figure>
         ))}
@@ -64,6 +64,23 @@ const parts = chunks.slice(1).map((c) => {
 </Base>
 
 <script>
+  // הסרטונים נטענים רק כשמתקרבים אליהם (חוסך נתונים וזמן טעינה)
+  const vids = [...document.querySelectorAll<HTMLVideoElement>('.video-card video')];
+  const load = (v: HTMLVideoElement) => {
+    if (v.dataset.src) {
+      v.preload = 'metadata';
+      v.src = v.dataset.src;
+      delete v.dataset.src;
+    }
+  };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => { if (e.isIntersecting) { load(e.target as HTMLVideoElement); io.unobserve(e.target); } }),
+      { rootMargin: '400px' },
+    );
+    vids.forEach((v) => io.observe(v));
+  } else vids.forEach(load);
+
   // משך כל סרטון בכותרת הכרטיס
   document.querySelectorAll<HTMLVideoElement>('.video-card video').forEach((v) => {
     const out = v.closest('.video-card')!.querySelector<HTMLElement>('[data-dur]')!;

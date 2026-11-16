@@ -11,5 +11,7 @@ export default defineConfig({
     : 'https://ofekbp.github.io',
   base: onVercel ? '/' : '/tash-tzrifin',
   trailingSlash: 'always',
+  // טעינה מוקדמת של עמודים כשהקישור נכנס לתצוגה: מעבר כמעט מיידי
+  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   build: { format: 'directory' },
 });

@@ -1,6 +1,30 @@
-@import '@fontsource-variable/heebo';
-@import '@fontsource-variable/rubik';
 @import '@fontsource/gveret-levin/hebrew-400.css';
+/* גופנים: רק התת-קבוצות שבאמת בשימוש (עברית + לטינית לספרות), כדי לחסוך משקל */
+@font-face {
+  font-family: 'Heebo Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../../node_modules/@fontsource-variable/heebo/files/heebo-hebrew-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: 'Heebo Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('../assets/fonts/heebo-latin-subset.woff2') format('woff2-variations');
+  unicode-range: U+0020-005A, U+00A0, U+00B7, U+2013-2014, U+2018-2019, U+201C-201D, U+2022, U+2026, U+20AC, U+2190, U+2192;
+}
+/* כותרות: Rubik בעברית בלבד. ספרות ולטינית נופלות ל-Heebo */
+@font-face {
+  font-family: 'Rubik Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url('../../node_modules/@fontsource-variable/rubik/files/rubik-hebrew-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
 
 /* =========================================================
    שפת עיצוב: "שכבות שמיים"
@@ -118,15 +142,15 @@ h3 {
   navigation: auto;
 }
 ::view-transition-old(root) {
-  animation: 140ms var(--ease) both fade-out;
+  animation: 80ms var(--ease) both fade-out;
 }
 ::view-transition-new(root) {
-  animation: 260ms var(--ease) both fade-in;
+  animation: 170ms var(--ease) both fade-in;
 }
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(5px);
   }
 }
 @keyframes fade-out {

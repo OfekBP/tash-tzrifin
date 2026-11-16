@@ -3,6 +3,8 @@ import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import { href, SITE_NAME, SHOW_DRAFTS } from '../lib/site';
 import Analytics from '@vercel/analytics/astro';
+import heeboHe from '@fontsource-variable/heebo/files/heebo-hebrew-wght-normal.woff2?url';
+import rubikHe from '@fontsource-variable/rubik/files/rubik-hebrew-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -46,6 +48,8 @@ const tabs = [
     <meta name="description" content={description} />
     <meta name="robots" content="noindex" />
     <title>{fullTitle}</title>
+    <link rel="preload" as="font" type="font/woff2" href={heeboHe} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={rubikHe} crossorigin />
     <link rel="icon" href={href('/icons/favicon-64.png')} type="image/png" sizes="64x64" />
     <link rel="manifest" href={href('/manifest.webmanifest')} />
     <link rel="apple-touch-icon" href={href('/icons/180.png')} />
@@ -59,7 +63,7 @@ const tabs = [
     <div class="splash" id="splash" aria-hidden="true">
       <div class="splash-in">
         <div class="splash-halo"></div>
-        <img class="splash-logo" src={href('/logos/app-logo.png')} alt="" width="132" height="132" />
+        <img class="splash-logo" src={href('/logos/app-logo-264.webp')} alt="" width="132" height="132" />
         <div class="splash-name">ת״ש חובה בח״א צריפין</div>
         <div class="splash-dots"><i></i><i></i><i></i></div>
       </div>
@@ -72,7 +76,7 @@ const tabs = [
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
           </a>
         ) : (
-          <a class="app-mark" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית"><img src={href('/logos/app-logo.png')} alt="" width="40" height="40" decoding="async" /></a>
+          <a class="app-mark" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית"><img src={href('/logos/app-logo-96.webp')} alt="" width="40" height="40" decoding="async" /></a>
         )}
         <span class="grow"></span>
         <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a>
@@ -119,10 +123,10 @@ const tabs = [
     };
     if (!document.documentElement.classList.contains('splash-on')) return;
     const started = performance.now();
-    const ready = () => setTimeout(hide, Math.max(0, 1000 - (performance.now() - started)));
+    const ready = () => setTimeout(hide, Math.max(0, 600 - (performance.now() - started)));
     if (document.readyState === 'complete') ready();
     else addEventListener('load', ready, { once: true });
-    setTimeout(hide, 3500);
+    setTimeout(hide, 2500);
     addEventListener('pageshow', (e) => { if (e.persisted) hide(); });
   })();
 
