@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
-import LogoTrio from '../components/LogoTrio.astro';
 import { href, SITE_NAME, SHOW_DRAFTS } from '../lib/site';
 import Analytics from '@vercel/analytics/astro';
 
@@ -41,11 +40,13 @@ const tabs = [
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="he_IL" />
     <meta property="og:type" content="website" />
+    {Astro.site ? <meta property="og:image" content={new URL(href('/og.png'), Astro.site).href} /> : null}
+    <script is:inline>try{if(!sessionStorage.getItem('splash'))document.documentElement.classList.add('splash-on')}catch(e){}</script>
     <meta name="theme-color" content={tone === 'lav' ? '#e0d3ff' : '#cde8fc'} />
     <meta name="description" content={description} />
     <meta name="robots" content="noindex" />
     <title>{fullTitle}</title>
-    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={href('/icons/favicon-64.png')} type="image/png" sizes="64x64" />
     <link rel="manifest" href={href('/manifest.webmanifest')} />
     <link rel="apple-touch-icon" href={href('/icons/180.png')} />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -55,6 +56,14 @@ const tabs = [
     {onVercel ? <Analytics /> : null}
   </head>
   <body>
+    <div class="splash" id="splash" aria-hidden="true">
+      <div class="splash-in">
+        <div class="splash-halo"></div>
+        <img class="splash-logo" src={href('/logos/app-logo.png')} alt="" width="132" height="132" />
+        <div class="splash-name">ת״ש חובה בח״א צריפין</div>
+        <div class="splash-dots"><i></i><i></i><i></i></div>
+      </div>
+    </div>
     <a class="skip" href="#main">דילוג לתוכן</a>
     <div class:list={['app', { 'has-head': !hero }]} data-tone={tone}>
       <header class:list={['topbar', { 'hero-bar': hero }]}>
@@ -62,7 +71,9 @@ const tabs = [
           <a class="icon-btn" href={href(back)} data-back aria-label="חזרה">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
           </a>
-        ) : <LogoTrio size={32} />}
+        ) : (
+          <a class="app-mark" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית"><img src={href('/logos/app-logo.png')} alt="" width="40" height="40" decoding="async" /></a>
+        )}
         <span class="grow"></span>
         <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a>
       </header>
@@ -94,6 +105,27 @@ const tabs = [
 </html>
 
 <script>
+  // מסך טעינה: פעם אחת בכל כניסה, לפחות רגע קצר כדי שהלוגו ייראה
+  (() => {
+    const el = document.getElementById('splash');
+    if (!el) return;
+    let done = false;
+    const hide = () => {
+      if (done) return;
+      done = true;
+      try { sessionStorage.setItem('splash', '1'); } catch {}
+      el.classList.add('hide');
+      setTimeout(() => document.documentElement.classList.remove('splash-on'), 500);
+    };
+    if (!document.documentElement.classList.contains('splash-on')) return;
+    const started = performance.now();
+    const ready = () => setTimeout(hide, Math.max(0, 1000 - (performance.now() - started)));
+    if (document.readyState === 'complete') ready();
+    else addEventListener('load', ready, { once: true });
+    setTimeout(hide, 3500);
+    addEventListener('pageshow', (e) => { if (e.persisted) hide(); });
+  })();
+
   // חזרה אמיתית: אם הגענו מתוך האתר, חוזרים בהיסטוריה (מצב גלילה וסינון נשמרים)
   document.addEventListener('click', (e) => {
     const t = e.target as Element;

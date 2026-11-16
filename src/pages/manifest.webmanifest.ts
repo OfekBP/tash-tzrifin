@@ -11,7 +11,7 @@ export const GET = () =>
       start_url: href('/'),
       scope: href('/'),
       display: 'standalone',
-      background_color: '#e6eefb',
+      background_color: '#c5e4fb',
       theme_color: '#cde8fc',
       icons: [
         { src: href('/icons/192.png'), sizes: '192x192', type: 'image/png' },
