@@ -1872,3 +1872,8 @@ dialog.sheet.dragging {
 /* רשת ביטחון: אם הסקריפט נכשל, מסך הטעינה נעלם מעצמו */
 .splash-on .splash { animation: splash-out 0.01s 3.2s forwards; }
 @keyframes splash-out { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+.tile strong,
+.tile .d {
+  white-space: nowrap;
+}
