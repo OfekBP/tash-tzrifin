@@ -2282,3 +2282,8 @@ a.tile.bank-card .go svg {
 .home-tash .tc-head { gap: 12px; }
 .home-tash .tb-logo { width: 50px; height: 50px; }
 .home-tash .tash-card, .bento .tile.wide { min-height: 124px; }
+
+/* דף הבית: כרטיסים ממורכזים (חזרה: git revert של הקומיט או התג pre-center-tiles) */
+.bento .tile { align-items: center; text-align: center; }
+.bento .tile strong { margin-top: auto; }
+.bento .tile.wide .d { max-width: none; }
