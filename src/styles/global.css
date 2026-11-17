@@ -2434,3 +2434,8 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 
 /* כרטיס זכויות: כחול עמוק עם גלי אור אלכסוניים כמו בעיצוב, שטוח יותר */
 .bento .tile.wide { background: #15409a url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 360 150%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M360 0V150H150C220 120 250 60 330 0Z%22 fill=%22%234a82e6%22 opacity=%22.28%22/%3E%3Cpath d=%22M360 40V150H230C290 120 320 90 360 40Z%22 fill=%22%236f9cf0%22 opacity=%22.22%22/%3E%3Cpath d=%22M-10 150C70 130 140 60 230-10%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.28%22 stroke-width=%221.5%22/%3E%3Cpath d=%22M20 160C110 120 190 60 290-10%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.16%22 stroke-width=%221.5%22/%3E%3Cpath d=%22M-10 118C90 105 160 60 250-10%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.12%22 stroke-width=%221.2%22/%3E%3C/svg%3E") center / 100% 100% no-repeat; box-shadow: 0 14px 30px rgb(21 64 154 / 0.38), inset 0 1px 0 rgb(255 255 255 / 0.4), inset 0 0 0 1px rgb(255 255 255 / 0.14); }
+
+/* סרגל תחתון: כל האייקונים והתוויות באותו גודל ובאותו גובה, גם בלשונית הפעילה */
+.dock .tab svg, .tab[aria-current='page'] svg { width: 24px; height: 24px; stroke-width: 1.8; }
+.tab[aria-current='page'] { padding-bottom: 0; }
+.tab[aria-current='page']::after { bottom: 2px; }
