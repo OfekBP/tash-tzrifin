@@ -2287,3 +2287,9 @@ a.tile.bank-card .go svg {
 .bento .tile { align-items: center; text-align: center; }
 .bento .tile strong { margin-top: auto; }
 .bento .tile.wide .d { max-width: none; }
+
+/* דף הבית: ת״ש בטאצ׳ והערת התחתית ממורכזים */
+.home-tash .tc-head { justify-content: center; }
+.home-tash .tb-tx { flex: 0 1 auto; text-align: center; }
+.home-tash .tb-tx strong, .home-tash .tb-tx span { text-align: center; }
+.hero ~ .notice, main > .notice { text-align: center; }
