@@ -2385,3 +2385,6 @@ a.tile.bank-card .go svg {
 /* דף הבית: חיפוש חזר לפינה השמאלית העליונה; המטוסים משני צידי הקו הסגול מתחת לכותרת (חזרה: התג pre-jets-move) */
 .hero .sky-art { top: 52px; width: clamp(80px, 25vw, 98px); }
 .bento { height: max(374px, calc(100dvh - 258px - env(safe-area-inset-bottom))); }
+
+/* כל שורות הכרטיסים באותו גובה (חזרה: התג pre-equal-rows) */
+.bento { grid-template-rows: repeat(3, 1fr); }
