@@ -64,12 +64,14 @@ const tabs = [
   <body>
     <div class="splash" id="splash" aria-hidden="true">
       <svg class="sp2-waves" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice"><path d="M-40 150C80 60 220 140 430 30V120C240 220 100 150-40 260Z" fill="#fff" opacity=".6"/><path d="M-40 560C120 470 270 560 430 450V640C270 740 120 660-40 760Z" fill="#fff" opacity=".35"/><path d="M-40 720C130 650 260 740 430 640V844H-40Z" fill="#6f9ff0" opacity=".3"/></svg>
-      <div class="sp2-flight f1"><i class="sp2-trail"></i><svg class="sp2-jet" viewBox="-34 -24 68 48" aria-hidden="true"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#3f63a3"/><path d="M-18-2.8-28-9h-3l5 6.2Z M-18 2.8-28 9h-3l5-6.2Z" fill="#3f63a3"/><path d="M28 0 14-2.2-6-2.6-24-3l-2 1.4v3.2L-24 3-6 2.6 14 2.2Z" fill="#6f90c6"/><ellipse cx="8" cy="0" rx="5.5" ry="1.5" fill="#cfe4ff"/></svg></div>
-      <div class="sp2-flight f2"><i class="sp2-trail"></i><svg class="sp2-jet" viewBox="-34 -24 68 48" aria-hidden="true"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#3f63a3"/><path d="M-18-2.8-28-9h-3l5 6.2Z M-18 2.8-28 9h-3l5-6.2Z" fill="#3f63a3"/><path d="M28 0 14-2.2-6-2.6-24-3l-2 1.4v3.2L-24 3-6 2.6 14 2.2Z" fill="#6f90c6"/><ellipse cx="8" cy="0" rx="5.5" ry="1.5" fill="#cfe4ff"/></svg></div>
+      <svg class="sp2-fly" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <path d="M-50 790C90 780 230 700 450 250" pathLength="100" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="38 300" stroke-dashoffset="38"><animate attributeName="stroke-dashoffset" from="38" to="-62" dur="1.6s" begin="0.3s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".25 .1 .3 1"/><animate attributeName="opacity" from="1" to="0" dur=".5s" begin="1.9s" fill="freeze"/></path>
+        <g opacity="0"><set attributeName="opacity" to="1" begin="0.3s"/><set attributeName="opacity" to="0" begin="1.9s"/><g transform="scale(1.25)"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#3f63a3"/><path d="M-18-2.8-28-9h-3l5 6.2Z M-18 2.8-28 9h-3l5-6.2Z" fill="#3f63a3"/><path d="M28 0 14-2.2-6-2.6-24-3l-2 1.4v3.2L-24 3-6 2.6 14 2.2Z" fill="#6f90c6"/><ellipse cx="8" cy="0" rx="5.5" ry="1.5" fill="#cfe4ff"/></g><animateMotion path="M-50 790C90 780 230 700 450 250" dur="1.6s" begin="0.3s" fill="freeze" rotate="auto" calcMode="spline" keyTimes="0;1" keySplines=".25 .1 .3 1"/></g>
+        <path d="M-60 690C100 690 250 560 450 90" pathLength="100" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="38 300" stroke-dashoffset="38"><animate attributeName="stroke-dashoffset" from="38" to="-62" dur="1.6s" begin="0.6s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".25 .1 .3 1"/><animate attributeName="opacity" from="1" to="0" dur=".5s" begin="2.2s" fill="freeze"/></path>
+        <g opacity="0"><set attributeName="opacity" to="1" begin="0.6s"/><set attributeName="opacity" to="0" begin="2.2s"/><g transform="scale(1.25)"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#3f63a3"/><path d="M-18-2.8-28-9h-3l5 6.2Z M-18 2.8-28 9h-3l5-6.2Z" fill="#3f63a3"/><path d="M28 0 14-2.2-6-2.6-24-3l-2 1.4v3.2L-24 3-6 2.6 14 2.2Z" fill="#6f90c6"/><ellipse cx="8" cy="0" rx="5.5" ry="1.5" fill="#cfe4ff"/></g><animateMotion path="M-60 690C100 690 250 560 450 90" dur="1.6s" begin="0.6s" fill="freeze" rotate="auto" calcMode="spline" keyTimes="0;1" keySplines=".25 .1 .3 1"/></g>
+      </svg>
       <div class="sp2-center">
-        <div class="sp2-logos">
-          {['ofek', 'f108', 'lahav'].map((u, i) => <img class={`sp2-logo l${i + 1}`} src={href(`/logos/${u}.png`)} alt="" width="84" height="84" />)}
-        </div>
+        <img class="sp2-emblem" src={href('/logos/emblem-144.webp')} alt="" width="144" height="140" />
         <div class="sp2-name">ת״ש חובה בח״א צריפין</div>
         <span class="sp2-line"></span>
         <div class="sp2-sub">ממריאים<span class="sp-dots"><i>.</i><i>.</i><i>.</i></span></div>
@@ -174,10 +176,10 @@ const tabs = [
     };
     if (!document.documentElement.classList.contains('splash-on')) return;
     const started = performance.now();
-    const ready = () => setTimeout(hide, Math.max(0, 1500 - (performance.now() - started)));
+    const ready = () => setTimeout(hide, Math.max(0, 2100 - (performance.now() - started)));
     if (document.readyState === 'complete') ready();
     else addEventListener('load', ready, { once: true });
-    setTimeout(hide, 3000);
+    setTimeout(hide, 3600);
     addEventListener('pageshow', (e) => { if (e.persisted) hide(); });
   })();
 

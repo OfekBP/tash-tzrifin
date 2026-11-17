@@ -1870,7 +1870,7 @@ dialog.sheet.dragging {
 .tile .d { font-size: 15px; }
 .notice { font-size: 16px; }
 /* רשת ביטחון: אם הסקריפט נכשל, מסך הטעינה נעלם מעצמו */
-.splash-on .splash { animation: splash-out 0.01s 3.2s forwards; }
+.splash-on .splash { animation: splash-out 0.01s 4s forwards; }
 @keyframes splash-out { to { opacity: 0; visibility: hidden; pointer-events: none; } }
 
 .bento .tile strong,
@@ -2522,3 +2522,13 @@ dialog.sheet .grab { background-color: #b9c8ea; }
   .sp2-line { width: 170px; }
   .sp2-flight { display: none; }
 }
+
+/* מסך טעינה: סמל האפליקציה האמיתי (שקוף), מטוסים בתעופה אמיתית על מסלול מעוקל */
+.sp2-fly { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.sp2-emblem { width: 150px; height: auto; opacity: 0; filter: drop-shadow(0 14px 22px rgb(16 43 112 / .3)); animation: sp2-pop .8s .2s cubic-bezier(.2, .9, .3, 1.2) both, sp2-bob 3s 1s ease-in-out infinite alternate; }
+@keyframes sp2-bob { to { transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .sp2-fly { display: none; } .sp2-emblem { opacity: 1; animation: none; } }
+/* חלון איש קשר: כפתורים בלי מסגרות */
+.sheet .acts .btn, .sheet .acts .btn.wa, .sheet .acts #sheet-copy, .sheet .acts #sheet-close { border: 0 !important; outline: 0 !important; box-shadow: none !important; }
+.sheet .acts .btn.wa { background: #d9f5e8; color: #0b7a3b; }
+.sheet .acts .btn:not(.ghost):not(.wa) { background: var(--lav-a); color: var(--dark); }
