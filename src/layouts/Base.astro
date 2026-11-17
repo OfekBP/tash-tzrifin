@@ -63,16 +63,17 @@ const tabs = [
   </head>
   <body>
     <div class="splash" id="splash" aria-hidden="true">
-      <div class="sp-cloud c1"></div><div class="sp-cloud c2"></div><div class="sp-cloud c3"></div>
-      <div class="sp-stage">
-        <div class="sp-ping"></div><div class="sp-ping p2"></div>
-        <div class="sp-orbit">
-          <svg class="sp-plane" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2c2 0 3 5 3 11l17 17v4L27 27v10l6 4v4l-9-2-9 2v-4l6-4V27L4 34v-4l17-17c0-6 1-11 3-11z" fill="#fff" stroke="#1b2a6b" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      <svg class="sp2-waves" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice"><path d="M-40 150C80 60 220 140 430 30V120C240 220 100 150-40 260Z" fill="#fff" opacity=".6"/><path d="M-40 560C120 470 270 560 430 450V640C270 740 120 660-40 760Z" fill="#fff" opacity=".35"/><path d="M-40 720C130 650 260 740 430 640V844H-40Z" fill="#6f9ff0" opacity=".3"/></svg>
+      <div class="sp2-flight f1"><i class="sp2-trail"></i><svg class="sp2-jet" viewBox="-34 -24 68 48" aria-hidden="true"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#3f63a3"/><path d="M-18-2.8-28-9h-3l5 6.2Z M-18 2.8-28 9h-3l5-6.2Z" fill="#3f63a3"/><path d="M28 0 14-2.2-6-2.6-24-3l-2 1.4v3.2L-24 3-6 2.6 14 2.2Z" fill="#6f90c6"/><ellipse cx="8" cy="0" rx="5.5" ry="1.5" fill="#cfe4ff"/></svg></div>
+      <div class="sp2-flight f2"><i class="sp2-trail"></i><svg class="sp2-jet" viewBox="-34 -24 68 48" aria-hidden="true"><path d="M10-2.4-12-21h-5L-8-2.8Z M10 2.4-12 21h-5L-8 2.8Z" fill="#3f63a3"/><path d="M-18-2.8-28-9h-3l5 6.2Z M-18 2.8-28 9h-3l5-6.2Z" fill="#3f63a3"/><path d="M28 0 14-2.2-6-2.6-24-3l-2 1.4v3.2L-24 3-6 2.6 14 2.2Z" fill="#6f90c6"/><ellipse cx="8" cy="0" rx="5.5" ry="1.5" fill="#cfe4ff"/></svg></div>
+      <div class="sp2-center">
+        <div class="sp2-logos">
+          {['ofek', 'f108', 'lahav'].map((u, i) => <img class={`sp2-logo l${i + 1}`} src={href(`/logos/${u}.png`)} alt="" width="84" height="84" />)}
         </div>
-        <div class="sp-logo-wrap"><div class="sp-wrap-glow"></div><img class="sp-logo" src={href('/logos/app-logo-400.webp')} alt="" width="196" height="196" /></div>
+        <div class="sp2-name">ת״ש חובה בח״א צריפין</div>
+        <span class="sp2-line"></span>
+        <div class="sp2-sub">ממריאים<span class="sp-dots"><i>.</i><i>.</i><i>.</i></span></div>
       </div>
-      <div class="sp-name">ת״ש חובה בח״א צריפין</div>
-      <div class="sp-sub">ממריאים<span class="sp-dots"><i>.</i><i>.</i><i>.</i></span></div>
     </div>
     <a class="skip" href="#main">דילוג לתוכן</a>
     <div class:list={['app', { 'has-head': !hero }]} data-tone={tone}>
@@ -173,10 +174,10 @@ const tabs = [
     };
     if (!document.documentElement.classList.contains('splash-on')) return;
     const started = performance.now();
-    const ready = () => setTimeout(hide, Math.max(0, 700 - (performance.now() - started)));
+    const ready = () => setTimeout(hide, Math.max(0, 1500 - (performance.now() - started)));
     if (document.readyState === 'complete') ready();
     else addEventListener('load', ready, { once: true });
-    setTimeout(hide, 2500);
+    setTimeout(hide, 3000);
     addEventListener('pageshow', (e) => { if (e.persisted) hide(); });
   })();
 
