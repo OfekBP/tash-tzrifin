@@ -2388,3 +2388,29 @@ a.tile.bank-card .go svg {
 
 /* כל שורות הכרטיסים באותו גובה (חזרה: התג pre-equal-rows) */
 .bento { grid-template-rows: repeat(3, 1fr); }
+
+/* ===== מסך בית: רקע גלים, כרטיס עליון כחול, שאר הכרטיסים לבנים עם אייקון צבעוני ===== */
+body:has(.hero) { background: #d3e3fb url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 390 844%22 preserveAspectRatio=%22xMidYMid slice%22%3E%0A%3Cdefs%3E%3ClinearGradient id=%22a%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%238fb6f5%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%23d4e4ff%22/%3E%3Cstop offset=%221%22 stop-color=%22%2395b8f3%22/%3E%3C/linearGradient%3E%0A%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%220%22%3E%3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%23fff%22 stop-opacity=%22.75%22/%3E%3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E%3C/linearGradient%3E%0A%3ClinearGradient id=%22c%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%220%22%3E%3Cstop offset=%220%22 stop-color=%22%236f9ff0%22 stop-opacity=%22.55%22/%3E%3Cstop offset=%221%22 stop-color=%22%23a9c6fb%22 stop-opacity=%22.15%22/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect width=%22390%22 height=%22844%22 fill=%22url%28%23a%29%22/%3E%0A%3Cpath d=%22M-40 150C80 60 220 140 430 30V120C240 220 100 150-40 260Z%22 fill=%22%23fff%22 opacity=%22.7%22/%3E%0A%3Cpath d=%22M-40 330C100 250 250 330 430 210V300C260 410 110 340-40 430Z%22 fill=%22%23fff%22 opacity=%22.55%22/%3E%0A%3Cpath d=%22M-40 560C120 470 270 560 430 450V640C270 740 120 660-40 760Z%22 fill=%22url%28%23c%29%22/%3E%0A%3Cpath d=%22M-40 720C130 650 260 740 430 640V844H-40Z%22 fill=%22%237aa5f0%22 opacity=%22.28%22/%3E%0A%3Cg fill=%22none%22 stroke=%22url%28%23b%29%22 stroke-width=%221.6%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M-20 120C120 40 260 110 420 20%22/%3E%3Cpath d=%22M-20 140C130 70 250 130 420 50%22/%3E%3Cpath d=%22M-20 390C120 320 270 390 420 300%22/%3E%3Cpath d=%22M-20 420C140 350 260 420 420 340%22/%3E%3C/g%3E%0A%3C/svg%3E") center / cover no-repeat fixed; }
+body:has(.hero) .app, body:has(.hero) .hero { background: transparent; }
+.hero::before, .hero::after { display: none; }
+.bento .tile { position: relative; border-radius: 28px; box-shadow: 0 10px 26px rgb(40 80 170 / 0.12), inset 0 0 0 1px rgb(255 255 255 / 0.8); }
+.bento .tile:not(.wide), .bento a.tile.tint, .bento .tile.mist { background: rgb(255 255 255 / 0.94); }
+.bento .tile::after { content: ""; position: absolute; left: 18px; bottom: 22px; width: 16px; height: 16px; background: var(--dark); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m15 5-7 7 7 7%22/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22m15 5-7 7 7 7%22/%3E%3C/svg%3E") center / contain no-repeat; opacity: .85; }
+.bento .tile.wide::after { bottom: auto; top: 50%; margin-top: -8px; background: #fff; }
+.bento .tile.wide { background: radial-gradient(120% 140% at 85% 0%, #3f7be0 0%, #1f4fb0 45%, #123a8e 100%); color: #fff; overflow: hidden; box-shadow: 0 14px 30px rgb(18 58 142 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.35); }
+.bento .tile.wide::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 38%, rgb(255 255 255 / .14) 46%, transparent 56%), linear-gradient(160deg, transparent 55%, rgb(255 255 255 / .1) 70%, transparent 82%); pointer-events: none; }
+.bento .tile.wide .ico { background: transparent; color: #fff; box-shadow: none; }
+.bento .tile.wide .ico svg { width: 36px; height: 36px; }
+.bento .tile.wide strong { color: #fff; }
+.bento .tile.wide .d { color: #dbe7ff; }
+/* אייקונים צבעוניים */
+.bento a.tile[href$="/contacts/"] .ico { background: #d9f5e8; color: #14946a; }
+.bento a.tile[href$="/guides/"] .ico, .bento a.tile[href$="/faq/"] .ico { background: #ebe3ff; color: #6a3fd6; }
+.bento a.tile[href$="/guide-me/"] .ico { background: #d9ebff; color: #123a8e; }
+.bento .tile .d { color: #4b5a86; }
+.dock { border-radius: 32px; background: rgb(255 255 255 / 0.92); box-shadow: 0 14px 30px rgb(40 80 170 / 0.2); }
+
+.bento .tile.wide .tile-jet { position: absolute; right: 14px; top: 10px; width: 92px; height: 66px; opacity: .55; filter: brightness(2.2) saturate(.6); transform: rotate(-4deg); pointer-events: none; }
+.bento .tile:not(.wide) .ico { width: 58px; height: 58px; border-radius: 50%; }
+.bento .tile:not(.wide) .ico svg { width: 29px; height: 29px; }
+body:has(.hero) main, body:has(.hero) .app { background: transparent !important; }
