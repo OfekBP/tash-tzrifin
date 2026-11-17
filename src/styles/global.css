@@ -2484,3 +2484,8 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 .sheet .acts .btn.wa { background: #25d366; color: #fff; box-shadow: 0 10px 20px -10px rgb(37 211 102 / .7); }
 .sheet .acts #sheet-copy { background: #ebe3ff; color: #5b34c2; }
 .sheet .acts #sheet-close { background: #fff; color: var(--dark); box-shadow: 0 6px 16px rgb(40 80 170 / .12); }
+
+/* חלון איש קשר: וואטסאפ מעודן (לבן עם מסגרת ירוקה, כמו בכרטיסים), העתקה בתכלת */
+.sheet .acts .btn.wa { background: #fff; color: #0b7a3b; box-shadow: 0 0 0 1.5px #25d366 inset, 0 8px 18px -10px rgb(37 211 102 / .55); font-weight: 700; }
+.sheet .acts .btn.wa svg { fill: #25d366; color: #25d366; }
+.sheet .acts #sheet-copy { background: #d9ebff; color: #123a8e; }
