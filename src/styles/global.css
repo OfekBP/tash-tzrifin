@@ -2452,3 +2452,9 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 
 /* כותרות אחידות: אותו גודל בכל העמודים, שורה אחת (הטקסטים מקוצרים בהתאם) */
 .page-head h1 { font-size: 26px; }
+
+/* סכומים ומספרים: שם הסכום בשורה משלו, מתחתיו הסכום והתוקף, בלי שבירת הסכום */
+.figs li { grid-template-columns: minmax(0, 1fr) auto; row-gap: 4px; align-items: baseline; }
+.figs li > span:first-child { grid-column: 1 / -1; line-height: 1.35; }
+.figs li strong { grid-column: 1; max-width: none; overflow-wrap: normal; text-align: start; font-size: 18px; unicode-bidi: isolate; }
+.figs li .muted { grid-column: 2; text-align: end; white-space: nowrap; }
