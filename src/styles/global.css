@@ -1874,8 +1874,8 @@ dialog.sheet.dragging {
 .splash-on .splash { animation: splash-out 0.01s 3.2s forwards; }
 @keyframes splash-out { to { opacity: 0; visibility: hidden; pointer-events: none; } }
 
-.tile strong,
-.tile .d {
+.bento .tile strong,
+.bento .tile .d {
   white-space: nowrap;
 }
 
@@ -2144,4 +2144,82 @@ details.acc + details.acc {
 }
 details.acc {
   box-shadow: 0 8px 20px -14px rgb(16 43 112 / 0.3);
+}
+
+ol.steps li,
+details.acc .acc-body {
+  text-align: start;
+}
+/* כרטיס "איך מוציאים אישורים מהבנק" בדף המדריכים */
+a.tile.bank-card {
+  min-height: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--lav-a), #efe7ff);
+  color: var(--dark);
+}
+a.tile.bank-card strong {
+  margin: 0;
+  font-size: 20px;
+  white-space: normal;
+}
+a.tile.bank-card .d {
+  color: var(--ink-soft);
+  font-size: 15px;
+  white-space: normal;
+  max-width: none;
+}
+a.tile.bank-card .logo-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+a.tile.bank-card .logo-strip span {
+  display: grid;
+  place-items: center;
+  height: 44px;
+  padding: 6px 8px;
+  background: #fff;
+  border-radius: 12px;
+}
+a.tile.bank-card .logo-strip img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+a.tile.bank-card .go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--purple-deep);
+}
+a.tile.bank-card .go svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* וואטסאפ: ירוק רשמי #25D366, הסמל הרשמי בלבן */
+.call.wa {
+  background: #25d366;
+  color: #fff;
+}
+.call.wa svg {
+  width: 26px;
+  height: 26px;
+  fill: #fff;
+  stroke: none;
+}
+.btn.wa {
+  background: #25d366;
+  color: #fff;
+}
+.btn.wa svg {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+  stroke: none;
 }

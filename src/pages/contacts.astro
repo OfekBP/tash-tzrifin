@@ -3,6 +3,7 @@ import { getCollection, getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ContactCard from '../components/ContactCard.astro';
 import Icon from '../components/Icon.astro';
+import WaLogo from '../components/WaLogo.astro';
 import { href, isVisible, TECH_CONTACT_ID } from '../lib/site';
 const logos: Record<string, string> = { ofek: 'ofek', lahav: 'lahav', f108: 'f108', f502: 'f502' };
 const hues: Record<string, 'a' | 'b' | 'c' | 'd'> = { ofek: 'a', lahav: 'b', f108: 'c', f502: 'd' };
@@ -58,7 +59,7 @@ const groups = frameworks
     <span class="num" id="sheet-num"></span>
     <div class="acts">
       <a class="btn block" id="sheet-call" href="#"><Icon name="phone" />חיוג</a>
-      <a class="btn wa block" id="sheet-wa" href="#" target="_blank" rel="noopener" hidden><Icon name="whatsapp" />פתיחת צ׳אט בוואטסאפ</a>
+      <a class="btn wa block" id="sheet-wa" href="#" target="_blank" rel="noopener" hidden><WaLogo />פתיחת צ׳אט בוואטסאפ</a>
       <button class="btn ghost block" id="sheet-copy" type="button"><Icon name="copy" />העתקת מספר</button>
       <button class="btn ghost" id="sheet-close" type="button">סגירה</button>
     </div>

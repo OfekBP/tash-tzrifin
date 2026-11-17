@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import WaLogo from './WaLogo.astro';
 import { displayPhone, telHref, waHref } from '../lib/site';
 
 interface Props {
@@ -33,6 +34,6 @@ const sub = units.length > 0 ? units.join(' · ') : (role ?? '');
       {sub ? <span class="s">{sub}</span> : null}
     </span>
   </button>
-  {whatsapp !== 'no' ? <a class="call wa" href={waHref(phone)} target="_blank" rel="noopener" aria-label={`וואטסאפ ל${name}`}><Icon name="whatsapp" /></a> : null}
+  {whatsapp !== 'no' ? <a class="call wa" href={waHref(phone)} target="_blank" rel="noopener" aria-label={`וואטסאפ ל${name}`}><WaLogo /></a> : null}
   <a class="call" href={telHref(phone)} aria-label={`חיוג ל${name}`}><Icon name="phone" /></a>
 </div>
