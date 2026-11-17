@@ -2227,3 +2227,36 @@ a.tile.bank-card .go svg {
 /* תוכן מתחיל גבוה יותר */
 .page-head { padding-bottom: calc(var(--s4) + 6px); }
 .has-head main { padding-top: var(--s4); }
+
+/* לוגו עליון שקוף, בלי ריבוע */
+.app-mark { border-radius: 0; }
+.app-mark img { width: 48px; height: auto; border-radius: 0; filter: drop-shadow(0 2px 4px rgb(16 43 112 / 0.25)); }
+
+/* שלבים כרונולוגיים פתוחים */
+.timeline { list-style: none; margin: var(--s5) 0 0; padding: 0; counter-reset: st; }
+.timeline li { position: relative; counter-increment: st; padding-inline-start: 56px; padding-bottom: var(--s5); }
+.timeline li::before {
+  content: counter(st);
+  position: absolute; inset-inline-start: 0; top: 0;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--dark); color: #fff; font-weight: 800; font-size: 18px;
+  box-shadow: 0 0 0 5px var(--lav-a);
+}
+.timeline li::after {
+  content: ''; position: absolute; inset-inline-start: 19px; top: 46px; bottom: 6px; width: 2px;
+  background: linear-gradient(var(--purple), var(--lav-a)); border-radius: 2px;
+}
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li:last-child::after { display: none; }
+.timeline h2 { margin: 6px 0 var(--s1); font-size: 19px; line-height: 1.25; color: var(--dark); }
+.timeline .prose p { margin: 0; }
+
+/* כפתורי טלפון ווטסאפ: עדינים ואלגנטיים */
+.call { width: 42px; height: 42px; box-shadow: 0 0 0 1px rgb(16 43 112 / .12) inset; }
+.call:not(.wa) { background: var(--lav-a); color: var(--dark); }
+.call svg { width: 19px; height: 19px; }
+.call.wa { background: #fff; color: #25d366; box-shadow: 0 0 0 1.5px #25d366 inset; }
+.call.wa svg { width: 22px; height: 22px; fill: #25d366; }
+.btn.wa { box-shadow: 0 6px 16px -6px rgb(37 211 102 / .6); }
+.btn.wa svg { width: 20px; height: 20px; }

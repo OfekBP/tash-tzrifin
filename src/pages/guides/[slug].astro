@@ -51,7 +51,16 @@ const parts = chunks.slice(1).map((c) => {
     </section>
   ) : null}
 
-  {parts.length > 0 ? (
+  {parts.length > 0 && d.steps ? (
+    <ol class="timeline">
+      {parts.map((p) => (
+        <li>
+          <h2>{p.title}</h2>
+          <div class="prose" set:html={p.html} />
+        </li>
+      ))}
+    </ol>
+  ) : parts.length > 0 ? (
     <div style="margin-top: var(--s5)">
       {parts.map((p, i) => (
         <details class="acc" open={i === 0}>
