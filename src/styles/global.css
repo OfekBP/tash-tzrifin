@@ -1968,29 +1968,10 @@ a.tile.tint .ico {
   color: var(--purple-deep);
 }
 
-/* קו הדגשה מתחת לכותרת: פס מדורג בסגול-כחול עם שתי נקודות, כמו שובל טיסה */
+/* שובל טיסה קטן עם מטוס מתחת לכותרת, באותה שפה של המטוסים בשמיים */
 .title-accent {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin: 8px 0 var(--s2);
-}
-.title-accent i {
   display: block;
-  height: 5px;
-  border-radius: 5px;
-}
-.title-accent i:nth-child(1) {
-  width: 46px;
-  background: linear-gradient(90deg, var(--purple), var(--blue));
-}
-.title-accent i:nth-child(2) {
-  width: 12px;
-  background: var(--blue);
-  opacity: 0.55;
-}
-.title-accent i:nth-child(3) {
-  width: 5px;
-  background: var(--blue);
-  opacity: 0.3;
+  width: 132px;
+  height: 22px;
+  margin: 2px 0 var(--s2);
 }
