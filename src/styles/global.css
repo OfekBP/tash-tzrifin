@@ -2332,3 +2332,18 @@ a.tile.bank-card .go svg {
   color: var(--purple);
   stroke-width: 2.1;
 }
+
+/* נקודה מתחת ללשונית הפעילה; ת״ש בטאצ׳ באותו צבע טקסט כמו שאר הלשוניות */
+.tab-tash { color: #5d6b94; font-weight: 600; }
+.tab[aria-current='page'] { padding-bottom: 8px; }
+.tab[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: var(--purple);
+}
