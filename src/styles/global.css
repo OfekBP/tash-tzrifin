@@ -2223,3 +2223,7 @@ a.tile.bank-card .go svg {
   fill: #fff;
   stroke: none;
 }
+
+/* תוכן מתחיל גבוה יותר */
+.page-head { padding-bottom: calc(var(--s4) + 6px); }
+.has-head main { padding-top: var(--s4); }
