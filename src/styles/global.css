@@ -2454,41 +2454,30 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 }
 .tash-orb { box-shadow: 0 0 0 4px rgb(255 255 255 / 0.95), 0 8px 16px -6px rgb(106 63 214 / 0.55); }
 
-/* סרגל תחתון: כפתור ת״ש בטאצ׳ מוגבה עם טבעת וזוהר, בלי חריץ (חזרה: התג pre-dock-fab) */
-  /* Variant B: solid bar, raised FAB orb with gradient ring + halo */
+/* סרגל תחתון: עריסה מעוקלת וחלקה לכפתור ת״ש בטאצ׳ (חזרה: התג pre-dock-cradle) */
+  /* Variant A: smooth bezier cradle */
   .dock {
-    background: rgb(255 255 255 / 0.97) !important;
-    filter: none !important;
-    box-shadow: 0 14px 30px rgb(40 80 170 / 0.2), 0 1px 0 rgb(255 255 255) inset !important;
+    background: transparent !important; border: 0 !important; box-shadow: none !important;
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    filter: drop-shadow(0 12px 16px rgb(40 80 170 / 0.2)) drop-shadow(0 1px 1px rgb(40 80 170 / 0.08)) !important;
   }
   .dock::before {
-    -webkit-mask: none !important; mask: none !important;
-    content: ''; position: absolute; z-index: -1; inset: auto;
-    left: 50%; top: -34px; width: 92px; height: 92px; margin-left: -46px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgb(124 77 240 / 0.34) 0%, rgb(124 77 240 / 0.14) 45%, rgb(124 77 240 / 0) 70%);
-    pointer-events: none;
-    animation: orbHalo 3.6s ease-in-out infinite;
+    content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 32px;
+    background: rgb(255 255 255 / 0.97);
+    -webkit-mask:
+      linear-gradient(#000 0 0) left top / calc(50% - 56px) 100% no-repeat,
+      linear-gradient(#000 0 0) right top / calc(50% - 56px) 100% no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 64' preserveAspectRatio='none'%3E%3Cpath d='M0 0C17 0 21 0 27 8C32 15 38 39 56 39C74 39 80 15 85 8C91 0 95 0 112 0V64H0Z'/%3E%3C/svg%3E") center top / 112px 100% no-repeat !important;
+    mask:
+      linear-gradient(#000 0 0) left top / calc(50% - 56px) 100% no-repeat,
+      linear-gradient(#000 0 0) right top / calc(50% - 56px) 100% no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 64' preserveAspectRatio='none'%3E%3Cpath d='M0 0C17 0 21 0 27 8C32 15 38 39 56 39C74 39 80 15 85 8C91 0 95 0 112 0V64H0Z'/%3E%3C/svg%3E") center top / 112px 100% no-repeat !important;
   }
-  /* platform arc on the bar */
-  .dock .tab-tash::after {
-    content: ''; position: absolute; left: 50%; top: -1px; width: 78px; height: 39px; margin-left: -39px;
-    border-radius: 0 0 78px 78px;
-    background: linear-gradient(180deg, rgb(124 77 240 / 0.14), rgb(124 77 240 / 0.03) 85%);
-    pointer-events: none;
+  .tash-orb {
+    box-shadow:
+      0 0 0 3px rgb(255 255 255 / 0.98),
+      0 0 0 4.5px rgb(139 92 246 / 0.16),
+      0 0 16px 3px rgb(139 92 246 / 0.28),
+      0 8px 14px -6px rgb(106 63 214 / 0.5) !important;
   }
-  .dock .tash-orb {
-    width: 58px !important; height: 58px !important; padding: 3px; box-sizing: border-box;
-    top: -30px !important; margin: 0 0 0 -29px !important;
-    background: conic-gradient(from 210deg, #b79bff, #6a3fd6, #3f7be0, #b79bff) !important;
-    box-shadow: 0 0 0 4px rgb(255 255 255), 0 10px 20px -4px rgb(106 63 214 / 0.55), 0 0 22px rgb(124 77 240 / 0.35) !important;
-    animation: orbFloat 3.6s ease-in-out infinite;
-    z-index: 1;
-  }
-  .dock .tash-orb img { border: 2px solid #fff; box-sizing: border-box; }
-  .dock .tab-tash:active .tash-orb { animation: none; transform: scale(0.92) !important; }
-  @keyframes orbFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-  @keyframes orbHalo { 0%,100% { opacity: .75; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
-  @media (prefers-reduced-motion: reduce) {
-    .dock::before, .dock .tash-orb { animation: none !important; }
-  }
+  .dock .tab-tash .tash-orb { top: -18px; }
