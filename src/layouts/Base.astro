@@ -81,7 +81,7 @@ const tabs = [
           </a>
         ) : hero ? (
           <div class="unit-mark" role="img" aria-label="ת״ש חובה בח״א צריפין">
-            {['ofek', 'lahav', 'f108'].map((u) => <img src={href(`/logos/${u}.png`)} alt="" width="44" height="44" decoding="async" />)}
+            {['ofek', 'f108', 'lahav'].map((u) => <img src={href(`/logos/${u}.png`)} alt="" width="44" height="44" decoding="async" />)}
           </div>
         ) : (
           <a class="app-mark" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית"><img src={href('/logos/emblem-144.webp')} alt="" width="48" height="43" decoding="async" /></a>
