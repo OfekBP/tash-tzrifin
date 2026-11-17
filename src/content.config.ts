@@ -125,7 +125,7 @@ const guides = defineCollection({
       link: z.string().url().optional(),
       linkLabel: z.string().optional(),
       /** סרטוני הדרכה: file הוא שם קובץ תחת public/videos/<שם-המדריך>/ */
-      videos: z.array(z.object({ title: z.string(), file: z.string(), note: z.string().optional() })).default([]),
+      videos: z.array(z.object({ title: z.string(), file: z.string(), note: z.string().optional(), width: z.number().default(480), height: z.number().default(672) })).default([]),
       sources: z.array(source).default([]),
       ...approvalFields,
     })

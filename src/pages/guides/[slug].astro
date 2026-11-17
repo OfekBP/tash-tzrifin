@@ -43,7 +43,7 @@ const parts = chunks.slice(1).map((c) => {
               <span class="vtitle">{v.title}</span>
               <span class="vdur" data-dur></span>
             </figcaption>
-            <video controls playsinline preload="none" width="480" height="672" data-src={href(`/videos/${entry.id}/${v.file}#t=0.1`)} aria-label={v.title}></video>
+            <video controls playsinline preload="none" width={v.width} height={v.height} style={`aspect-ratio: ${v.width} / ${v.height}`} data-src={href(`/videos/${entry.id}/${v.file}#t=0.1`)} aria-label={v.title}></video>
             {v.note ? <p class="vnote">{v.note}</p> : null}
           </figure>
         ))}

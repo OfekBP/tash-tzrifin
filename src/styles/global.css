@@ -1656,6 +1656,7 @@ ol.steps li::before {
   width: 100%;
   height: auto;
   aspect-ratio: 480 / 672;
+  max-height: 78dvh;
   object-fit: contain;
   background: #0f1a44;
 }
