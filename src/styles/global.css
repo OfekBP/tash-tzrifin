@@ -2439,3 +2439,4 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 .dock .tab svg, .tab[aria-current='page'] svg { width: 24px; height: 24px; stroke-width: 1.8; }
 .tab[aria-current='page'] { padding-bottom: 0; }
 .tab[aria-current='page']::after { bottom: 2px; }
+.dock .orb-ext svg { width: 11px; height: 11px; stroke-width: 2.4; }
