@@ -1886,27 +1886,8 @@ dialog.sheet.dragging {
   --on-dark: #ffffff;
   --on-dark-mute: #b9c8ee;
 }
-.dock {
-  background: rgb(16 43 112 / 0.96);
-  box-shadow: 0 14px 34px -12px rgb(16 43 112 / 0.55);
-}
-.tab {
-  color: var(--on-dark-mute);
-}
-.tab:active {
-  background: rgb(255 255 255 / 0.1);
-}
-.tab[aria-current='page'],
-.tab[data-id='rights'][aria-current='page'] {
-  color: var(--dark);
-  background: var(--lavender);
-}
-.tab[aria-current='page'] svg,
-.tab[data-id='rights'][aria-current='page'] svg {
-  color: var(--purple-deep);
-}
 .tile.wide {
-  background: linear-gradient(135deg, #14327f, var(--dark));
+  background: linear-gradient(135deg, #6a3fd6, #35238f);
   color: var(--on-dark);
 }
 .tile.wide .d {
@@ -1949,4 +1930,15 @@ h2.section {
 .group > .row,
 .group > .prow {
   box-shadow: inset -4px 0 0 var(--dark);
+}
+
+/* יותר סגול בדף הבית: כרטיסי ה"tint" הופכים ללבנדר */
+.tile.tint {
+  background: var(--lav-a);
+}
+.tile.tint .ico {
+  color: var(--purple-deep);
+}
+.tile.mist .ico {
+  background: var(--lav-b);
 }
