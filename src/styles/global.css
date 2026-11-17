@@ -2383,5 +2383,5 @@ a.tile.bank-card .go svg {
 .tab-tash .tash-orb { position: absolute; top: -22px; left: 50%; margin: 0 0 0 -25px; }
 
 /* דף הבית: חיפוש חזר לפינה השמאלית העליונה; המטוסים משני צידי הקו הסגול מתחת לכותרת (חזרה: התג pre-jets-move) */
-.hero .sky-art { top: 70px; width: clamp(72px, 22vw, 88px); }
+.hero .sky-art { top: 52px; width: clamp(80px, 25vw, 98px); }
 .bento { height: max(374px, calc(100dvh - 258px - env(safe-area-inset-bottom))); }
