@@ -2428,3 +2428,6 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 /* כרטיס זכויות: כהה ושטוח יותר, פחות גרדיאנט */
 .bento .tile.wide { background: #0f2d73; box-shadow: 0 12px 26px rgb(15 45 115 / 0.32), inset 0 0 0 1px rgb(255 255 255 / 0.1); }
 .bento .tile.wide::before { display: none; }
+
+/* כרטיס זכויות: כהה עם גלים עדינים כמו בעיצוב, בלי גרדיאנט כבד */
+.bento .tile.wide { background: #0f2d73 url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 360 150%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M-10 118C80 70 200 128 370 34V0H-10Z%22 fill=%22%23fff%22 opacity=%22.07%22/%3E%3Cpath d=%22M-10 150C110 104 240 150 370 84V150Z%22 fill=%22%23fff%22 opacity=%22.06%22/%3E%3Cpath d=%22M-10 62C90 22 210 78 370 6%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.22%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M-10 78C100 40 220 94 370 24%22 fill=%22none%22 stroke=%22%23fff%22 stroke-opacity=%22.12%22 stroke-width=%221.2%22/%3E%3C/svg%3E") center / 100% 100% no-repeat; box-shadow: 0 14px 30px rgb(15 45 115 / 0.34), inset 0 1px 0 rgb(255 255 255 / 0.3), inset 0 0 0 1px rgb(255 255 255 / 0.1); }
