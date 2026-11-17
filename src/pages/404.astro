@@ -2,9 +2,24 @@
 import Base from '../layouts/Base.astro';
 import { href } from '../lib/site';
 ---
-<Base title="העמוד לא נמצא">
-  <div class="empty">
-    <p>ייתכן שהקישור ישן. אפשר לחזור לדף הבית או לחפש.</p>
-    <a class="btn" style="margin-top: var(--s3)" href={href('/')}>לדף הבית</a>
+<Base title="העמוד לא נמצא" lead="הקישור ישן או שגוי." description="העמוד לא נמצא">
+  <div class="nf">
+    <img class="nf-logo" src={href('/logos/emblem-144.webp')} alt="" width="120" height="107" decoding="async" />
+    <p class="nf-code">404</p>
+    <h2 class="nf-title">העמוד שחיפשתם לא נמצא</h2>
+    <p class="nf-text">ייתכן שהקישור ישן או שהעמוד הוזז. אפשר לחזור לדף הבית או לחפש.</p>
+    <div class="nf-actions">
+      <a class="btn" href={href('/')}>לדף הבית</a>
+      <a class="btn ghost" href={href('/search/')}>לחיפוש</a>
+    </div>
   </div>
 </Base>
+
+<style>
+  .nf { display: grid; justify-items: center; gap: 10px; text-align: center; padding: var(--s6) var(--s3) var(--s4); }
+  .nf-logo { width: 120px; height: auto; filter: drop-shadow(0 10px 18px rgb(16 43 112 / 0.25)); }
+  .nf-code { margin: 6px 0 0; font: 800 64px/1 var(--display); color: var(--purple); letter-spacing: 2px; }
+  .nf-title { margin: 0; font: 800 26px/1.2 var(--display); color: var(--dark); }
+  .nf-text { margin: 0; max-width: 28ch; color: var(--ink-soft); line-height: 1.5; }
+  .nf-actions { display: flex; gap: 10px; margin-top: var(--s3); }
+</style>
