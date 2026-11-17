@@ -14,7 +14,7 @@ const rights = Object.fromEntries(
 );
 const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'), logo: href('/logos/tash-btouch-badge.png'), banks: href('/guides/banks/'), docs: href('/guides/financial-documents/') });
 ---
-<Base title="לא יודע מאיפה להתחיל?" lead="כמה שאלות קצרות, ונכוון אותך" back="/" description="שאלון קצר שמכוון לזכויות ולמסלולי הסיוע הרלוונטיים">
+<Base title="מאיפה מתחילים?" lead="כמה שאלות קצרות, ונכוון אותך" back="/" description="שאלון קצר שמכוון לזכויות ולמסלולי הסיוע הרלוונטיים">
   <div id="app" data-payload={payload}>
     <h2 class="section" id="step-title" tabindex="-1" aria-live="polite">מה הקושי העיקרי שלך?</h2>
     <div class="group" id="options"></div>

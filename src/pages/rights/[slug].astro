@@ -31,7 +31,7 @@ const lists = [
 
 const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 ---
-<Base title={d.title} back="/rights/" tone="lav" draft={isDraft(entry)}>
+<Base title={d.title} lead={d.lead} back="/rights/" tone="lav" draft={isDraft(entry)}>
   {SHOW_DRAFTS && d.to_verify.length > 0 ? (
     <div class="draft-bar" style="margin-bottom: var(--s4)">לבדיקה לפני אישור: {d.to_verify.join(' · ')}</div>
   ) : null}

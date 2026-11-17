@@ -53,6 +53,7 @@ const rights = defineCollection({
       title: z.string(),
       category: z.array(z.enum(categories)).min(1),
       summary: z.string(), // שורה אחת למסך הרשימה
+      lead: z.string().optional(), // תת כותרת בראש העמוד, שורה אחת (עד ~32 תווים)
       keywords: z.array(z.string()).default([]), // כינויים לחיפוש
       eligibility: z.array(z.string()).default([]),
       conditions: z.array(z.string()).default([]),
@@ -120,6 +121,7 @@ const guides = defineCollection({
     .object({
       title: z.string(),
       summary: z.string(),
+      lead: z.string().optional(), // תת כותרת בראש העמוד, שורה אחת (עד ~32 תווים)
       order: z.number().default(100),
       keywords: z.array(z.string()).default([]),
       link: z.string().url().optional(),

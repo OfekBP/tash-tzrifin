@@ -21,7 +21,7 @@ const parts = chunks.slice(1).map((c) => {
   return { title: c.slice(0, nl).trim(), html: marked.parse(c.slice(nl + 1).trim()) as string };
 });
 ---
-<Base title={d.title} back="/guides/" draft={isDraft(entry)}>
+<Base title={d.title} lead={d.lead} back="/guides/" draft={isDraft(entry)}>
   {d.link ? (
     d.link.includes('tash.digital.idf.il') ? (
       <TashButton url={d.link} label={d.linkLabel} />

@@ -2449,3 +2449,6 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 
 /* כלל: כותרת העמוד בשורה אחת (הגופן מותאם בסקריפט ב-Base) */
 .page-head h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-wrap: nowrap; }
+
+/* כותרות אחידות: אותו גודל בכל העמודים, שורה אחת (הטקסטים מקוצרים בהתאם) */
+.page-head h1 { font-size: 26px; }
