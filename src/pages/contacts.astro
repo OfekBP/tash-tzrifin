@@ -101,6 +101,7 @@ const groups = frameworks
     c.addEventListener('click', () => {
       fw = c.dataset.fw!;
       chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
       apply();
     }),
   );

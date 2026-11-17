@@ -42,6 +42,7 @@ const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data
     c.addEventListener('click', () => {
       const cat = c.dataset.cat!;
       chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
       cards.forEach((card) => (card.hidden = cat !== 'all' && !card.dataset.cats!.split(' ').includes(cat)));
     }),
   );

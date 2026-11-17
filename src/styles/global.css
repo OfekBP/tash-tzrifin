@@ -1835,7 +1835,6 @@ ol.steps li::before {
 }
 
 /* גרירת הדף התחתון מטה לסגירה */
-dialog.sheet .sheet-head,
 dialog.sheet .grab {
   padding-block: 10px;
   background-clip: content-box;
@@ -2458,3 +2457,20 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 .figs li > span:first-child { grid-column: 1 / -1; line-height: 1.35; }
 .figs li strong { grid-column: 1; max-width: none; overflow-wrap: normal; text-align: start; font-size: 18px; unicode-bidi: isolate; }
 .figs li .muted { grid-column: 2; text-align: end; white-space: nowrap; }
+
+/* ===== תיקונים מבדיקת הסוכנים ===== */
+/* חלון איש קשר: הכותרת לא נכנסת לכלל הגרירה של הידית */
+dialog.sheet .sheet-head { touch-action: none; cursor: grab; height: auto; padding-block: 0; }
+/* סרגל תחתון: תוויות בשורה אחת, גם במסכים צרים מאוד */
+.dock .tab > span:not(.tash-orb):not(.sr-only) { white-space: nowrap; }
+.tab-tash > span:not(.tash-orb):not(.sr-only) { font-size: inherit; margin-top: 0; }
+@media (max-width: 340px) { .dock { gap: 0; padding-inline: 4px; } .dock .tab { font-size: 12px; } }
+/* בית: כותרות כרטיסים לא גולשות במסך צר */
+@media (max-width: 340px) { .bento .tile strong { font-size: 18px; } .bento .tile .d { font-size: 14px; } }
+/* שאלות נפוצות: ריווח בין קבוצות */
+section[data-group] + section[data-group] > h2.section:first-child { margin-top: var(--s6); }
+/* סכומים: הערת התוקף בשורה משלה, הסכום לא נדחס */
+.figs li strong { grid-column: 1 / -1; }
+.figs li .muted { grid-column: 1 / -1; text-align: start; }
+/* מסך טעינה מעל הסרגלים */
+html.splash-on .dock, html.splash-on .topbar { view-transition-name: none; }
