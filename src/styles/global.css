@@ -2370,16 +2370,19 @@ a.tile.bank-card .go svg {
 
 /* דף הבית: לוגואים וחיפוש על אותו קו, כותרת גדולה יותר (חזרה: התג pre-hero-bigger2) */
 .hero-bar .unit-mark { transform: translateY(20px); }
-.hero-bar > .icon-btn, .hero-bar > .app-mark { transform: translateY(20px); }
 .hero .hero-copy { padding-top: calc(var(--header-h) + env(safe-area-inset-top) + var(--s3) + 28px); }
 .hero h1 { font-size: clamp(25px, 8vw, 31px); }
 .hero .sky-art { top: calc(var(--header-h) + env(safe-area-inset-top) + 14px); }
 .bento { height: max(374px, calc(100dvh - 258px - env(safe-area-inset-bottom))); }
 
 /* דף הבית: חיפוש בפינה הימנית; כפתור ת״ש בטאצ׳ קטן יותר עם מרווח מהכיתוב */
-.hero-bar > .icon-btn { order: -1; }
 .tash-orb { width: 50px; height: 50px; margin-top: -22px; margin-bottom: 6px; }
 .orb-ext { width: 20px; height: 20px; }
 .orb-ext svg { width: 11px; height: 11px; }
 .tab-tash::before { content: ''; display: block; width: 24px; height: 24px; flex: none; }
 .tab-tash .tash-orb { position: absolute; top: -22px; left: 50%; margin: 0 0 0 -25px; }
+
+/* דף הבית: חיפוש חזר לפינה השמאלית העליונה; המטוסים משני צידי הקו הסגול מתחת לכותרת (חזרה: התג pre-jets-move) */
+.hero .sky-art { top: 126px; width: clamp(80px, 25vw, 100px); }
+.hero .hero-copy { padding-bottom: 20px; }
+.bento { height: max(374px, calc(100dvh - 278px - env(safe-area-inset-bottom))); }
