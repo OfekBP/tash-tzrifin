@@ -442,7 +442,7 @@ h2.section:first-child {
   display: block;
   width: 150px;
   height: 10px;
-  margin: 2px 0 var(--s3);
+  margin: 6px 0 var(--s2);
 }
 
 .bento {
