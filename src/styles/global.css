@@ -2260,3 +2260,6 @@ a.tile.bank-card .go svg {
 .call.wa svg { width: 22px; height: 22px; fill: #25d366; }
 .btn.wa { box-shadow: 0 6px 16px -6px rgb(37 211 102 / .6); }
 .btn.wa svg { width: 20px; height: 20px; }
+
+/* כשיש שורת חיפוש בראש העמוד, היריעה לא עולה עליה */
+.page-head:has(.head-extra > *) { padding-bottom: calc(var(--s6) + 14px); }
