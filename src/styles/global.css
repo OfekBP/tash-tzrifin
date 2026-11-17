@@ -2293,3 +2293,28 @@ a.tile.bank-card .go svg {
 .home-tash .tb-tx { flex: 0 1 auto; text-align: center; }
 .home-tash .tb-tx strong, .home-tash .tb-tx span { text-align: center; }
 .hero ~ .notice, main > .notice { text-align: center; }
+
+/* ת״ש בטאצ׳: כפתור עגול בולט במרכז סרגל הניווט (חזרה: התג pre-tash-fab) */
+.dock { grid-template-columns: repeat(5, 1fr); }
+.tab-tash { position: relative; color: var(--dark); font-weight: 700; overflow: visible; }
+.tab-tash:active { background: transparent; }
+.tash-orb {
+  position: relative;
+  width: 58px; height: 58px;
+  margin-top: -26px;
+  border-radius: 50%;
+  display: block;
+  background: #fff;
+  box-shadow: 0 0 0 4px #fff, 0 10px 20px -8px rgb(106 63 214 / 0.7);
+  transition: transform 0.2s var(--ease);
+}
+.tab-tash:active .tash-orb { transform: scale(0.92); }
+.tash-orb img { width: 100%; height: 100%; border-radius: 50%; display: block; box-shadow: none; }
+.orb-ext {
+  position: absolute; inset-inline-end: -4px; bottom: -2px;
+  width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--purple); color: #fff; border: 2px solid #fff;
+}
+.orb-ext svg { width: 12px; height: 12px; stroke-width: 2.4; }
+.tab-tash > span:not(.tash-orb):not(.sr-only) { font-size: 12px; white-space: nowrap; margin-top: 1px; }

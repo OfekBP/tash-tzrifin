@@ -104,11 +104,23 @@ const tabs = [
       </main>
 
       <nav class="dock" aria-label="ניווט ראשי">
-        {tabs.map((t) => (
-          <a class="tab" data-id={t.id} href={href(t.url)} aria-current={t.match(path) ? 'page' : undefined}>
-            <Icon name={t.id} />
-            <span>{t.label}</span>
-          </a>
+        {tabs.map((t, i) => (
+          <>
+            {i === 2 ? (
+              <a class="tab tab-tash" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener">
+                <span class="tash-orb">
+                  <img src={href('/logos/tash-btouch-badge.png')} alt="" width="56" height="56" decoding="async" />
+                  <span class="orb-ext" aria-hidden="true"><Icon name="external" /></span>
+                </span>
+                <span>ת״ש בטאצ׳</span>
+                <span class="sr-only">נפתח בלשונית חדשה</span>
+              </a>
+            ) : null}
+            <a class="tab" data-id={t.id} href={href(t.url)} aria-current={t.match(path) ? 'page' : undefined}>
+              <Icon name={t.id} />
+              <span>{t.label}</span>
+            </a>
+          </>
         ))}
       </nav>
     </div>

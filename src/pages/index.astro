@@ -1,12 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import TashButton from '../components/TashButton.astro';
 import Icon from '../components/Icon.astro';
 import HeroSky from '../components/HeroSky.astro';
-import { href, SITE_NAME, visible } from '../lib/site';
+import { href, SITE_NAME } from '../lib/site';
 
-const links = await visible('links');
-const tash = links.find((l) => l.id === 'tash-btouch');
 ---
 <Base hero>
   <section class="hero">
@@ -46,7 +43,6 @@ const tash = links.find((l) => l.id === 'tash-btouch');
     </a>
   </div>
 
-  {tash ? <div class="home-tash" style="margin-top: var(--s4)"><TashButton url={tash.data.url} /></div> : null}
 
   <p class="notice" style="margin-top: var(--s6)">האתר נועד לעזור, כדי לדעת מה מגיע לך בפועל, פנו לצוות הת״ש בבסיס.</p>
 
