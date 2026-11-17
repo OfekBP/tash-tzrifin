@@ -6,7 +6,7 @@ import { categoryLabels, href, isDraft, visible } from '../../lib/site';
 const rights = (await visible('rights')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'he'));
 const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data.category.includes(c as never)));
 ---
-<Base title="זכויות" lead="מי זכאי, אילו מסמכים ואיך מגישים" tone="lav" description="זכויות, הטבות ומענים לחיילי חובה">
+<Base title="זכויות והטבות" lead="מי זכאי, אילו מסמכים ואיך מגישים" tone="lav" description="זכויות, הטבות ומענים לחיילי חובה">
 
   {rights.length === 0 ? (
     <div class="card-soft">

@@ -7,7 +7,7 @@ const guides = (await visible('guides')).sort((a, b) => a.data.order - b.data.or
 const links = await visible('links');
 const tashLink = links.find((l) => l.id === 'tash-btouch');
 ---
-<Base title="עושים סדר" lead="ארגז כלים לעשייה בפועל" description="מדריכים פרקטיים לחייל: אישורים מהבנק, ת״ש בטאצ׳ ועוד">
+<Base title="מדריכים וכלים" lead="ארגז כלים לעשייה בפועל" description="מדריכים פרקטיים לחייל: אישורים מהבנק, ת״ש בטאצ׳ ועוד">
   <div class="group">
     <a class="row" href={href('/guides/banks/')}>
       <span class="dot tint"><Icon name="doc" /></span>

@@ -18,7 +18,10 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
   <div id="app" data-payload={payload}>
     <h2 class="section" id="step-title" tabindex="-1" aria-live="polite">מה הקושי העיקרי שלך?</h2>
     <div class="group" id="options"></div>
-    <button class="btn ghost block" id="restart" type="button" hidden style="margin-top: var(--s4)">להתחיל מחדש</button>
+    <div class="quiz-nav" id="quiz-nav" hidden>
+      <button class="btn ghost" id="back-step" type="button">חזרה לשאלה הקודמת</button>
+      <button class="btn ghost" id="restart" type="button">להתחיל מחדש</button>
+    </div>
   </div>
   <p class="notice" style="margin-top: var(--s6)">השאלון מכוון בלבד. הוא לא קובע זכאות, וההחלטה נשארת אצל הגורמים המוסמכים.</p>
 </Base>
@@ -29,7 +32,9 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
   const data = JSON.parse(root.dataset.payload!) as { branches: Branch[]; rights: Record<string, { title: string; summary: string; url: string }>; contacts: string; logo: string; banks: string; docs: string };
   const title = document.getElementById('step-title')!;
   const box = document.getElementById('options')!;
-  const restart = document.getElementById('restart')!;
+  const restart = document.getElementById('quiz-nav')!;
+  const restartBtn = document.getElementById('restart')!;
+  const backBtn = document.getElementById('back-step')!;
   const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
   const row = (label: string, attr: string) => `<button class="row" type="button" ${attr}><span class="tx"><span class="t">${esc(label)}</span></span></button>`;
@@ -85,6 +90,13 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
     if (st && b) ask(b, st.i, st.picked);
     else start();
   });
-  restart.addEventListener('click', start);
+  restartBtn.addEventListener('click', () => { history.pushState({ root: 1 }, ''); start(); });
+  backBtn.addEventListener('click', () => history.back());
   start();
 </script>
+
+<style>
+  .quiz-nav { display: flex; gap: var(--s2); margin-top: var(--s4); }
+  .quiz-nav .btn { flex: 1; min-height: 48px; padding-inline: var(--s3); font-size: 15px; }
+  #step-title { min-height: 2.6em; }
+</style>

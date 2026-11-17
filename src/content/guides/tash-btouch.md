@@ -13,10 +13,6 @@ videos:
     file: waiver.mp4
   - title: "מילוי הצהרות: כלליות"
     file: general.mp4
-  - title: "הסבר למפקדים: ראיונות אור"
-    file: commanders.mp4
-    width: 464
-    height: 832
 sources: []
 status: approved
 approvedBy: "אופק בן פורת"
