@@ -28,7 +28,6 @@ const groups = frameworks
     {groups.map((g) => <button class="chip" type="button" data-fw={g.f.id} aria-pressed="false">{logos[g.f.id] ? <img class="fw-logo" src={href(`/logos/${logos[g.f.id]}.png`)} alt="" /> : null}{g.f.data.name}</button>)}
   </div>
 
-  <p class="notice" style="margin-bottom: var(--s4)">הפרטים מיועדים לפנייה בנושאי ת״ש בלבד.</p>
   <div id="groups">
     {groups.map((g) => (
       <section data-group={g.f.id}>
