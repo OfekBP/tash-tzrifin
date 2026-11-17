@@ -202,4 +202,21 @@ const tabs = [
     }
   });
   document.addEventListener('touchstart', () => {}, { passive: true });
+
+  // כלל: כותרת העמוד בשורה אחת. מקטינים את הגופן עד שנכנסת (מינימום 20px)
+  (() => {
+    const h = document.querySelector<HTMLElement>('.page-head h1');
+    if (!h) return;
+    const fit = () => {
+      h.style.fontSize = '';
+      let size = parseFloat(getComputedStyle(h).fontSize);
+      while (h.scrollWidth > h.clientWidth && size > 20) {
+        size -= 1;
+        h.style.fontSize = size + 'px';
+      }
+    };
+    fit();
+    document.fonts?.ready.then(fit);
+    addEventListener('resize', fit);
+  })();
 </script>

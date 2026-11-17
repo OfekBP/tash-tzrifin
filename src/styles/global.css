@@ -2446,3 +2446,6 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 
 /* כלל: תת כותרת בכל עמוד היא שורה אחת לכל היותר */
 .page-head .lead { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: none; }
+
+/* כלל: כותרת העמוד בשורה אחת (הגופן מותאם בסקריפט ב-Base) */
+.page-head h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-wrap: nowrap; }
