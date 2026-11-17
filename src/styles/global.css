@@ -2105,3 +2105,21 @@ a.tile.tint .ico {
 .sp-sub {
   color: #b9c8ee;
 }
+
+/* הלוגו שקוף מבחינה ויזואלית: רקע מסך הטעינה זהה לריבוע הלוגו וקצותיו מתמזגים */
+.splash-on .splash {
+  background: radial-gradient(circle at 50% 44%, #003173 0, #003173 34%, #00265c 100%);
+}
+.sp-wrap-glow {
+  display: none;
+}
+.sp-logo {
+  filter: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(180deg, transparent, #000 9%, #000 91%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent), linear-gradient(180deg, transparent, #000 9%, #000 91%, transparent);
+  mask-composite: intersect;
+}
+.title-line {
+  background: linear-gradient(90deg, rgb(201 181 251 / 0), #c9b5fb 22%, #c9b5fb 78%, rgb(201 181 251 / 0));
+}
