@@ -1993,3 +1993,33 @@ a.tile.tint .ico {
   border-radius: 5px;
   background: linear-gradient(90deg, var(--purple), var(--lavender));
 }
+
+/* כותרת ממורכזת, מטוסים משני הצדדים (מימין מראה של השמאלי) */
+.hero-copy {
+  text-align: center;
+}
+.title-line {
+  margin-inline: auto;
+}
+.sky-art.sky-l {
+  inset-inline-end: 4px;
+  inset-inline-start: auto;
+}
+.sky-art.sky-r {
+  inset-inline-start: 4px;
+  inset-inline-end: auto;
+}
+.sky-art.sky-r svg {
+  transform: scaleX(-1);
+}
+.hero .sky-art {
+  top: calc(var(--header-h) + env(safe-area-inset-top) - 30px);
+  width: clamp(60px, 19vw, 84px);
+}
+.hero .sky-art {
+  top: calc(var(--header-h) + env(safe-area-inset-top) - 10px);
+  width: clamp(64px, 20vw, 80px);
+}
+.hero .sky-art svg {
+  transform-origin: 50% 40%;
+}
