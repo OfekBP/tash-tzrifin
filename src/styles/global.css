@@ -2067,3 +2067,8 @@ a.tile.tint .ico {
 }
 .title-line { height: 4px; }
 .hero .sky-art { width: clamp(52px, 16.5vw, 66px); }
+.title-line {
+  width: 200px;
+  height: 4px;
+  background: linear-gradient(90deg, rgb(106 63 214 / 0), var(--purple) 22%, var(--purple-deep) 78%, rgb(106 63 214 / 0));
+}

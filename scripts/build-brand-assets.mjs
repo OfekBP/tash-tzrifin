@@ -16,7 +16,7 @@ const stack = [0, W - 1, (H - 1) * W, H * W - 1];
 while (stack.length) {
   const i = stack.pop();
   if (seen[i]) continue;
-  if (lum(i) > 70) continue;
+  if (lum(i) > 22) continue;
   seen[i] = 1;
   out[i * 4 + 3] = 0;
   const x = i % W, y = (i / W) | 0;
@@ -32,7 +32,7 @@ for (let y = 1; y < H - 1; y++) {
     if (seen[i]) continue;
     let near = false;
     for (let dy = -2; dy <= 2 && !near; dy++) for (let dx = -2; dx <= 2; dx++) if (seen[(y + dy) * W + x + dx]) { near = true; break; }
-    if (near) out[i * 4 + 3] = Math.max(0, Math.min(255, Math.round(((lum(i) - 40) / 110) * 255)));
+    if (near) out[i * 4 + 3] = Math.max(0, Math.min(255, Math.round(((lum(i) - 8) / 40) * 255)));
   }
 }
 let logo = await sharp(out, { raw: { width: W, height: H, channels: 4 } }).trim().png().toBuffer();
@@ -43,7 +43,7 @@ meta = await sharp(logo).metadata();
 console.log('trimmed', meta.width, meta.height);
 
 fs.mkdirSync('public/icons', { recursive: true });
-const SKY = '#C5E4FB';
+const SKY = '#08336f';
 
 // לוגו ראשי (שקוף, פינות מעוגלות)
 await sharp(logo).resize(96, 96).webp({ quality: 90, effort: 6 }).toFile('public/logos/app-logo-96.webp');
@@ -70,50 +70,6 @@ fs.writeFileSync('public/favicon.ico', Buffer.concat([ico, png32]));
 const og = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4F1FF"/><stop offset="1" stop-color="#E6DDFF"/></linearGradient></defs><rect width="1200" height="630" fill="url(#g)"/></svg>');
 await sharp(og).composite([{ input: await sharp(logo).resize(460, 460).toBuffer(), gravity: 'center' }]).png().toFile('public/og.png');
 
-// סמל בלי רקע (לשימוש על רקע שמיים, למשל במסך הטעינה): הצפה מהקצוות על גוון התכלת של הרקע
-{
-  const { data: d, info: inf } = await sharp(logo).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  const w = inf.width, h = inf.height, o = Buffer.from(d);
-  const bgc = [d[(40 * w + w / 2 | 0) * 4], d[(40 * w + w / 2 | 0) * 4 + 1], d[(40 * w + w / 2 | 0) * 4 + 2]];
-  const dist = (i) => Math.hypot(d[i * 4] - bgc[0], d[i * 4 + 1] - bgc[1], d[i * 4 + 2] - bgc[2]);
-  const TOL = 92;
-  const gone = new Uint8Array(w * h);
-  const st = [];
-  // טבעת הקצה של הריבוע (אנטי-אליאסינג כהה): נחשבת רקע, ומשם מתחילה ההצפה
-  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    const i = y * w + x;
-    if (d[i * 4 + 3] <= 10) { st.push(i); continue; }
-    let rim = false;
-    for (let dy = -7; dy <= 7 && !rim; dy += 7) for (let dx = -7; dx <= 7; dx += 7) {
-      const xx = x + dx, yy = y + dy;
-      if (xx < 0 || yy < 0 || xx >= w || yy >= h || d[(yy * w + xx) * 4 + 3] <= 10) { rim = true; break; }
-    }
-    if (rim) { o[i * 4 + 3] = 0; gone[i] = 1; st.push(i); }
-  }
-  const visited = new Uint8Array(w * h);
-  while (st.length) {
-    const i = st.pop();
-    if (visited[i]) continue;
-    visited[i] = 1;
-    if (!gone[i] && d[i * 4 + 3] > 10 && dist(i) > TOL) continue;
-    gone[i] = 1;
-    o[i * 4 + 3] = 0;
-    const x = i % w, y = (i / w) | 0;
-    if (x > 0) st.push(i - 1);
-    if (x < w - 1) st.push(i + 1);
-    if (y > 0) st.push(i - w);
-    if (y < h - 1) st.push(i + w);
-  }
-  // ריכוך קצה של 2 פיקסלים
-  for (let y = 2; y < h - 2; y++) for (let x = 2; x < w - 2; x++) {
-    const i = y * w + x;
-    if (gone[i]) continue;
-    let near = false;
-    for (let dy = -2; dy <= 2 && !near; dy++) for (let dx = -2; dx <= 2; dx++) if (gone[(y + dy) * w + x + dx]) { near = true; break; }
-    if (near) o[i * 4 + 3] = Math.max(0, Math.min(255, Math.round(((dist(i) - TOL * 0.6) / (TOL * 0.9)) * 255)));
-  }
-  await sharp(o, { raw: { width: w, height: h, channels: 4 } }).trim().resize(400, 400, { fit: 'inside' }).webp({ quality: 90, alphaQuality: 95, effort: 6 }).toFile('public/logos/app-emblem-400.webp');
-}
 for (const f of ['icons/512.png', 'icons/maskable-512.png', 'icons/192.png', 'icons/180.png', 'og.png']) {
   const b = await sharp('public/' + f).png({ palette: true, quality: 92, compressionLevel: 9, effort: 10 }).toBuffer();
   fs.writeFileSync('public/' + f, b);
