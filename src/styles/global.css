@@ -1887,7 +1887,7 @@ dialog.sheet.dragging {
   --on-dark-mute: #b9c8ee;
 }
 .tile.wide {
-  background: linear-gradient(135deg, #6a3fd6, #35238f);
+  background: linear-gradient(135deg, #14327f, var(--dark));
   color: var(--on-dark);
 }
 .tile.wide .d {
@@ -1932,78 +1932,29 @@ h2.section {
   box-shadow: inset -4px 0 0 var(--dark);
 }
 
-/* יותר סגול בדף הבית: כרטיסי ה"tint" הופכים ללבנדר */
-.tile.tint {
-  background: var(--lav-a);
-}
-.tile.tint .ico {
-  color: var(--purple-deep);
-}
-.tile.mist .ico {
-  background: var(--lav-b);
-}
-
-/* ---------- איזון צבעים בבית: סגול + תכלת + navy ---------- */
-a.tile.tint[href$="/guides/"] {
-  background: var(--dark);
-  color: #fff;
-}
-a.tile.tint[href$="/guides/"] .d {
-  color: var(--on-dark-mute);
-}
-a.tile.tint[href$="/guides/"] .ico {
-  background: rgb(255 255 255 / 0.14);
-  color: #bfe3ff;
-}
-a.tile.tint[href$="/guide-me/"] {
-  background: #fff;
-}
-a.tile.tint[href$="/guide-me/"] .ico {
-  background: var(--sky-a);
-  color: var(--blue);
-}
-a.tile.mist[href$="/contacts/"] {
-  background: var(--sky-a);
-}
-a.tile.mist[href$="/contacts/"] .ico {
-  background: #fff;
-  color: var(--dark);
-}
-a.tile.mist[href$="/faq/"] {
-  background: var(--lav-a);
-}
-a.tile.mist[href$="/faq/"] .ico {
-  background: #fff;
-  color: var(--purple-deep);
-}
-
-/* ---------- סרגל ניווט: זכוכית עם בועת פעילות ---------- */
+/* ---------- סרגל ניווט: לבן נקי, לשונית פעילה ב-navy ---------- */
 .dock {
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.88), rgb(240 245 255 / 0.8));
-  border: 1px solid rgb(255 255 255 / 0.9);
-  box-shadow: 0 10px 30px rgb(47 106 208 / 0.2), 0 2px 6px rgb(16 43 112 / 0.1), inset 0 1px 0 #fff;
-  backdrop-filter: blur(22px) saturate(1.8);
-  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 28px -10px rgb(16 43 112 / 0.28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 .tab {
-  color: #5b6b8f;
+  color: #5d6b94;
   font-weight: 600;
 }
+.tab:active {
+  background: var(--sky);
+}
 .tab[aria-current='page'],
-.tab[aria-current='page']:active {
-  color: var(--dark);
-  font-weight: 800;
-  background: linear-gradient(135deg, #dbe8ff, #e9defc);
-  box-shadow: inset 0 0 0 1px rgb(47 106 208 / 0.2), 0 4px 10px rgb(128 80 232 / 0.18);
-}
+.tab[aria-current='page']:active,
 .tab[data-id='rights'][aria-current='page'] {
-  background: linear-gradient(135deg, #eadfff, #dfe8ff);
+  color: #fff;
+  font-weight: 700;
+  background: var(--dark);
 }
-.tab[aria-current='page'] svg {
-  color: var(--blue);
-  stroke-width: 2.4;
-  transform: translateY(-1px);
-}
+.tab[aria-current='page'] svg,
 .tab[data-id='rights'][aria-current='page'] svg {
-  color: var(--purple-deep);
+  color: #fff;
 }
