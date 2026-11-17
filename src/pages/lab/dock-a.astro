@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import HeroSky from '../../components/HeroSky.astro';
+import { href, SITE_NAME } from '../../lib/site';
+
+---
+<Base hero>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>{SITE_NAME}</h1>
+      <span class="title-line" aria-hidden="true"></span>
+    </div>
+    <HeroSky />
+  </section>
+
+  <h2 class="sr-only">מה תרצו לעשות?</h2>
+  <div class="bento">
+    <a class="tile wide" href={href('/rights/')}>
+      <span class="ico"><Icon name="rights" /></span>
+      <strong>זכויות והטבות</strong>
+      <span class="d">מה מגיע לך</span>
+    </a>
+    <a class="tile tint" href={href('/guides/')}>
+      <span class="ico"><Icon name="guides" /></span>
+      <strong>מדריכים וכלים</strong>
+      <span class="d">הסברים והדרכות</span>
+    </a>
+    <a class="tile mist" href={href('/contacts/')}>
+      <span class="ico"><Icon name="contacts" /></span>
+      <strong>אנשי קשר</strong>
+      <span class="d">אל מי לפנות</span>
+    </a>
+    <a class="tile mist" href={href('/faq/')}>
+      <span class="ico"><Icon name="doc" /></span>
+      <strong>שאלות נפוצות</strong>
+      <span class="d">מה כולם שואלים</span>
+    </a>
+    <a class="tile tint" href={href('/guide-me/')}>
+      <span class="ico"><Icon name="search" /></span>
+      <strong>מאיפה מתחילים?</strong>
+      <span class="d">שאלון קצר לאפיון</span>
+    </a>
+  </div>
+
+
+  <p class="notice" style="margin-top: var(--s6)">האתר נועד לעזור, כדי לדעת מה מגיע לך בפועל, פנו לצוות הת״ש בבסיס.</p>
+
+  <p class="notice" style="margin-top: var(--s6)">האתר נועד לעזור, כדי לדעת מה מגיע לך בפועל, פנו לצוות הת״ש בבסיס.</p>
+</Base>
+
+<style is:global>
+  /* Variant A: smooth bezier cradle */
+  .dock {
+    background: transparent !important; border: 0 !important; box-shadow: none !important;
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    filter: drop-shadow(0 12px 16px rgb(40 80 170 / 0.2)) drop-shadow(0 1px 1px rgb(40 80 170 / 0.08)) !important;
+  }
+  .dock::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 32px;
+    background: rgb(255 255 255 / 0.97);
+    -webkit-mask:
+      linear-gradient(#000 0 0) left top / calc(50% - 56px) 100% no-repeat,
+      linear-gradient(#000 0 0) right top / calc(50% - 56px) 100% no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 64' preserveAspectRatio='none'%3E%3Cpath d='M0 0C17 0 21 0 27 8C32 15 38 39 56 39C74 39 80 15 85 8C91 0 95 0 112 0V64H0Z'/%3E%3C/svg%3E") center top / 112px 100% no-repeat !important;
+    mask:
+      linear-gradient(#000 0 0) left top / calc(50% - 56px) 100% no-repeat,
+      linear-gradient(#000 0 0) right top / calc(50% - 56px) 100% no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 64' preserveAspectRatio='none'%3E%3Cpath d='M0 0C17 0 21 0 27 8C32 15 38 39 56 39C74 39 80 15 85 8C91 0 95 0 112 0V64H0Z'/%3E%3C/svg%3E") center top / 112px 100% no-repeat !important;
+  }
+  .tash-orb {
+    box-shadow:
+      0 0 0 3px rgb(255 255 255 / 0.98),
+      0 0 0 4.5px rgb(139 92 246 / 0.16),
+      0 0 16px 3px rgb(139 92 246 / 0.28),
+      0 8px 14px -6px rgb(106 63 214 / 0.5) !important;
+  }
+</style>

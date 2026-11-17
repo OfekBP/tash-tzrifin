@@ -2443,3 +2443,6 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
 .tab[aria-current='page']::after { bottom: -2px; }
 .tab[aria-current='page']::after { bottom: -7px; width: 5px; height: 5px; margin-left: -2.5px; }
 .tab[aria-current='page']::after { bottom: -2px; }
+
+/* כלל: תת כותרת בכל עמוד היא שורה אחת לכל היותר */
+.page-head .lead { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: none; }

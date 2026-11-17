@@ -8,7 +8,7 @@ const faq = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.or
 const allRights = new Map((await getCollection('rights')).filter(isVisible).map((r) => [r.id, r]));
 const groups = [...new Set(faq.map((f) => f.data.group))];
 ---
-<Base back="/guides/" title="שאלות נפוצות" lead="תשובות קצרות לשאלות שחיילים שואלים הכי הרבה." description="שאלות ותשובות על ת״ש, זכויות, עבודה, חופשות ומסמכים">
+<Base back="/guides/" title="שאלות נפוצות" lead="תשובות לשאלות שחוזרות הכי הרבה" description="שאלות ותשובות על ת״ש, זכויות, עבודה, חופשות ומסמכים">
   <div slot="head" class="searchbar">
     <Icon name="search" />
     <input type="search" id="q" placeholder="חיפוש בשאלות" aria-label="חיפוש בשאלות" autocomplete="off" enterkeyhint="search" />

@@ -15,7 +15,7 @@ const guideShown = d.guide && (d.guideStatus === 'approved' || SHOW_DRAFTS);
 const guideIsDraft = d.guideStatus !== 'approved';
 const docs = (Object.keys(docTypeLabels) as (keyof typeof docTypeLabels)[]).filter((k) => d.guide?.[k]);
 ---
-<Base title={d.name} lead="הדרכה להפקת אישורים לת״ש." back="/guides/banks/">
+<Base title={d.name} lead="הדרכה להפקת אישורים לת״ש" back="/guides/banks/">
   {d.logo ? <div class="bank-hero"><img src={href(d.logo)} alt={d.name} /></div> : null}
 
   {d.playlist ? (

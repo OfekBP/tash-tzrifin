@@ -17,7 +17,7 @@ const groups = frameworks
   .map((f) => ({ f, items: assignments.filter((a) => a.data.framework.id === f.id) }))
   .filter((g) => g.items.length > 0);
 ---
-<Base title="אנשי קשר" lead="המש״קית של היחידה שלך, במרחק לחיצה." description="מש״קיות ומש״קי הת״ש לפי מסגרת ויחידה">
+<Base title="אנשי קשר" lead="המש״קית של היחידה שלך" description="מש״קיות ומש״קי הת״ש לפי מסגרת ויחידה">
   <div slot="head" class="searchbar">
     <Icon name="search" />
     <input type="search" id="q" placeholder="חיפוש יחידה או שם" aria-label="חיפוש יחידה או שם" autocomplete="off" enterkeyhint="search" />
