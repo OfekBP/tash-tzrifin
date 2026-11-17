@@ -1958,3 +1958,12 @@ h2.section {
 .tab[data-id='rights'][aria-current='page'] svg {
   color: #fff;
 }
+
+/* ---------- סגול לבנדר בכרטיסי "מדריכים וכלים" ו"מאיפה מתחילים?" ---------- */
+a.tile.tint {
+  background: var(--lav-a);
+}
+a.tile.tint .ico {
+  background: rgb(255 255 255 / 0.8);
+  color: var(--purple-deep);
+}
