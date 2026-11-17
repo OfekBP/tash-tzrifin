@@ -2367,3 +2367,11 @@ a.tile.bank-card .go svg {
 .hero h1 { font-size: clamp(23px, 7.3vw, 29px); }
 .hero .sky-art { top: calc(var(--header-h) + env(safe-area-inset-top) + 6px); }
 .bento { height: max(374px, calc(100dvh - 250px - env(safe-area-inset-bottom))); }
+
+/* דף הבית: לוגואים וחיפוש על אותו קו, כותרת גדולה יותר (חזרה: התג pre-hero-bigger2) */
+.hero-bar .unit-mark { transform: translateY(20px); }
+.hero-bar > .icon-btn, .hero-bar > .app-mark { transform: translateY(20px); }
+.hero .hero-copy { padding-top: calc(var(--header-h) + env(safe-area-inset-top) + var(--s3) + 28px); }
+.hero h1 { font-size: clamp(25px, 8vw, 31px); }
+.hero .sky-art { top: calc(var(--header-h) + env(safe-area-inset-top) + 14px); }
+.bento { height: max(374px, calc(100dvh - 258px - env(safe-area-inset-bottom))); }
