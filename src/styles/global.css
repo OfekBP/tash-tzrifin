@@ -2263,3 +2263,13 @@ a.tile.bank-card .go svg {
 
 /* כשיש שורת חיפוש בראש העמוד, היריעה לא עולה עליה */
 .page-head:has(.head-extra > *) { padding-bottom: calc(var(--s6) + 14px); }
+
+/* כרטיס ת״ש בטאצ׳ בדף הבית: באותו גודל ורוחב של כרטיס הזכויות */
+.tash-card { padding: 14px; gap: 10px; min-height: 118px; align-content: center; }
+.tash-card .tb-logo { width: 44px; height: 44px; }
+.tash-card .tb-tx strong { font-size: 19px; }
+.tash-card .tb-tx span { font-size: 13.5px; line-height: 1.35; }
+.tash-card .btn { min-height: 40px; padding-block: 8px; }
+.home-tash .tash-card { min-height: 124px; }
+.home-tash .tb-tx span { display: none; }
+.home-tash .tc-head { min-height: 44px; }
