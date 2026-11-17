@@ -2023,3 +2023,47 @@ a.tile.tint .ico {
 .hero .sky-art svg {
   transform-origin: 50% 40%;
 }
+
+/* ---------- מידות מעודכנות לדף הבית ---------- */
+.unit-mark { gap: 10px; }
+.unit-mark img {
+  flex: 0 1 52px;
+  height: 52px;
+  width: 52px;
+}
+.hero h1 {
+  font-size: clamp(21px, 6.7vw, 26px);
+}
+.hero .sky-art {
+  width: clamp(48px, 15vw, 60px);
+}
+.title-line {
+  width: 132px;
+  height: 3px;
+  margin: 10px auto var(--s1);
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgb(128 80 232 / 0), var(--purple) 30%, var(--purple) 70%, rgb(128 80 232 / 0));
+}
+.bento { gap: 10px; }
+.tile {
+  min-height: 118px;
+  padding: 14px;
+  gap: 6px;
+}
+.tile.wide {
+  min-height: 118px;
+}
+.tile .ico {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+}
+.tile .ico svg {
+  width: 22px;
+  height: 22px;
+}
+.tile strong {
+  font-size: 19px;
+}
+.title-line { height: 4px; }
+.hero .sky-art { width: clamp(52px, 16.5vw, 66px); }
