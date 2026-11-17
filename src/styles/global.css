@@ -2453,3 +2453,42 @@ body:has(.hero) main, body:has(.hero) .app { background: transparent !important;
   mask: radial-gradient(circle 36px at 50% 3px, transparent 35px, #000 36px);
 }
 .tash-orb { box-shadow: 0 0 0 4px rgb(255 255 255 / 0.95), 0 8px 16px -6px rgb(106 63 214 / 0.55); }
+
+/* סרגל תחתון: כפתור ת״ש בטאצ׳ מוגבה עם טבעת וזוהר, בלי חריץ (חזרה: התג pre-dock-fab) */
+  /* Variant B: solid bar, raised FAB orb with gradient ring + halo */
+  .dock {
+    background: rgb(255 255 255 / 0.97) !important;
+    filter: none !important;
+    box-shadow: 0 14px 30px rgb(40 80 170 / 0.2), 0 1px 0 rgb(255 255 255) inset !important;
+  }
+  .dock::before {
+    -webkit-mask: none !important; mask: none !important;
+    content: ''; position: absolute; z-index: -1; inset: auto;
+    left: 50%; top: -34px; width: 92px; height: 92px; margin-left: -46px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(124 77 240 / 0.34) 0%, rgb(124 77 240 / 0.14) 45%, rgb(124 77 240 / 0) 70%);
+    pointer-events: none;
+    animation: orbHalo 3.6s ease-in-out infinite;
+  }
+  /* platform arc on the bar */
+  .dock .tab-tash::after {
+    content: ''; position: absolute; left: 50%; top: -1px; width: 78px; height: 39px; margin-left: -39px;
+    border-radius: 0 0 78px 78px;
+    background: linear-gradient(180deg, rgb(124 77 240 / 0.14), rgb(124 77 240 / 0.03) 85%);
+    pointer-events: none;
+  }
+  .dock .tash-orb {
+    width: 58px !important; height: 58px !important; padding: 3px; box-sizing: border-box;
+    top: -30px !important; margin: 0 0 0 -29px !important;
+    background: conic-gradient(from 210deg, #b79bff, #6a3fd6, #3f7be0, #b79bff) !important;
+    box-shadow: 0 0 0 4px rgb(255 255 255), 0 10px 20px -4px rgb(106 63 214 / 0.55), 0 0 22px rgb(124 77 240 / 0.35) !important;
+    animation: orbFloat 3.6s ease-in-out infinite;
+    z-index: 1;
+  }
+  .dock .tash-orb img { border: 2px solid #fff; box-sizing: border-box; }
+  .dock .tab-tash:active .tash-orb { animation: none; transform: scale(0.92) !important; }
+  @keyframes orbFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+  @keyframes orbHalo { 0%,100% { opacity: .75; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+  @media (prefers-reduced-motion: reduce) {
+    .dock::before, .dock .tash-orb { animation: none !important; }
+  }
