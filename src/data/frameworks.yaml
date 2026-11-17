@@ -1,9 +1,9 @@
 # מסגרות. order קובע את סדר ההצגה.
 - id: ofek
-  name: אופק
+  name: אופק 324
   order: 1
 - id: lahav
-  name: לה״ב
+  name: לה״ב 18
   order: 2
 - id: f108
   name: "108"

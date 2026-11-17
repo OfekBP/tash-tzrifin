@@ -20,7 +20,7 @@ const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data
         <button class="chip" type="button" data-cat="all" aria-pressed="true">הכול</button>
         {used.map((c) => <button class="chip" type="button" data-cat={c} aria-pressed="false">{categoryLabels[c]}</button>)}
       </div>
-      <div class="group" id="list">
+      <div class="bubbles" id="list">
         {rights.map((r) => (
           <a class="row" href={href(`/rights/${r.id}/`)} data-cats={r.data.category.join(' ')}>
             <span class="tx">

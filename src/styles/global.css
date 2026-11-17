@@ -2125,3 +2125,23 @@ a.tile.tint .ico {
 }
 .hero .sky-art { width: clamp(60px, 19.5vw, 78px); }
 .hero .sky-art { top: calc(var(--header-h) + env(safe-area-inset-top) - 20px); width: clamp(64px, 21vw, 84px); }
+
+/* כל זכות בבועה משלה */
+.bubbles {
+  display: grid;
+  gap: 10px;
+}
+.bubbles > .row {
+  background: #fff;
+  border-radius: var(--r-md);
+  box-shadow: 0 8px 20px -14px rgb(16 43 112 / 0.35), inset -4px 0 0 var(--dark);
+}
+.bubbles > .row[hidden] {
+  display: none;
+}
+details.acc + details.acc {
+  margin-top: 10px;
+}
+details.acc {
+  box-shadow: 0 8px 20px -14px rgb(16 43 112 / 0.3);
+}

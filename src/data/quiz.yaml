@@ -1,5 +1,5 @@
 # "לא יודע מאיפה להתחיל?". כל ענף: קושי עיקרי. תוצאות = base + התוספות לפי התשובות.
-# שאלות ההמשך כאן נכתבו לפי המפרט. אפשר להוסיף שאלות ותוצאות לפי הצורך.
+# הניסוח בלשון רבים וניטרלית. כל שאלה צריכה לשנות את התוצאה, אחרת אין טעם בה.
 # add ו-base הם שמות קבצים בתיקיית src/content/rights (בלי .md).
 
 - id: money
@@ -7,41 +7,37 @@
   order: 1
   base: [financial-aid]
   questions:
-    - q: האם אתה רוצה לעבוד כדי לסייע לעצמך?
+    - q: האם אתם רוצים לעבוד כדי לסייע לעצמכם?
       options:
         - { label: כן, add: [private-work-permit, special-leave] }
         - { label: לא, add: [] }
-    - q: האם גם המשפחה שלך במצוקה כלכלית?
+    - q: האם גם המשפחה שלכם במצוקה כלכלית?
       options:
         - { label: כן, add: [family-payments] }
         - { label: לא, add: [] }
-    - q: מה הצורך שלך?
+    - q: איזה סוג סיוע אתם צריכים?
       options:
-        - { label: סיוע חד-פעמי, add: [] }
-        - { label: סיוע מתמשך, add: [assistance-eligible] }
+        - { label: חד-פעמי, add: [] }
+        - { label: לאורך זמן, add: [assistance-eligible] }
 - id: home
   label: קושי בבית או במשפחה
   order: 2
   base: [service-relief]
   questions:
-    - q: האם אתה מתגורר בבית ההורים?
+    - q: האם אתם גרים בבית ההורים?
       options:
         - { label: כן, add: [] }
         - { label: לא, add: [assistance-eligible, housing] }
-    - q: האם בן משפחה זקוק לעזרתך?
-      options:
-        - { label: כן, add: [service-relief] }
-        - { label: לא, add: [] }
-    - q: האם קיימת בעיה רפואית או סוציאלית?
+    - q: האם יש בעיה רפואית או סוציאלית במשפחה?
       options:
         - { label: כן, add: [early-release-personal] }
         - { label: לא, add: [] }
 - id: living
-  label: אני לא יכול להתגורר בבית
+  label: אני לא יכול לגור בבית
   order: 3
   base: [housing, assistance-eligible]
   questions:
-    - q: למה אי אפשר להתגורר בבית?
+    - q: מה הסיבה שאי אפשר לגור בבית?
       options:
         - { label: נסיבות משפחתיות, add: [lone-soldier] }
         - { label: מרחק, add: [travel-refunds] }
@@ -51,7 +47,7 @@
   order: 4
   base: [private-work-permit]
   questions:
-    - q: האם אתה במצוקה כלכלית?
+    - q: האם אתם במצוקה כלכלית?
       options:
         - { label: כן, add: [special-leave, financial-aid] }
         - { label: לא, add: [] }
@@ -65,7 +61,7 @@
         - { label: כלכלי, add: [private-work-permit, financial-aid] }
         - { label: לימודים, add: [] }
         - { label: משפחה, add: [married-soldier, pregnancy-parenthood] }
-        - { label: מעבר דירה או אירוע אישי, add: [lone-soldier] }
+        - { label: מעבר דירה או אירוע אישי, add: [lone-soldier, married-soldier] }
 - id: lone
   label: אני חייל בודד או חושב שאני זכאי להכרה
   order: 6
@@ -76,7 +72,7 @@
   order: 7
   base: [married-soldier, pregnancy-parenthood]
   questions:
-    - q: האם בן הזוג או ההורים שלך זקוקים לסיוע?
+    - q: האם בן הזוג או ההורים זקוקים לסיוע?
       options:
         - { label: כן, add: [family-payments] }
         - { label: לא, add: [] }
