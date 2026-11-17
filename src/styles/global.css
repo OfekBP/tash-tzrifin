@@ -2270,6 +2270,8 @@ a.tile.bank-card .go svg {
 .tash-card .tb-tx strong { font-size: 19px; }
 .tash-card .tb-tx span { font-size: 13.5px; line-height: 1.35; }
 .tash-card .btn { min-height: 40px; padding-block: 8px; }
-.home-tash .tash-card { min-height: 124px; }
-.home-tash .tb-tx span { display: none; }
-.home-tash .tc-head { min-height: 44px; }
+.home-tash .tash-card { min-height: 0; padding: 12px 14px; gap: 8px; }
+.home-tash .tb-tx span { font-size: 13px; line-height: 1.3; }
+.home-tash .tc-head { min-height: 0; gap: 12px; }
+.home-tash .btn { min-height: 38px; padding-block: 6px; }
+.bento .tile.wide { min-height: 131px; }
