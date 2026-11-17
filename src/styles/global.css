@@ -2347,3 +2347,15 @@ a.tile.bank-card .go svg {
   border-radius: 50%;
   background: var(--purple);
 }
+
+/* דף הבית: הכרטיסים ממלאים בדיוק את המסך עד הסרגל התחתון (חזרה: התג pre-fit-viewport) */
+.bento {
+  height: max(374px, calc(100dvh - 228px - env(safe-area-inset-bottom)));
+  grid-template-rows: 1.12fr 1fr 1fr;
+}
+.bento .tile, .bento .tile.wide { min-height: 0; justify-content: center; gap: 8px; }
+.bento .tile strong { margin-top: 0; }
+.bento .tile .ico { width: 52px; height: 52px; border-radius: 18px; }
+.bento .tile .ico svg { width: 27px; height: 27px; }
+.bento .tile strong { font-size: 21px; }
+.bento .tile .d { font-size: 15px; }
