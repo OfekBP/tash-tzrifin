@@ -2318,3 +2318,17 @@ a.tile.bank-card .go svg {
 }
 .orb-ext svg { width: 12px; height: 12px; stroke-width: 2.4; }
 .tab-tash > span:not(.tash-orb):not(.sr-only) { font-size: 12px; white-space: nowrap; margin-top: 1px; }
+
+/* סרגל ניווט: לשונית פעילה עדינה, בלי מילוי (חזרה: התג pre-dock-active) */
+.tab[aria-current='page'],
+.tab[aria-current='page']:active,
+.tab[data-id='rights'][aria-current='page'] {
+  background: transparent;
+  color: var(--dark);
+  position: relative;
+}
+.tab[aria-current='page'] svg,
+.tab[data-id='rights'][aria-current='page'] svg {
+  color: var(--purple);
+  stroke-width: 2.1;
+}
