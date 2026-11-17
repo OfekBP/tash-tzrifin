@@ -2414,3 +2414,13 @@ body:has(.hero) .app, body:has(.hero) .hero { background: transparent; }
 .bento .tile:not(.wide) .ico { width: 58px; height: 58px; border-radius: 50%; }
 .bento .tile:not(.wide) .ico svg { width: 29px; height: 29px; }
 body:has(.hero) main, body:has(.hero) .app { background: transparent !important; }
+
+/* ריענון: כרטיס זכויות כהה, בלי חצים ובלי מטוס, גדלים זהים בין הכרטיסים */
+.bento .tile::after, .bento .tile.wide::after, .bento .tile-jet { display: none; }
+.bento .tile.wide { background: radial-gradient(120% 140% at 85% 0%, #1f4fb0 0%, #0f3485 50%, #0a2566 100%); box-shadow: 0 14px 30px rgb(10 37 102 / 0.4), inset 0 1px 0 rgb(255 255 255 / 0.25); }
+.bento .tile.wide .ico { width: 58px; height: 58px; border-radius: 50%; background: rgb(255 255 255 / 0.14); }
+.bento .tile.wide .ico svg { width: 29px; height: 29px; }
+.bento .tile.wide strong { font-size: 21px; }
+.bento .tile.wide .d { font-size: 15px; }
+.hero ~ .notice, main > .notice { color: #3f5a99; }
+.title-line { height: 3px; width: 150px; background: linear-gradient(90deg, rgb(16 43 112 / 0), #2f62c9 25%, #7fa8f0 75%, rgb(127 168 240 / 0)); }
