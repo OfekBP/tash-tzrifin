@@ -2123,3 +2123,5 @@ a.tile.tint .ico {
 .title-line {
   background: linear-gradient(90deg, rgb(201 181 251 / 0), #c9b5fb 22%, #c9b5fb 78%, rgb(201 181 251 / 0));
 }
+.hero .sky-art { width: clamp(60px, 19.5vw, 78px); }
+.hero .sky-art { top: calc(var(--header-h) + env(safe-area-inset-top) - 20px); width: clamp(64px, 21vw, 84px); }
