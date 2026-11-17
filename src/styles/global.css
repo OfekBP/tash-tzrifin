@@ -2072,3 +2072,36 @@ a.tile.tint .ico {
   height: 4px;
   background: linear-gradient(90deg, rgb(106 63 214 / 0), var(--purple) 22%, var(--purple-deep) 78%, rgb(106 63 214 / 0));
 }
+
+/* מסך טעינה בצבע הלוגו (#003173): הלוגו "נפתח" מתוך הרקע */
+.splash-on .splash {
+  background:
+    radial-gradient(circle at 50% 44%, #0a3f8c 0, #003173 40%, #00255a 100%);
+}
+.sp-cloud {
+  background: #8fb4f0;
+  opacity: 0.16;
+}
+.sp-cloud.c2 { opacity: 0.1; }
+.sp-cloud.c3 { opacity: 0.08; }
+.sp-wrap-glow {
+  background: radial-gradient(circle, rgb(120 160 255 / 0.28), rgb(120 160 255 / 0) 65%);
+}
+.sp-logo {
+  filter: drop-shadow(0 14px 22px rgb(0 10 40 / 0.45));
+}
+.sp-ping {
+  border-color: rgb(190 160 255 / 0.5);
+}
+.sp-orbit::before {
+  background: conic-gradient(from 0deg, transparent 0 62%, rgb(190 160 255 / 0.7) 100%);
+}
+.sp-plane {
+  filter: drop-shadow(0 4px 8px rgb(0 10 40 / 0.5));
+}
+.sp-name {
+  color: #fff;
+}
+.sp-sub {
+  color: #b9c8ee;
+}
