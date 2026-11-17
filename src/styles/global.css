@@ -2532,3 +2532,6 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 .sheet .acts .btn, .sheet .acts .btn.wa, .sheet .acts #sheet-copy, .sheet .acts #sheet-close { border: 0 !important; outline: 0 !important; box-shadow: none !important; }
 .sheet .acts .btn.wa { background: #d9f5e8; color: #0b7a3b; }
 .sheet .acts .btn:not(.ghost):not(.wa) { background: var(--lav-a); color: var(--dark); }
+
+/* מספר הטלפון בחלון איש קשר: אותו משקל ואותיות כמו שאר הספרות באתר, בלי ריווח מוגזם */
+.sheet .num { font-family: var(--body); font-weight: 600; font-size: 25px; letter-spacing: 0; font-variant-numeric: lining-nums; unicode-bidi: isolate; }
