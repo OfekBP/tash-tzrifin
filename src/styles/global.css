@@ -1975,3 +1975,21 @@ a.tile.tint .ico {
   height: 22px;
   margin: 2px 0 var(--s2);
 }
+
+/* לוגואים במרכז הראש של דף הבית */
+.hero-bar .unit-mark {
+  position: absolute;
+  inset-inline: 0;
+  margin-inline: auto;
+  width: max-content;
+  justify-content: center;
+}
+/* קו סגול מתחת לכותרת */
+.title-line {
+  display: block;
+  width: 56px;
+  height: 5px;
+  margin: 8px 0 var(--s2);
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--purple), var(--lavender));
+}
