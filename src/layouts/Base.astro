@@ -44,7 +44,7 @@ const tabs = [
     <meta property="og:type" content="website" />
     {Astro.site ? <meta property="og:image" content={new URL(href('/og.png'), Astro.site).href} /> : null}
     <script is:inline>try{if(!sessionStorage.getItem('splash'))document.documentElement.classList.add('splash-on')}catch(e){}</script>
-    <style>html.css-wait{background:#003173}html.css-wait body{visibility:hidden}</style>
+    <style is:inline set:html={`html.css-wait{background:#cde8fc}html.css-wait body{visibility:hidden}@font-face{font-family:'Rubik Fail';font-weight:300 900;font-display:swap;src:url(${rubikHe}) format('woff2')}@font-face{font-family:'Heebo Fail';font-weight:100 900;font-display:swap;src:url(${heeboHe}) format('woff2')}`}></style>
     <script is:inline>document.documentElement.classList.add('css-wait')</script>
     <meta name="theme-color" content={tone === 'lav' ? '#e0d3ff' : '#cde8fc'} />
     <meta name="description" content={description} />
@@ -127,6 +127,15 @@ const tabs = [
       </nav>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <template id="css-fail">
+      <div dir="rtl" style="min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px;text-align:center;background:linear-gradient(180deg,#cde8fc,#e6f3fe 60%,#fff);color:#102b70;font-family:'Heebo Fail',system-ui,sans-serif">
+        <img src={href('/logos/emblem-144.webp')} alt="" width="120" height="107" style="width:120px;height:auto;filter:drop-shadow(0 10px 18px rgba(16,43,112,.25))" />
+        <div style="margin-top:6px;font:800 28px/1.2 'Rubik Fail',system-ui,sans-serif">משהו השתבש בטעינה</div>
+        <div style="max-width:280px;font-size:17px;line-height:1.5;color:#4b5a86">נסו לרענן. אם זה חוזר, בדקו חיבור לאינטרנט ונסו שוב עוד רגע.</div>
+        <button id="css-reload" type="button" style="margin-top:10px;padding:14px 38px;border:0;border-radius:999px;background:#102b70;color:#fff;font:700 18px 'Rubik Fail',system-ui,sans-serif;box-shadow:0 8px 20px rgba(16,43,112,.28)">רענון</button>
+        <div style="margin-top:18px;font:600 14px 'Rubik Fail',system-ui,sans-serif;color:#5d6b94">ת״ש חובה בח״א צריפין</div>
+      </div>
+    </template>
     <script is:inline>
       /* אם קובץ העיצוב לא נטען (רשת חלשה או גרסה ישנה במטמון): נסיון רענון אחד, ואם לא עוזר, מסך שגיאה שלנו במקום דף גולמי */
       (function () {
@@ -142,7 +151,7 @@ const tabs = [
         }
         d.classList.remove('css-wait');
         window.__cssReload = function () { try { sessionStorage.removeItem('css-retry'); } catch (e) {} location.reload(); };
-        document.body.innerHTML = '<div dir="rtl" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;text-align:center;background:#003173;color:#fff;font-family:system-ui,Arial,sans-serif"><div style="font-size:26px;font-weight:800">משהו השתבש בטעינה</div><div style="font-size:17px;opacity:.85;max-width:300px;line-height:1.5">נסו לרענן. אם זה חוזר, בדקו חיבור לאינטרנט ונסו שוב עוד רגע.</div><button id="css-reload" style="margin-top:8px;padding:14px 34px;border:0;border-radius:999px;background:#8050e8;color:#fff;font-size:18px;font-weight:700">רענון</button></div>';
+        document.body.innerHTML = document.getElementById('css-fail').innerHTML;
         document.getElementById('css-reload').addEventListener('click', window.__cssReload);
       })();
     </script>
