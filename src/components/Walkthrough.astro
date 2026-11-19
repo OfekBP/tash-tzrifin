@@ -20,6 +20,14 @@ interface Props {
 }
 const { guide, w } = Astro.props;
 const src = (f: string) => href(`/guides/${guide}/${f}`);
+const icons = [
+  '<path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v5h-5"/>',
+  '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  '<circle cx="12" cy="12" r="8"/><path d="M6.5 6.5l11 11"/>',
+  '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12l4 4M14 12l-4 4"/>',
+  '<circle cx="12" cy="12" r="8"/><path d="M10 9v6M14 9v6"/>',
+  '<circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7"/><path d="M12 17h.01"/>',
+];
 const nav = [
   ['wt-steps', 'השלבים'],
   ['wt-trouble', 'כשמשהו לא עובד'],
@@ -54,21 +62,17 @@ const nav = [
 {w.note ? <div class="wt-note">{w.note}</div> : null}
 
 <h2 class="section" id="wt-trouble" tabindex="-1">{w.troubleTitle}</h2>
-<p class="wt-hint">בחרו מה קורה לכם, ונראה איך מתקנים</p>
-<div class="wt-errs">
+<div class="wt-grid">
   {w.trouble.map((c, i) => (
-    <details class:list={['wt-err', { last: i === w.trouble.length - 1 }]} name="wt-err">
-      <summary>
-        <span class="wt-err-ic" aria-hidden="true">!</span>
-        <span class="wt-err-t"><small dir="ltr">ERROR {String(i + 1).padStart(2, '0')}</small><strong>{c.title}</strong></span>
-        <span class="wt-err-chev" aria-hidden="true"></span>
-      </summary>
-      <div class="wt-fix">
-        <span class="wt-fix-k"><span aria-hidden="true">✓</span> הפתרון</span>
-        <p>{c.text}</p>
-        {i === w.trouble.length - 1 ? <a class="btn purple block" href={href('/contacts/')}>לאנשי הקשר</a> : null}
-      </div>
-    </details>
+    <div class:list={['wt-card', 'wt-prob', { wide: i === w.trouble.length - 1 }]}>
+      <span class="wt-pic" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icons[i % icons.length]} />
+        <i>!</i>
+      </span>
+      <h3>{c.title}</h3>
+      <p>{c.text}</p>
+      {i === w.trouble.length - 1 ? <a class="wt-link" href={href('/contacts/')}>לאנשי הקשר ←</a> : null}
+    </div>
   ))}
 </div>
 

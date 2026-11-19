@@ -2575,29 +2575,15 @@ dialog.sheet .grab { background-color: #b9c8ea; }
   .wt-steps li::after { inset-inline-start: 16px; top: 40px; }
 }
 
-/* מדריך מצולם: "כשמשהו לא עובד" בסגנון שגיאה + "איך מגישים כל זכות" מסודר */
-.wt-errs { display: grid; gap: 10px; }
-.wt-err { border-radius: 20px; background: #fff; box-shadow: 0 8px 20px rgb(40 80 170 / .1); border: 1.5px solid transparent; overflow: hidden; transition: border-color .2s; }
-.wt-err[open] { border-color: #f2a3b1; }
-.wt-err summary { display: flex; align-items: center; gap: 12px; padding: 12px 14px; list-style: none; cursor: pointer; min-height: 64px; }
-.wt-err summary::-webkit-details-marker { display: none; }
-.wt-err-ic { flex: none; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: #ffe3e8; color: #c4223f; font-weight: 900; font-size: 22px; }
-.wt-err-t { flex: 1; min-width: 0; display: grid; gap: 1px; }
-.wt-err-t small { font-size: 11px; font-weight: 800; letter-spacing: .14em; color: #c4223f; justify-self: start; }
-.wt-err-t strong { font-size: 16px; line-height: 1.3; color: var(--dark); }
-.wt-err-chev { flex: none; width: 10px; height: 10px; border-inline-end: 2.5px solid var(--dark); border-bottom: 2.5px solid var(--dark); transform: rotate(45deg); transition: transform .2s; margin-inline-end: 4px; }
-.wt-err[open] .wt-err-chev { transform: rotate(-135deg); }
-.wt-fix { margin: 0 12px 12px; padding: 12px 14px; border-radius: 14px; background: #e6f7ee; color: #0b5d33; }
-.wt-fix-k { display: inline-flex; gap: 6px; font-weight: 800; font-size: 13px; margin-bottom: 4px; }
-.wt-fix p { margin: 0; font-size: 15.5px; line-height: 1.5; color: #0b3d24; }
-.wt-fix .btn { margin-top: var(--s3); }
-.wt-err.last .wt-err-ic { background: #e0d3ff; color: #5b34c4; }
-.wt-err.last .wt-err-t small { color: #5b34c4; }
-.wt-err.last[open] { border-color: var(--lav-a); }
-@media (prefers-reduced-motion: no-preference) {
-  .wt-err[open] .wt-err-ic { animation: wt-shake .45s ease-out; }
-}
-@keyframes wt-shake { 20% { transform: translateX(-4px) rotate(-6deg); } 40% { transform: translateX(4px) rotate(6deg); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
+/* מדריך מצולם: כרטיסי "כשמשהו לא עובד" עם אייקון תקלה + "איך מגישים כל זכות" מסודר */
+.wt-prob { position: relative; }
+.wt-pic { position: relative; display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 8px; border-radius: 14px; background: #ffe9ed; color: #c4223f; }
+.wt-pic svg { width: 24px; height: 24px; }
+.wt-pic i { position: absolute; top: -6px; inset-inline-start: -6px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: #d6304e; color: #fff; font: 800 12px/1 var(--display); font-style: normal; box-shadow: 0 0 0 2px #fff; }
+.wt-prob.wide { grid-column: 1 / -1; }
+.wt-prob.wide .wt-pic { background: var(--lav-a); color: #5b34c4; }
+.wt-prob.wide .wt-pic i { background: #6a3fd6; }
+.wt-link { display: inline-block; margin-top: var(--s2); font-weight: 700; color: var(--purple); text-decoration: none; }
 
 .wt-ways { display: grid; gap: 10px; }
 .wt-way { padding: 12px 16px; border-radius: 20px; background: #fff; box-shadow: 0 8px 20px rgb(40 80 170 / .1); border-inline-start: 6px solid var(--lav-a); }
