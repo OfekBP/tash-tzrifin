@@ -2547,7 +2547,7 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 .wt-shots { display: flex; gap: 10px; overflow-x: auto; margin-top: var(--s3); padding: 2px 2px 8px; scroll-snap-type: x proximity; scrollbar-width: none; }
 .wt-shots::-webkit-scrollbar { display: none; }
 .wt-shots button { flex: none; padding: 0; border: 0; border-radius: 16px; background: #fff; overflow: hidden; cursor: zoom-in; scroll-snap-align: start; box-shadow: 0 6px 16px rgb(16 43 112 / .16); }
-.wt-shots img { display: block; width: 118px; height: 256px; object-fit: cover; object-position: top; }
+.wt-shots img { display: block; width: 140px; height: 304px; object-fit: cover; object-position: top; }
 .wt-note { margin: var(--s5) 0 0; padding: 14px 16px; border-radius: 20px; background: var(--dark); color: #fff; font-weight: 700; line-height: 1.5; }
 .wt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .wt-card { padding: 14px 16px; border-radius: 20px; background: #fff; box-shadow: 0 8px 20px rgb(40 80 170 / .1); }
@@ -2562,3 +2562,15 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 .wt-zoom img { max-width: 100%; max-height: 92dvh; border-radius: 16px; background: #fff; }
 .wt-zoom-x { position: absolute; top: 14px; inset-inline-end: 14px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #fff; color: var(--dark); font-size: 22px; font-weight: 700; cursor: pointer; }
 @media (max-width: 340px) { .wt-grid { grid-template-columns: 1fr; } }
+
+/* מדריך מצולם: רמז לגלילה, מקום שמור לתמונה, מרווחים במסך צר */
+.wt-shots { -webkit-mask-image: linear-gradient(to left, #000 90%, transparent); mask-image: linear-gradient(to left, #000 90%, transparent); padding-inline-end: 24px; }
+.wt-shots button { aspect-ratio: 140 / 304; background: #e6eefc; }
+.wt-zoom-x { top: max(14px, env(safe-area-inset-top)); }
+.wt-hint { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.wt-steps { padding-bottom: var(--s2); }
+@media (max-width: 340px) {
+  .wt-steps li { padding-inline-start: 48px; }
+  .wt-steps li::before { width: 34px; height: 34px; font-size: 16px; }
+  .wt-steps li::after { inset-inline-start: 16px; top: 40px; }
+}

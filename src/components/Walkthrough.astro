@@ -14,7 +14,7 @@ interface Props {
     rightsText: string;
     tags: { label: string; text: string }[];
     rightsShot?: Shot;
-    rememberTitle: string;
+    rememberTitle?: string;
     remember: { title: string; text: string }[];
   };
 }
@@ -23,8 +23,7 @@ const src = (f: string) => href(`/guides/${guide}/${f}`);
 const nav = [
   ['wt-steps', 'השלבים'],
   ['wt-trouble', 'כשמשהו לא עובד'],
-  ['wt-rights', 'כל הזכויות'],
-  ['wt-tips', 'טיפים'],
+  ['wt-rights', 'איך מגישים'],
 ];
 ---
 <nav class="chips wt-nav" aria-label="קפיצה לחלק במדריך">
@@ -43,7 +42,7 @@ const nav = [
         <div class="wt-shots">
           {s.shots.map((p) => (
             <button type="button" data-zoom={src(p.file)} aria-label={`הגדלה: ${p.alt}`}>
-              <img src={src(p.file)} alt={p.alt} width="118" height="256" loading="lazy" decoding="async" />
+              <img src={src(p.file)} alt={p.alt} width="140" height="304" loading="lazy" decoding="async" />
             </button>
           ))}
         </div>
@@ -66,16 +65,20 @@ const nav = [
   {w.rightsShot ? (
     <div class="wt-shots">
       <button type="button" data-zoom={src(w.rightsShot.file)} aria-label={`הגדלה: ${w.rightsShot.alt}`}>
-        <img src={src(w.rightsShot.file)} alt={w.rightsShot.alt} width="118" height="256" loading="lazy" decoding="async" />
+        <img src={src(w.rightsShot.file)} alt={w.rightsShot.alt} width="140" height="304" loading="lazy" decoding="async" />
       </button>
     </div>
   ) : null}
 </div>
 
-<h2 class="section" id="wt-tips" tabindex="-1">{w.rememberTitle}</h2>
-<div class="wt-grid">
-  {w.remember.map((c) => <div class="wt-card"><h3>{c.title}</h3><p>{c.text}</p></div>)}
-</div>
+{w.remember.length > 0 ? (
+  <>
+    <h2 class="section" id="wt-tips" tabindex="-1">{w.rememberTitle}</h2>
+    <div class="wt-grid">
+      {w.remember.map((c) => <div class="wt-card"><h3>{c.title}</h3><p>{c.text}</p></div>)}
+    </div>
+  </>
+) : null}
 
 <dialog class="wt-zoom" id="wt-zoom" aria-label="תמונה מוגדלת">
   <button type="button" class="wt-zoom-x" id="wt-zoom-x" aria-label="סגירה">✕</button>

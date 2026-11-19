@@ -142,8 +142,8 @@ const guides = defineCollection({
           rightsText: z.string(),
           tags: z.array(z.object({ label: z.string(), text: z.string() })),
           rightsShot: z.object({ file: z.string(), alt: z.string() }).optional(),
-          rememberTitle: z.string(),
-          remember: z.array(z.object({ title: z.string(), text: z.string() })),
+          rememberTitle: z.string().optional(),
+          remember: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
         })
         .optional(),
       sources: z.array(source).default([]),
