@@ -54,22 +54,42 @@ const nav = [
 {w.note ? <div class="wt-note">{w.note}</div> : null}
 
 <h2 class="section" id="wt-trouble" tabindex="-1">{w.troubleTitle}</h2>
-<div class="wt-grid">
-  {w.trouble.map((c) => <div class="wt-card"><h3>{c.title}</h3><p>{c.text}</p></div>)}
+<p class="wt-hint">בחרו מה קורה לכם, ונראה איך מתקנים</p>
+<div class="wt-errs">
+  {w.trouble.map((c, i) => (
+    <details class:list={['wt-err', { last: i === w.trouble.length - 1 }]} name="wt-err">
+      <summary>
+        <span class="wt-err-ic" aria-hidden="true">!</span>
+        <span class="wt-err-t"><small dir="ltr">ERROR {String(i + 1).padStart(2, '0')}</small><strong>{c.title}</strong></span>
+        <span class="wt-err-chev" aria-hidden="true"></span>
+      </summary>
+      <div class="wt-fix">
+        <span class="wt-fix-k"><span aria-hidden="true">✓</span> הפתרון</span>
+        <p>{c.text}</p>
+        {i === w.trouble.length - 1 ? <a class="btn purple block" href={href('/contacts/')}>לאנשי הקשר</a> : null}
+      </div>
+    </details>
+  ))}
 </div>
 
 <h2 class="section" id="wt-rights" tabindex="-1">{w.rightsTitle}</h2>
-<div class="wt-card wt-rights">
-  <p>{w.rightsText}</p>
-  {w.tags.map((t) => <div class="wt-tagrow"><span class="wt-tag">{t.label}</span><span>{t.text}</span></div>)}
-  {w.rightsShot ? (
-    <div class="wt-shots">
-      <button type="button" data-zoom={src(w.rightsShot.file)} aria-label={`הגדלה: ${w.rightsShot.alt}`}>
-        <img src={src(w.rightsShot.file)} alt={w.rightsShot.alt} width="140" height="304" loading="lazy" decoding="async" />
-      </button>
+<p class="wt-hint">{w.rightsText}</p>
+<div class="wt-ways">
+  {w.tags.map((t, i) => (
+    <div class={`wt-way k${i}`}>
+      <span class="wt-tag">{t.label}</span>
+      <p><span class="wt-way-k">מה עושים</span> {t.text}</p>
     </div>
-  ) : null}
+  ))}
 </div>
+{w.rightsShot ? (
+  <div class="wt-shotrow">
+    <button type="button" class="wt-shotbtn" data-zoom={src(w.rightsShot.file)} aria-label={`הגדלה: ${w.rightsShot.alt}`}>
+      <img src={src(w.rightsShot.file)} alt={w.rightsShot.alt} width="96" height="208" loading="lazy" decoding="async" />
+    </button>
+    <p>כך זה נראה ברשימת הזכויות. התג נמצא בתחתית כל כרטיס, ולחיצה על התמונה מגדילה אותה.</p>
+  </div>
+) : null}
 
 {w.remember.length > 0 ? (
   <>
