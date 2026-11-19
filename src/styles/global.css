@@ -2579,10 +2579,6 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 .wt-prob { position: relative; }
 .wt-pic { position: relative; display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 8px; border-radius: 14px; background: #ffe9ed; color: #c4223f; }
 .wt-pic svg { width: 24px; height: 24px; }
-.wt-pic i { position: absolute; top: -6px; inset-inline-start: -6px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: #d6304e; color: #fff; font: 800 12px/1 var(--display); font-style: normal; box-shadow: 0 0 0 2px #fff; }
-.wt-prob.wide { grid-column: 1 / -1; }
-.wt-prob.wide .wt-pic { background: var(--lav-a); color: #5b34c4; }
-.wt-prob.wide .wt-pic i { background: #6a3fd6; }
 .wt-link { display: inline-block; margin-top: var(--s2); font-weight: 700; color: var(--purple); text-decoration: none; }
 
 .wt-ways { display: grid; gap: 10px; }

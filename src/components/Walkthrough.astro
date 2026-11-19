@@ -64,10 +64,9 @@ const nav = [
 <h2 class="section" id="wt-trouble" tabindex="-1">{w.troubleTitle}</h2>
 <div class="wt-grid">
   {w.trouble.map((c, i) => (
-    <div class:list={['wt-card', 'wt-prob', { wide: i === w.trouble.length - 1 }]}>
+    <div class:list={['wt-card', 'wt-prob', ]}>
       <span class="wt-pic" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icons[i % icons.length]} />
-        <i>!</i>
       </span>
       <h3>{c.title}</h3>
       <p>{c.text}</p>
