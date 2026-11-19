@@ -1,0 +1,108 @@
+---
+import { href } from '../lib/site';
+
+interface Shot { file: string; alt: string }
+interface Props {
+  guide: string;
+  w: {
+    stepsTitle: string;
+    steps: { title: string; text: string; tip?: string; shots: Shot[] }[];
+    note?: string;
+    troubleTitle: string;
+    trouble: { title: string; text: string }[];
+    rightsTitle: string;
+    rightsText: string;
+    tags: { label: string; text: string }[];
+    rightsShot?: Shot;
+    rememberTitle: string;
+    remember: { title: string; text: string }[];
+  };
+}
+const { guide, w } = Astro.props;
+const src = (f: string) => href(`/guides/${guide}/${f}`);
+const nav = [
+  ['wt-steps', 'השלבים'],
+  ['wt-trouble', 'כשמשהו לא עובד'],
+  ['wt-rights', 'כל הזכויות'],
+  ['wt-tips', 'טיפים'],
+];
+---
+<nav class="chips wt-nav" aria-label="קפיצה לחלק במדריך">
+  {nav.map(([id, label]) => <a class="chip" href={`#${id}`} data-go={id}>{label}</a>)}
+</nav>
+
+<h2 class="section" id="wt-steps" tabindex="-1">{w.stepsTitle}</h2>
+<p class="wt-hint">לחיצה על תמונה פותחת אותה בהגדלה</p>
+<ol class="timeline wt-steps">
+  {w.steps.map((s) => (
+    <li>
+      <h3>{s.title}</h3>
+      <p>{s.text}</p>
+      {s.tip ? <div class="wt-tip"><span aria-hidden="true">💡</span> {s.tip}</div> : null}
+      {s.shots.length > 0 ? (
+        <div class="wt-shots">
+          {s.shots.map((p) => (
+            <button type="button" data-zoom={src(p.file)} aria-label={`הגדלה: ${p.alt}`}>
+              <img src={src(p.file)} alt={p.alt} width="118" height="256" loading="lazy" decoding="async" />
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </li>
+  ))}
+</ol>
+
+{w.note ? <div class="wt-note">{w.note}</div> : null}
+
+<h2 class="section" id="wt-trouble" tabindex="-1">{w.troubleTitle}</h2>
+<div class="wt-grid">
+  {w.trouble.map((c) => <div class="wt-card"><h3>{c.title}</h3><p>{c.text}</p></div>)}
+</div>
+
+<h2 class="section" id="wt-rights" tabindex="-1">{w.rightsTitle}</h2>
+<div class="wt-card wt-rights">
+  <p>{w.rightsText}</p>
+  {w.tags.map((t) => <div class="wt-tagrow"><span class="wt-tag">{t.label}</span><span>{t.text}</span></div>)}
+  {w.rightsShot ? (
+    <div class="wt-shots">
+      <button type="button" data-zoom={src(w.rightsShot.file)} aria-label={`הגדלה: ${w.rightsShot.alt}`}>
+        <img src={src(w.rightsShot.file)} alt={w.rightsShot.alt} width="118" height="256" loading="lazy" decoding="async" />
+      </button>
+    </div>
+  ) : null}
+</div>
+
+<h2 class="section" id="wt-tips" tabindex="-1">{w.rememberTitle}</h2>
+<div class="wt-grid">
+  {w.remember.map((c) => <div class="wt-card"><h3>{c.title}</h3><p>{c.text}</p></div>)}
+</div>
+
+<dialog class="wt-zoom" id="wt-zoom" aria-label="תמונה מוגדלת">
+  <button type="button" class="wt-zoom-x" id="wt-zoom-x" aria-label="סגירה">✕</button>
+</dialog>
+
+<script>
+  const dlg = document.getElementById('wt-zoom') as HTMLDialogElement;
+  const img = document.createElement('img');
+  dlg.append(img);
+  let opener: HTMLElement | null = null;
+  const close = () => { if (dlg.open) dlg.close(); };
+  document.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((b) =>
+    b.addEventListener('click', () => {
+      opener = b;
+      img.src = b.dataset.zoom!;
+      img.alt = b.querySelector('img')?.alt ?? '';
+      dlg.showModal();
+    }),
+  );
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
+  document.getElementById('wt-zoom-x')!.addEventListener('click', close);
+  dlg.addEventListener('close', () => { img.removeAttribute('src'); opener?.focus(); });
+  document.querySelectorAll<HTMLAnchorElement>('[data-go]').forEach((a) =>
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const t = document.getElementById(a.dataset.go!);
+      t?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }),
+  );
+</script>

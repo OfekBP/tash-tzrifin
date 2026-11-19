@@ -130,6 +130,22 @@ const guides = defineCollection({
       /** מציג את הסעיפים כשלבים פתוחים לפי סדר */
       steps: z.boolean().default(false),
       videos: z.array(z.object({ title: z.string(), file: z.string(), note: z.string().optional(), width: z.number().default(480), height: z.number().default(672) })).default([]),
+      /** מדריך אינטראקטיבי עם צילומי מסך (קבצים תחת public/guides/<שם-המדריך>/) */
+      walkthrough: z
+        .object({
+          stepsTitle: z.string(),
+          steps: z.array(z.object({ title: z.string(), text: z.string(), tip: z.string().optional(), shots: z.array(z.object({ file: z.string(), alt: z.string() })).default([]) })).min(1),
+          note: z.string().optional(),
+          troubleTitle: z.string(),
+          trouble: z.array(z.object({ title: z.string(), text: z.string() })),
+          rightsTitle: z.string(),
+          rightsText: z.string(),
+          tags: z.array(z.object({ label: z.string(), text: z.string() })),
+          rightsShot: z.object({ file: z.string(), alt: z.string() }).optional(),
+          rememberTitle: z.string(),
+          remember: z.array(z.object({ title: z.string(), text: z.string() })),
+        })
+        .optional(),
       sources: z.array(source).default([]),
       ...approvalFields,
     })

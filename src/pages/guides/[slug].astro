@@ -4,6 +4,7 @@ import { marked } from 'marked';
 import Base from '../../layouts/Base.astro';
 import TashButton from '../../components/TashButton.astro';
 import Icon from '../../components/Icon.astro';
+import Walkthrough from '../../components/Walkthrough.astro';
 import { href, isDraft, visible } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -50,6 +51,8 @@ const parts = chunks.slice(1).map((c) => {
       </div>
     </section>
   ) : null}
+
+  {d.walkthrough ? <Walkthrough guide={entry.id} w={d.walkthrough} /> : null}
 
   {parts.length > 0 && d.steps ? (
     <ol class="timeline">
