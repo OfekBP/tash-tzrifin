@@ -2593,3 +2593,9 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 .wt-shotrow p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); }
 .wt-shotbtn { flex: none; padding: 0; border: 0; border-radius: 14px; overflow: hidden; cursor: zoom-in; box-shadow: 0 6px 16px rgb(16 43 112 / .16); background: #e6eefc; }
 .wt-shotbtn img { display: block; width: 96px; height: 208px; object-fit: cover; object-position: top; }
+
+/* ת״ש בטאצ׳ בסרגל: כפתור קטן יותר, ביחס לשאר האייקונים (חזרה: התג pre-orb-size) */
+.tash-orb { width: 42px; height: 42px; margin-bottom: 6px; box-shadow: 0 0 0 3px #fff, 0 8px 16px -8px rgb(106 63 214 / 0.7); }
+.tab-tash .tash-orb { top: -17px; margin: 0 0 0 -21px; }
+.orb-ext { width: 18px; height: 18px; border-width: 2px; inset-inline-end: -4px; bottom: -3px; }
+.dock .orb-ext svg { width: 10px; height: 10px; }
