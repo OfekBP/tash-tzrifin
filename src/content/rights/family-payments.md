@@ -1,5 +1,6 @@
 ---
 title: "תשלומי משפחה"
+order: 8
 lead: "תשמ״ש: תשלום חודשי לבני המשפחה"
 category: [family, financial]
 summary: "תשלום חודשי לקיום מינימלי של בני המשפחה: הורים או בת זוג"
@@ -33,7 +34,7 @@ exceptions:
   - "ההטבות משתנות לפי סוג הזכאות ורמת הפעילות. אל תניחו שכולן חלות עליכם"
 to_verify:
   - "גובה התשלום החודשי ותנאי הזכאות המדויקים (לא פורטו)"
-related: [married-soldier, financial-aid, meal-allowance]
+related: [married-soldier, financial-aid]
 status: approved
 approvedBy: "אופק בן פורת"
 approvedOn: 2026-11-16

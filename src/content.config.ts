@@ -54,6 +54,7 @@ const rights = defineCollection({
       category: z.array(z.enum(categories)).min(1),
       summary: z.string(), // שורה אחת למסך הרשימה
       lead: z.string().optional(), // תת כותרת בראש העמוד, שורה אחת (עד ~32 תווים)
+      order: z.number().default(100), // סדר ברשימת הזכויות: קטן = למעלה (לפי רלוונטיות ושכיחות)
       keywords: z.array(z.string()).default([]), // כינויים לחיפוש
       eligibility: z.array(z.string()).default([]),
       conditions: z.array(z.string()).default([]),

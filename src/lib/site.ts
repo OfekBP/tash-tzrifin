@@ -37,6 +37,6 @@ export const categoryLabels: Record<string, string> = {
   equipment: 'ציוד',
   housing: 'דיור והלנה',
   work: 'עבודה',
-  special: 'אוכלוסיות מיוחדות',
+  special: 'קיצור שירות',
   other: 'אחר',
 };

@@ -1,5 +1,6 @@
 ---
 title: "הלנה ופתרונות דיור"
+order: 6
 lead: "בית החייל, דירות והלנה"
 category: [housing]
 summary: "בית החייל, דירות האגודה, שכר דירה והלנה מטעמי פרט, מרחק וצפיפות"
@@ -25,7 +26,7 @@ exceptions:
   - "הלנה מטעמי מרחק שונה מהחזרי נסיעות"
 to_verify:
   - "תנאי הזכאות והמסמכים בכל סוג הלנה (לא פורטו)"
-related: [lone-soldier, assistance-eligible, travel-refunds, financial-aid]
+related: [lone-soldier, assistance-eligible, financial-aid]
 status: approved
 approvedBy: "אופק בן פורת"
 approvedOn: 2026-11-16

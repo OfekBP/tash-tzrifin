@@ -40,7 +40,7 @@
     - q: מה הסיבה שאי אפשר לגור בבית?
       options:
         - { label: נסיבות משפחתיות, add: [lone-soldier] }
-        - { label: מרחק, add: [travel-refunds] }
+        - { label: מרחק, add: [] }
         - { label: צפיפות, add: [] }
 - id: work
   label: אני צריך לעבוד
@@ -60,7 +60,7 @@
       options:
         - { label: כלכלי, add: [private-work-permit, financial-aid] }
         - { label: לימודים, add: [] }
-        - { label: משפחה, add: [married-soldier, pregnancy-parenthood] }
+        - { label: משפחה, add: [married-soldier] }
         - { label: מעבר דירה או אירוע אישי, add: [lone-soldier, married-soldier] }
 - id: lone
   label: אני חייל בודד או חושב שאני זכאי להכרה
@@ -70,7 +70,7 @@
 - id: family
   label: אני נשוי או הורה לילדים
   order: 7
-  base: [married-soldier, pregnancy-parenthood]
+  base: [married-soldier]
   questions:
     - q: האם בן הזוג או ההורים זקוקים לסיוע?
       options:
@@ -84,5 +84,5 @@
 - id: other
   label: נושא אחר
   order: 9
-  base: [special-populations]
+  base: []
   questions: []
