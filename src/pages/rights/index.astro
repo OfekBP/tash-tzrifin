@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import { categoryLabels, href, isDraft, visible } from '../../lib/site';
 
-const rights = (await visible('rights')).sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title, 'he'));
+const rights = (await visible('rights')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'he'));
 const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data.category.includes(c as never)));
 ---
 <Base title="זכויות והטבות" lead="מי זכאי, אילו מסמכים ואיך מגישים" tone="lav" description="זכויות, הטבות ומענים לחיילי חובה">

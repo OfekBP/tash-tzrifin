@@ -1,6 +1,5 @@
 ---
 title: "חייל זכאי סיוע"
-order: 5
 lead: "הכרה כשאין עורף משפחתי תומך"
 category: [lone-soldier, financial, family]
 summary: "הכרה לחייל שאין לו עורף משפחתי תומך, גם אם אינו חייל בודד"
