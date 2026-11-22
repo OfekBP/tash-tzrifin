@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import { href, SITE_NAME, SHOW_DRAFTS } from '../lib/site';
 import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import heeboHe from '@fontsource-variable/heebo/files/heebo-hebrew-wght-normal.woff2?url';
 import rubikHe from '@fontsource-variable/rubik/files/rubik-hebrew-wght-normal.woff2?url';
 
@@ -60,6 +61,7 @@ const tabs = [
     <meta name="apple-mobile-web-app-title" content="ת״ש צריפין" />
     <link rel="alternate icon" href={href('/favicon.ico')} sizes="32x32" />
     {onVercel ? <Analytics /> : null}
+    {onVercel ? <SpeedInsights /> : null}
   </head>
   <body>
     <div class="splash" id="splash" aria-hidden="true">
