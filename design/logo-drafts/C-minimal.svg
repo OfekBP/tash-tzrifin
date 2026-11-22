@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><defs><linearGradient id="bgC" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="512" y2="512"><stop offset="0" stop-color="#8050E8"/><stop offset="1" stop-color="#397DE8"/></linearGradient></defs>
+  <rect width="512" height="512" rx="116" fill="url(#bgC)"/>
+  <path d="M410 70 C 300 20, 120 60, 150 160 C 175 240, 330 190, 330 290 C 330 370, 220 380, 120 450" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round"/><path d="M410 70 C 300 20, 120 60, 150 160 C 175 240, 330 190, 330 290 C 330 370, 220 380, 120 450" fill="none" stroke="#DCCBFF" stroke-width="10.92" stroke-linecap="round" stroke-dasharray="18.2 23.400000000000002" opacity="0.9"/>
+  <circle cx="256" cy="216" r="98" fill="#fff"/><rect x="239" y="94" width="34" height="28" rx="4" fill="#fff" transform="rotate(0 256 216)"/><rect x="239" y="94" width="34" height="28" rx="4" fill="#fff" transform="rotate(45 256 216)"/><rect x="239" y="94" width="34" height="28" rx="4" fill="#fff" transform="rotate(90 256 216)"/><rect x="239" y="94" width="34" height="28" rx="4" fill="#fff" transform="rotate(135 256 216)"/><rect x="239" y="94" width="34" height="28" rx="4" fill="#fff" transform="rotate(180 256 216)"/><rect x="239" y="94" width="34" height="28" rx="4" fill="#fff" transform="rotate(225 256 216)"/><rect x="239" y="94" width="34" height="28" rx="4" fill="#fff" transform="rotate(270 256 216)"/><rect x="239" y="94" width="34" height="28" rx="4" fill="#fff" transform="rotate(315 256 216)"/>
+  <circle cx="256" cy="216" r="70" fill="url(#bgC)"/>
+  <polygon points="256.0,166.0 299.3,241.0 212.7,241.0" fill="#fff"/><polygon points="256.0,266.0 212.7,191.0 299.3,191.0" fill="#fff"/>
+  
+  <path d="M256 334 C 210.64 307.76, 180.4 306.12, 130 319.24 L 136 397.96 C 180.4 375, 210.64 376.64, 256 416 Z" fill="#fff"/>
+  <path d="M256 334 C 301.36 307.76, 331.6 306.12, 382 319.24 L 376 397.96 C 331.6 375, 301.36 376.64, 256 416 Z" fill="#fff"/>
+  <path d="M130 319.24 L 136 397.96" stroke="#DCCBFF" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <path d="M382 319.24 L 376 397.96" stroke="#DCCBFF" stroke-width="9" stroke-linecap="round" fill="none"/>
+  </svg>
