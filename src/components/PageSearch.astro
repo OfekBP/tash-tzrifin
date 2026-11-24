@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+import { href } from '../lib/site';
+interface Props { placeholder: string; label: string; suggestions?: string[] }
+const { placeholder, label, suggestions = [] } = Astro.props;
+---
+<div class="ps" role="search" data-global={href('/search/')}>
+  <div class="searchbar">
+    <Icon name="search" />
+    <input type="search" id="q" placeholder={placeholder} aria-label={label} autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" />
+    <button type="button" class="ps-clear" id="ps-clear" aria-label="ניקוי החיפוש" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" /></svg>
+    </button>
+  </div>
+  {suggestions.length > 0 ? (
+    <div class="ps-suggest" id="ps-suggest" hidden>
+      <span class="ps-suggest-k">נסו לחפש</span>
+      <div class="ps-suggest-row">
+        {suggestions.map((s) => <button type="button" data-q={s}>{s}</button>)}
+      </div>
+    </div>
+  ) : null}
+  <p class="ps-count" id="ps-count" role="status" aria-live="polite" hidden></p>
+</div>

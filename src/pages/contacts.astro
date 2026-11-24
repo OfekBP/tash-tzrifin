@@ -3,6 +3,7 @@ import { getCollection, getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ContactCard from '../components/ContactCard.astro';
 import Icon from '../components/Icon.astro';
+import PageSearch from '../components/PageSearch.astro';
 import WaLogo from '../components/WaLogo.astro';
 import { href, isVisible, TECH_CONTACT_ID } from '../lib/site';
 const logos: Record<string, string> = { ofek: 'ofek', lahav: 'lahav', f108: 'f108', f502: 'f502' };
@@ -18,10 +19,7 @@ const groups = frameworks
   .filter((g) => g.items.length > 0);
 ---
 <Base title="אנשי קשר" lead="המש״קית של היחידה שלך" description="מש״קיות ומש״קי הת״ש לפי מסגרת ויחידה">
-  <div slot="head" class="searchbar">
-    <Icon name="search" />
-    <input type="search" id="q" placeholder="חיפוש יחידה או שם" aria-label="חיפוש יחידה או שם" autocomplete="off" enterkeyhint="search" />
-  </div>
+  <PageSearch slot="head" placeholder="חיפוש יחידה או שם" label="חיפוש יחידה או שם" suggestions={groups.slice(0, 4).map((g) => g.f.data.name)} />
 
   <div class="chips" role="group" aria-label="מסגרת">
     <button class="chip" type="button" data-fw="all" aria-pressed="true">הכול</button>
@@ -44,7 +42,7 @@ const groups = frameworks
       </section>
     ))}
   </div>
-  <p class="empty" id="none" hidden>לא נמצאו תוצאות. נסו שם או יחידה אחרים.</p>
+  <p class="ps-empty" data-ps-empty hidden></p>
 
   <dialog class="sheet" id="sheet" aria-labelledby="sheet-name">
     <div class="grab" aria-hidden="true"></div>
@@ -73,45 +71,30 @@ const groups = frameworks
 </Base>
 
 <script>
-  import { normalize } from '../lib/text';
+  import { initPageSearch } from '../lib/page-search';
 
-  const q = document.getElementById('q') as HTMLInputElement;
   const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-fw]')];
-  const groups = [...document.querySelectorAll<HTMLElement>('[data-group]')];
-  const none = document.getElementById('none')!;
+  const groups = [...document.querySelectorAll<HTMLElement>('#groups [data-group]')];
   let fw = 'all';
-
-  function apply() {
-    const term = normalize(q.value.trim());
-    let shown = 0;
-    for (const g of groups) {
-      let any = false;
-      for (const card of g.querySelectorAll<HTMLElement>('[data-person]')) {
-        const ok = (fw === 'all' || g.dataset.group === fw) && (!term || normalize(card.dataset.search ?? '').includes(term));
-        card.hidden = !ok;
-        if (ok) any = true;
-      }
-      g.hidden = !any;
-      if (any) shown++;
-    }
-    none.hidden = shown > 0;
-  }
+  const ps = initPageSearch({
+    input: document.getElementById('q') as HTMLInputElement,
+    items: [...document.querySelectorAll<HTMLElement>('#groups [data-person]')],
+    groups,
+    extra: (el) => fw === 'all' || el.closest<HTMLElement>('[data-group]')?.dataset.group === fw,
+    empty: document.querySelector('[data-ps-empty]'),
+    count: document.getElementById('ps-count'),
+    clear: document.getElementById('ps-clear'),
+    suggest: document.getElementById('ps-suggest'),
+  });
 
   chips.forEach((c) =>
     c.addEventListener('click', () => {
       fw = c.dataset.fw!;
       chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
       c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
-      apply();
+      ps.refresh(false);
     }),
   );
-  q.addEventListener('input', apply);
-
-  const initial = new URLSearchParams(location.search).get('q');
-  if (initial) {
-    q.value = initial;
-    apply();
-  }
 
   // דף תחתון: פרטי איש קשר, חיוג, העתקה
   const sheet = document.getElementById('sheet') as HTMLDialogElement;

@@ -1,12 +1,14 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
+import PageSearch from '../../components/PageSearch.astro';
 import { categoryLabels, href, isDraft, visible } from '../../lib/site';
 
 const rights = (await visible('rights')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'he'));
 const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data.category.includes(c as never)));
 ---
 <Base title="זכויות והטבות" lead="מי זכאי, אילו מסמכים ואיך מגישים" tone="lav" description="זכויות, הטבות ומענים לחיילי חובה">
+  <PageSearch slot="head" placeholder="חיפוש זכות: חופשה, שכר דירה…" label="חיפוש בזכויות" suggestions={['חופשה', 'היתר עבודה', 'שכר דירה', 'חייל בודד', 'תווי קנייה']} />
 
   {rights.length === 0 ? (
     <div class="card-soft">
@@ -22,28 +24,41 @@ const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data
       </div>
       <div class="bubbles" id="list">
         {rights.map((r) => (
-          <a class="row" href={href(`/rights/${r.id}/`)} data-cats={r.data.category.join(' ')}>
+          <a class="row" href={href(`/rights/${r.id}/`)} data-cats={r.data.category.join(' ')} data-search={`${r.data.title}|${[...r.data.keywords, ...r.data.category.map((c) => categoryLabels[c])].join(' ')}|${r.data.summary}`}>
             <span class="tx">
-              <span class="t">{r.data.title}{isDraft(r) ? <span class="badge" style="margin-inline-start: 8px">טיוטה</span> : null}</span>
-              <span class="s">{r.data.summary}</span>
+              <span class="t" data-hl>{r.data.title}{isDraft(r) ? <span class="badge" style="margin-inline-start: 8px">טיוטה</span> : null}</span>
+              <span class="s" data-hl>{r.data.summary}</span>
             </span>
             <Icon name="chevron" class="chev" />
           </a>
         ))}
       </div>
+      <p class="ps-empty" data-ps-empty hidden></p>
     </>
   )}
 </Base>
 
 <script>
+  import { initPageSearch } from '../../lib/page-search';
   const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-cat]')];
   const cards = [...document.querySelectorAll<HTMLElement>('[data-cats]')];
+  let cat = 'all';
+  const ps = initPageSearch({
+    input: document.getElementById('q') as HTMLInputElement,
+    items: cards,
+    reorder: true,
+    extra: (el) => cat === 'all' || el.dataset.cats!.split(' ').includes(cat),
+    empty: document.querySelector('[data-ps-empty]'),
+    count: document.getElementById('ps-count'),
+    clear: document.getElementById('ps-clear'),
+    suggest: document.getElementById('ps-suggest'),
+  });
   chips.forEach((c) =>
     c.addEventListener('click', () => {
-      const cat = c.dataset.cat!;
+      cat = c.dataset.cat!;
       chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
       c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
-      cards.forEach((card) => (card.hidden = cat !== 'all' && !card.dataset.cats!.split(' ').includes(cat)));
+      ps.refresh(false);
     }),
   );
 </script>

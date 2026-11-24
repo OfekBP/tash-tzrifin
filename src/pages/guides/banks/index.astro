@@ -1,17 +1,33 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import PageSearch from '../../../components/PageSearch.astro';
 import { href, visible } from '../../../lib/site';
 
 const banks = (await visible('banks')).sort((a, b) => a.data.order - b.data.order);
 const initial = (n: string) => n.replace(/^בנק\s+/, '').trim()[0];
 ---
 <Base title="אישורים מהבנק" lead="בחרו בנק וצפו בהדרכה" back="/guides/" description="הדרכות להפקת אישורים מכל בנק">
-  <div class="bank-grid">
+  <PageSearch slot="head" placeholder="חיפוש בנק: לאומי, הפועלים…" label="חיפוש בנק" suggestions={banks.slice(0, 4).map((b) => b.data.name.replace(/^בנק\s+/, ''))} />
+  <div class="bank-grid" id="list">
     {banks.map((b) => (
-      <a class="plate" href={href(`/guides/banks/${b.id}/`)}>
+      <a class="plate" href={href(`/guides/banks/${b.id}/`)} data-search={`${b.data.name}|${b.data.aliases.join(' ')}|`}>
         <span class="logo">{b.data.logo ? <img src={href(b.data.logo)} alt="" loading="lazy" /> : <span class="avatar">{initial(b.data.name)}</span>}</span>
-        <span class="nm">{b.data.name}</span>
+        <span class="nm" data-hl>{b.data.name}</span>
       </a>
     ))}
   </div>
+  <p class="ps-empty" data-ps-empty hidden></p>
 </Base>
+
+<script>
+  import { initPageSearch } from '../../../lib/page-search';
+  initPageSearch({
+    input: document.getElementById('q') as HTMLInputElement,
+    items: [...document.querySelectorAll<HTMLElement>('#list > [data-search]')],
+    reorder: true,
+    empty: document.querySelector('[data-ps-empty]'),
+    count: document.getElementById('ps-count'),
+    clear: document.getElementById('ps-clear'),
+    suggest: document.getElementById('ps-suggest'),
+  });
+</script>

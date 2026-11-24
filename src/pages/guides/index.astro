@@ -1,49 +1,66 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
+import PageSearch from '../../components/PageSearch.astro';
 import { href, isDraft, visible } from '../../lib/site';
 
 const guides = (await visible('guides')).sort((a, b) => a.data.order - b.data.order);
 const links = await visible('links');
 const tashLink = links.find((l) => l.id === 'tash-btouch');
+const banksRow = { t: 'אישורים מהבנק', s: 'ריכוז יתרות, עו״ש, פירוט אשראי ואישור בעלות חשבון', k: 'בנק לאומי הפועלים דיסקונט מזרחי תדפיס אישור בעלות חשבון מסמכים כלכליים' };
 ---
 <Base title="מדריכים וכלים" lead="ארגז כלים לעשייה בפועל" description="מדריכים פרקטיים לחייל: אישורים מהבנק, ת״ש בטאצ׳ ועוד">
-  <div class="group">
+  <PageSearch slot="head" placeholder="חיפוש מדריך: בנק, ת״ש בטאצ׳…" label="חיפוש במדריכים" suggestions={['בנק', 'ת״ש בטאצ׳', 'מסמכים', 'הגשת בקשה']} />
+  <div class="group" id="list">
     {guides.map((g) => (
       <>
-      <a class="row" href={href(`/guides/${g.id}/`)}>
+      <a class="row" href={href(`/guides/${g.id}/`)} data-search={`${g.data.title}|${g.data.keywords.join(' ')}|${g.data.summary}`}>
         <span class="dot tint"><Icon name="doc" /></span>
         <span class="tx">
-          <span class="t">{g.data.title}{isDraft(g) ? <span class="badge" style="margin-inline-start: 8px">טיוטה</span> : null}</span>
-          <span class="s">{g.data.summary}</span>
+          <span class="t" data-hl>{g.data.title}{isDraft(g) ? <span class="badge" style="margin-inline-start: 8px">טיוטה</span> : null}</span>
+          <span class="s" data-hl>{g.data.summary}</span>
         </span>
         <Icon name="chevron" class="chev" />
       </a>
       {g.id === 'financial-documents' ? (
-    <a class="row" href={href('/guides/banks/')}>
-      <span class="dot tint"><Icon name="doc" /></span>
-      <span class="tx"><span class="t">אישורים מהבנק</span><span class="s">ריכוז יתרות, עו״ש, פירוט אשראי ואישור בעלות חשבון</span></span>
-      <Icon name="chevron" class="chev" />
-    </a>
+        <a class="row" href={href('/guides/banks/')} data-search={`${banksRow.t}|${banksRow.k}|${banksRow.s}`}>
+          <span class="dot tint"><Icon name="doc" /></span>
+          <span class="tx"><span class="t" data-hl>{banksRow.t}</span><span class="s" data-hl>{banksRow.s}</span></span>
+          <Icon name="chevron" class="chev" />
+        </a>
       ) : null}
       </>
     ))}
-    <a class="row" href={href('/faq/')}>
+    <a class="row" href={href('/faq/')} data-search="שאלות נפוצות|שאלות תשובות שאלה|תשובות קצרות לשאלות שחוזרות">
       <span class="dot tint"><Icon name="doc" /></span>
-      <span class="tx"><span class="t">שאלות נפוצות</span><span class="s">תשובות קצרות לשאלות שחוזרות</span></span>
+      <span class="tx"><span class="t" data-hl>שאלות נפוצות</span><span class="s" data-hl>תשובות קצרות לשאלות שחוזרות</span></span>
       <Icon name="chevron" class="chev" />
     </a>
-    <a class="row" href={href('/glossary/')}>
+    <a class="row" href={href('/glossary/')} data-search="מילון מושגים|הסבר מושג פירוש מילה|הת״ש, תשמ״ש, הלנה, ריכוז יתרות ועוד">
       <span class="dot tint"><Icon name="doc" /></span>
-      <span class="tx"><span class="t">מילון מושגים</span><span class="s">הת״ש, תשמ״ש, הלנה, ריכוז יתרות ועוד</span></span>
+      <span class="tx"><span class="t" data-hl>מילון מושגים</span><span class="s" data-hl>הת״ש, תשמ״ש, הלנה, ריכוז יתרות ועוד</span></span>
       <Icon name="chevron" class="chev" />
     </a>
     {!guides.some((g) => g.id === 'tash-btouch') && tashLink ? (
-      <a class="row" href={tashLink.data.url} target="_blank" rel="noopener">
+      <a class="row" href={tashLink.data.url} target="_blank" rel="noopener" data-search={`${tashLink.data.title}||${tashLink.data.description}`}>
         <span class="dot tint"><Icon name="external" /></span>
-        <span class="tx"><span class="t">{tashLink.data.title}</span><span class="s">{tashLink.data.description}</span></span>
+        <span class="tx"><span class="t" data-hl>{tashLink.data.title}</span><span class="s" data-hl>{tashLink.data.description}</span></span>
         <Icon name="chevron" class="chev" />
       </a>
     ) : null}
   </div>
+  <p class="ps-empty" data-ps-empty hidden></p>
 </Base>
+
+<script>
+  import { initPageSearch } from '../../lib/page-search';
+  initPageSearch({
+    input: document.getElementById('q') as HTMLInputElement,
+    items: [...document.querySelectorAll<HTMLElement>('#list > [data-search]')],
+    reorder: true,
+    empty: document.querySelector('[data-ps-empty]'),
+    count: document.getElementById('ps-count'),
+    clear: document.getElementById('ps-clear'),
+    suggest: document.getElementById('ps-suggest'),
+  });
+</script>

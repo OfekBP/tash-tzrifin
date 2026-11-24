@@ -1,18 +1,34 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import PageSearch from '../components/PageSearch.astro';
 
 const terms = (await getCollection('glossary')).sort((a, b) => a.data.term.localeCompare(b.data.term, 'he'));
 ---
 <Base title="מילון מושגים" lead="המילים של עולם הת״ש, בלי ז׳רגון" back="/guides/" description="מילון מושגי ת״ש לחיילי חובה">
-  <div class="group">
+  <PageSearch slot="head" placeholder="חיפוש מושג: תשמ״ש, הלנה…" label="חיפוש במילון" suggestions={terms.slice(0, 4).map((t) => t.data.term)} />
+  <div class="group" id="list">
     {terms.map((t) => (
-      <div class="row" style="cursor: default; align-items: flex-start">
+      <div class="row" style="cursor: default; align-items: flex-start" data-search={`${t.data.term}|${t.data.aliases.join(' ')}|${t.data.meaning}`}>
         <span class="tx">
-          <span class="t">{t.data.term}</span>
-          <span class="s" style="-webkit-line-clamp: unset; display: block">{t.data.meaning}</span>
+          <span class="t" data-hl>{t.data.term}</span>
+          <span class="s" data-hl style="-webkit-line-clamp: unset; display: block">{t.data.meaning}</span>
         </span>
       </div>
     ))}
   </div>
+  <p class="ps-empty" data-ps-empty hidden></p>
 </Base>
+
+<script>
+  import { initPageSearch } from '../lib/page-search';
+  initPageSearch({
+    input: document.getElementById('q') as HTMLInputElement,
+    items: [...document.querySelectorAll<HTMLElement>('#list > [data-search]')],
+    reorder: true,
+    empty: document.querySelector('[data-ps-empty]'),
+    count: document.getElementById('ps-count'),
+    clear: document.getElementById('ps-clear'),
+    suggest: document.getElementById('ps-suggest'),
+  });
+</script>
