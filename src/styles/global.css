@@ -2605,7 +2605,8 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 .ps .searchbar input { padding-inline-end: 52px; }
 .ps-clear { position: absolute; inset-inline-end: 8px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--lav-a); color: var(--dark); cursor: pointer; }
 .ps-clear[hidden] { display: none; }
-.ps-clear svg { width: 16px; height: 16px; }
+.ps-clear { padding: 0; line-height: 0; }
+.ps-clear svg { position: static; inset: auto; width: 16px; height: 16px; color: var(--dark); }
 .ps-suggest { position: absolute; z-index: 30; top: calc(100% + 8px); inset-inline: 0; padding: 12px 14px 14px; border-radius: 22px; background: #fff; box-shadow: 0 18px 40px -12px rgb(16 43 112 / .35); }
 .ps-suggest[hidden] { display: none; }
 .ps-suggest-k { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--ink-soft); }
@@ -2613,6 +2614,6 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 .ps-suggest-row button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--lav-a); color: var(--dark); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
 .ps-count { margin: 10px 4px 0; font-size: 14px; font-weight: 600; color: var(--ink-soft); }
 .ps-count[hidden] { display: none; }
-mark { background: #ffe58f; color: inherit; border-radius: 4px; padding: 0 2px; }
+mark { background: var(--lav-a); color: inherit; border-radius: 4px; padding: 0 2px; }
 .ps-empty { margin-top: var(--s5); text-align: center; color: var(--ink-soft); line-height: 1.6; }
 .ps-empty a { color: var(--purple); font-weight: 700; }

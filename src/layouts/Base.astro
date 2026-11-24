@@ -92,7 +92,7 @@ const tabs = [
           <a class="app-mark" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית"><img src={href('/logos/emblem-144.webp')} alt="" width="48" height="43" decoding="async" /></a>
         )}
         <span class="grow"></span>
-        <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a>
+        {hero ? <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a> : null}
       </header>
 
       {!hero ? (
