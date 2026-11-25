@@ -25,7 +25,6 @@ const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname) || '/';
 const onVercel = !!process.env.VERCEL;
-// ניווט ראשי: שורה אחת בראש העמוד
 const tabs = [
   { id: 'home', label: 'בית', url: '/', match: (p: string) => p === '/' || p.startsWith('/guide-me') || p.startsWith('/search') },
   { id: 'rights', label: 'זכויות', url: '/rights/', match: (p: string) => p.startsWith('/rights') },
@@ -80,43 +79,24 @@ const tabs = [
     </div>
     <a class="skip" href="#main">דילוג לתוכן</a>
     <div class:list={['app', { 'has-head': !hero }]} data-tone={tone}>
-      <header class="sitenav">
-        <a class="brand" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית">
-          <img src={href('/logos/emblem-144.webp')} alt="" width="40" height="36" decoding="async" />
-        </a>
-        <nav aria-label="ניווט ראשי">
-          {tabs.map((t, i) => (
-            <>
-              {i === 2 ? (
-                <a class="tab tab-tash" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener">
-                  <span class="tash-orb">
-                    <img src={href('/logos/tash-btouch-badge.png')} alt="" width="34" height="34" decoding="async" />
-                    <span class="orb-ext" aria-hidden="true"><Icon name="external" /></span>
-                  </span>
-                  <span>ת״ש בטאצ׳</span>
-                  <span class="sr-only">נפתח בלשונית חדשה</span>
-                </a>
-              ) : null}
-              <a class="tab" href={href(t.url)} aria-current={path === t.url ? 'page' : t.match(path) ? 'true' : undefined}>
-                <span class="tab-ico"><Icon name={t.id} /></span>
-                <span>{t.label}</span>
-              </a>
-            </>
-          ))}
-        </nav>
-        <span class="nav-end">
-          {hero ? <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a> : null}
-        </span>
+      <header class:list={['topbar', { 'hero-bar': hero }]}>
+        {back ? (
+          <a class="icon-btn" href={href(back)} data-back aria-label="חזרה">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
+          </a>
+        ) : hero ? (
+          <div class="unit-mark" role="img" aria-label="ת״ש חובה בח״א צריפין">
+            {['ofek', 'f108', 'lahav'].map((u) => <img src={href(`/logos/${u}.png`)} alt="" width="44" height="44" decoding="async" />)}
+          </div>
+        ) : (
+          <a class="app-mark" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית"><img src={href('/logos/emblem-144.webp')} alt="" width="48" height="43" decoding="async" /></a>
+        )}
+        <span class="grow"></span>
+        {hero ? <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a> : null}
       </header>
 
       {!hero ? (
         <div class="page-head">
-          {back ? (
-            <a class="back-link" href={href(back)} data-back>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
-              חזרה
-            </a>
-          ) : null}
           <h1>{title ?? SITE_NAME}</h1>
           {lead ? <p class="lead">{lead}</p> : null}
           <div class="head-extra"><slot name="head" /></div>
@@ -127,6 +107,27 @@ const tabs = [
         {SHOW_DRAFTS && draft ? <div class="draft-bar">טיוטה: תוכן שטרם אושר, לא יפורסם באתר</div> : null}
         <slot />
       </main>
+
+      <nav class="dock" aria-label="ניווט ראשי">
+        {tabs.map((t, i) => (
+          <>
+            {i === 2 ? (
+              <a class="tab tab-tash" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener">
+                <span class="tash-orb">
+                  <img src={href('/logos/tash-btouch-badge.png')} alt="" width="56" height="56" decoding="async" />
+                  <span class="orb-ext" aria-hidden="true"><Icon name="external" /></span>
+                </span>
+                <span>ת״ש בטאצ׳</span>
+                <span class="sr-only">נפתח בלשונית חדשה</span>
+              </a>
+            ) : null}
+            <a class="tab" data-id={t.id} href={href(t.url)} aria-current={t.match(path) ? 'page' : undefined}>
+              <Icon name={t.id} />
+              <span>{t.label}</span>
+            </a>
+          </>
+        ))}
+      </nav>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <template id="css-fail">
@@ -196,9 +197,9 @@ const tabs = [
       } catch {}
       return;
     }
-    // לחיצה על העמוד הנוכחי בניווט: חזרה לראש העמוד
-    const current = t.closest('.sitenav .tab[aria-current="page"]');
-    if (current) {
+    // לחיצה על הלשונית הפעילה: חזרה לראש העמוד
+    const tab = t.closest('.tab[aria-current="page"]');
+    if (tab) {
       e.preventDefault();
       scrollTo({ top: 0, behavior: 'smooth' });
     }
