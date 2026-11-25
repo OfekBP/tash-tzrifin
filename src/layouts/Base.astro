@@ -25,11 +25,12 @@ const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname) || '/';
 const onVercel = !!process.env.VERCEL;
-// ניווט האתר (הלוגו מוביל לדף הבית)
-const links = [
-  { label: 'זכויות', url: '/rights/', match: (p: string) => p.startsWith('/rights') },
-  { label: 'מדריכים', url: '/guides/', match: (p: string) => p.startsWith('/guides') || p.startsWith('/faq') || p.startsWith('/glossary') },
-  { label: 'אנשי קשר', url: '/contacts/', match: (p: string) => p.startsWith('/contacts') },
+// ניווט ראשי: שורה אחת בראש העמוד
+const tabs = [
+  { id: 'home', label: 'בית', url: '/', match: (p: string) => p === '/' || p.startsWith('/guide-me') || p.startsWith('/search') },
+  { id: 'rights', label: 'זכויות', url: '/rights/', match: (p: string) => p.startsWith('/rights') },
+  { id: 'guides', label: 'מדריכים', url: '/guides/', match: (p: string) => p.startsWith('/guides') || p.startsWith('/faq') || p.startsWith('/glossary') },
+  { id: 'contacts', label: 'אנשי קשר', url: '/contacts/', match: (p: string) => p.startsWith('/contacts') },
 ];
 ---
 <!doctype html>
@@ -79,24 +80,34 @@ const links = [
     </div>
     <a class="skip" href="#main">דילוג לתוכן</a>
     <div class:list={['app', { 'has-head': !hero }]} data-tone={tone}>
-      <header class="site-head">
-        <a class="brand" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית" aria-current={path === '/' ? 'page' : undefined}>
-          <img src={href('/logos/emblem-144.webp')} alt="" width="44" height="39" decoding="async" />
-          {hero ? null : <span>{SITE_NAME}</span>}
+      <header class="sitenav">
+        <a class="brand" href={href('/')} aria-label="ת״ש חובה בח״א צריפין, לדף הבית">
+          <img src={href('/logos/emblem-144.webp')} alt="" width="40" height="36" decoding="async" />
         </a>
-        <span class="grow"></span>
-        <a class="tash-link" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener">
-          ת״ש בטאצ׳<Icon name="external" /><span class="sr-only">, נפתח בלשונית חדשה</span>
-        </a>
-        {hero ? <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a> : null}
-      </header>
-      <nav class="mainnav" aria-label="ניווט ראשי">
-        <ul>
-          {links.map((l) => (
-            <li><a href={href(l.url)} aria-current={path === l.url ? 'page' : l.match(path) ? 'true' : undefined}>{l.label}</a></li>
+        <nav aria-label="ניווט ראשי">
+          {tabs.map((t, i) => (
+            <>
+              {i === 2 ? (
+                <a class="tab tab-tash" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener">
+                  <span class="tash-orb">
+                    <img src={href('/logos/tash-btouch-badge.png')} alt="" width="34" height="34" decoding="async" />
+                    <span class="orb-ext" aria-hidden="true"><Icon name="external" /></span>
+                  </span>
+                  <span>ת״ש בטאצ׳</span>
+                  <span class="sr-only">נפתח בלשונית חדשה</span>
+                </a>
+              ) : null}
+              <a class="tab" href={href(t.url)} aria-current={path === t.url ? 'page' : t.match(path) ? 'true' : undefined}>
+                <span class="tab-ico"><Icon name={t.id} /></span>
+                <span>{t.label}</span>
+              </a>
+            </>
           ))}
-        </ul>
-      </nav>
+        </nav>
+        <span class="nav-end">
+          {hero ? <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a> : null}
+        </span>
+      </header>
 
       {!hero ? (
         <div class="page-head">
@@ -186,7 +197,7 @@ const links = [
       return;
     }
     // לחיצה על העמוד הנוכחי בניווט: חזרה לראש העמוד
-    const current = t.closest('.mainnav a[aria-current="page"], .brand[aria-current="page"]');
+    const current = t.closest('.sitenav .tab[aria-current="page"]');
     if (current) {
       e.preventDefault();
       scrollTo({ top: 0, behavior: 'smooth' });

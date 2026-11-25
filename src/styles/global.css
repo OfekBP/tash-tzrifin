@@ -72,7 +72,7 @@
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --header-h: 56px;
-  --nav-h: 48px;
+  --nav-h: 70px;
   --max: 480px;
 
   --head-a: var(--sky-a);
@@ -2382,29 +2382,34 @@ mark { background: var(--lav-a); color: inherit; border-radius: 4px; padding: 0 
 .ps-empty { margin-top: var(--s5); text-align: center; color: var(--ink-soft); line-height: 1.6; }
 .ps-empty a { color: var(--purple); font-weight: 700; }
 
-/* ===== ניווט אתר בראש העמוד (במקום הסרגל התחתון; חזרה: התג pre-web-nav) ===== */
-.site-head { display: flex; align-items: center; gap: var(--s2); min-height: calc(var(--header-h) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) max(var(--s3), env(safe-area-inset-right)) 0 max(var(--s3), env(safe-area-inset-left)); background: #fff; }
-.site-head .grow { flex: 1; }
-.brand { display: flex; align-items: center; gap: var(--s2); min-height: 44px; min-width: 0; color: var(--dark); text-decoration: none; font: 800 15px/1.2 var(--display); white-space: nowrap; }
-.brand img { width: 44px; height: auto; flex: none; }
-.tash-link { display: inline-flex; align-items: center; gap: 5px; flex: none; min-height: 44px; padding-inline: 13px; border-radius: 999px; background: var(--purple); color: #fff; font: 700 14px/1 var(--display); white-space: nowrap; text-decoration: none; }
-.tash-link svg { width: 14px; height: 14px; }
-.site-head .icon-btn { flex: none; background: var(--lav-a); }
-.mainnav { position: sticky; top: 0; z-index: 20; background: #fff; padding-top: env(safe-area-inset-top); margin-top: calc(env(safe-area-inset-top) * -1); border-bottom: 1px solid rgb(16 43 112 / 0.12); view-transition-name: mainnav; }
-.mainnav ul { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0 var(--s3); list-style: none; }
-.mainnav a { display: flex; align-items: center; justify-content: center; height: var(--nav-h); border-bottom: 3px solid transparent; color: #4b5a86; font: 600 16px/1 var(--display); text-decoration: none; white-space: nowrap; }
-.mainnav a[aria-current] { border-bottom-color: var(--purple); color: var(--dark); font-weight: 800; }
-.mainnav a, .brand, .tash-link { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-html.splash-on .mainnav { view-transition-name: none; }
-::view-transition-group(mainnav) { animation-duration: 0s; }
+/* ===== ניווט אתר: שורה אחת בראש העמוד (חזרה: התג pre-nav-onerow; הסרגל התחתון: pre-web-nav) ===== */
+.sitenav { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; align-items: center; gap: 4px; padding: env(safe-area-inset-top) max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left)); background: #fff; border-bottom: 1px solid rgb(16 43 112 / 0.1); box-shadow: 0 8px 20px -16px rgb(16 43 112 / 0.5); view-transition-name: sitenav; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.sitenav .brand { display: grid; place-items: center; width: 40px; height: 44px; }
+.sitenav .brand img { width: 40px; height: auto; }
+.sitenav nav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.sitenav .tab { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; padding: 8px 0 5px; border-bottom: 3px solid transparent; color: #4b5a86; font: 600 11.5px/1.2 var(--display); text-decoration: none; white-space: nowrap; }
+.sitenav .tab-ico, .sitenav .tash-orb { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; }
+.sitenav .tab-ico { transition: background 0.2s var(--ease); }
+.sitenav .tab-ico svg { width: 22px; height: 22px; stroke-width: 1.8; }
+.sitenav .tab[aria-current] { color: var(--dark); font-weight: 800; border-bottom-color: var(--purple); }
+.sitenav .tab[aria-current] .tab-ico { background: var(--lav-a); color: var(--purple); }
+.sitenav .tab:active { transform: scale(0.95); }
+.sitenav .tash-orb img { width: 34px; height: 34px; border-radius: 50%; display: block; }
+.sitenav .orb-ext { position: absolute; inset-inline-end: -4px; bottom: -2px; display: grid; place-items: center; width: 15px; height: 15px; border: 1.5px solid #fff; border-radius: 50%; background: var(--purple); color: #fff; }
+.sitenav .orb-ext svg { width: 8px; height: 8px; stroke-width: 2.8; }
+.sitenav .tab-tash { color: var(--dark); font-weight: 700; }
+.sitenav .nav-end { display: grid; place-items: center; }
+.sitenav .icon-btn { width: 40px; height: 40px; background: var(--lav-a); }
+.sitenav a:focus-visible { outline-offset: -4px; }
+html.splash-on .sitenav { view-transition-name: none; }
+::view-transition-group(sitenav) { animation-duration: 0s; }
+@media (max-width: 360px) { .sitenav { grid-template-columns: 30px minmax(0, 1fr) 30px; gap: 1px; padding-inline: 3px; } .sitenav .brand, .sitenav .brand img { width: 30px; } .sitenav .tab { font-size: 10.5px; } .sitenav .icon-btn { width: 30px; height: 30px; } .sitenav .icon-btn svg { width: 18px; height: 18px; } }
 .back-link { display: inline-flex; align-items: center; gap: 2px; min-height: 44px; margin-block: -6px -2px; color: var(--dark); font: 700 14px/1 var(--display); text-decoration: none; }
 .back-link svg { width: 18px; height: 18px; }
 .page-head { padding-top: var(--s3); }
-@media (max-width: 360px) { .site-head { gap: 6px; } .brand { font-size: 13px; gap: 6px; } .brand img { width: 36px; } .tash-link { padding-inline: 10px; font-size: 13px; } }
 /* דף הבית: לוגואים וכותרת מתחת לניווט */
 .hero .hero-copy { padding-top: var(--s4); }
 .unit-logos { display: flex; justify-content: center; gap: var(--s3); margin-bottom: var(--s3); }
 .unit-logos img { width: 52px; height: 52px; object-fit: contain; }
 .hero .sky-art { top: 14px; width: clamp(64px, 20vw, 86px); }
-.bento { height: max(374px, calc(100dvh - 259px - env(safe-area-inset-bottom))); }
-.mainnav a:focus-visible { outline-offset: -4px; }
+.bento { height: max(374px, calc(100dvh - 227px - env(safe-area-inset-bottom))); }
