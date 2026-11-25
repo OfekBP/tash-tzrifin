@@ -177,14 +177,6 @@ export function initPageSearch(o: PageSearchOptions) {
       refresh();
     }),
   );
-  // כפתור החיפוש בכותרת מעביר לשדה של העמוד במקום לחיפוש הכללי
-  document.querySelectorAll<HTMLAnchorElement>('.topbar a[href$="/search/"]').forEach((a) =>
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      scrollTo({ top: 0, behavior: 'smooth' });
-      o.input.focus({ preventScroll: true });
-    }),
-  );
 
   const initial = new URLSearchParams(location.search).get('q');
   if (initial) o.input.value = initial;

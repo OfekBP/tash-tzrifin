@@ -8,6 +8,9 @@ import { href, SITE_NAME } from '../lib/site';
 <Base hero>
   <section class="hero">
     <div class="hero-copy">
+      <div class="unit-logos" role="img" aria-label="לוגואים של היחידות">
+        {['ofek', 'f108', 'lahav'].map((u) => <img src={href(`/logos/${u}.png`)} alt="" width="52" height="52" decoding="async" />)}
+      </div>
       <h1>{SITE_NAME}</h1>
       <span class="title-line" aria-hidden="true"></span>
     </div>
