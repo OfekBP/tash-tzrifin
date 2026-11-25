@@ -25,6 +25,9 @@ const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = (Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname) || '/';
 const onVercel = !!process.env.VERCEL;
+// איזו הדרכה שייכת לעמוד (src/lib/tour-steps.ts)
+const [seg1 = '', seg2, seg3] = path.split('/').filter(Boolean);
+const tourPage = !seg1 ? 'home' : seg1 === 'rights' ? (seg2 ? 'right' : 'rights') : seg1 === 'guides' ? (seg2 === 'banks' ? (seg3 ? 'bank' : 'banks') : seg2 ? 'guide' : 'guides') : seg1;
 const tabs = [
   { id: 'home', label: 'בית', url: '/', match: (p: string) => p === '/' || p.startsWith('/guide-me') || p.startsWith('/search') },
   { id: 'rights', label: 'זכויות', url: '/rights/', match: (p: string) => p.startsWith('/rights') },
@@ -93,6 +96,9 @@ const tabs = [
         )}
         <span class="grow"></span>
         {hero ? <a class="icon-btn" href={href('/search/')} aria-label="חיפוש"><Icon name="search" /></a> : null}
+        <button type="button" class="icon-btn help-btn" data-tour={tourPage} aria-label="הדרכה על העמוד" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.8 8.8a3.3 3.3 0 1 1 4.7 3c-.9.5-1.5 1.2-1.5 2.4" /><path d="M12 18.5h.01" /></svg>
+        </button>
       </header>
 
       {!hero ? (
@@ -205,4 +211,11 @@ const tabs = [
     }
   });
   document.addEventListener('touchstart', () => {}, { passive: true });
+
+  // הדרכה: הקוד נטען רק בלחיצה
+  document.querySelector<HTMLButtonElement>('.help-btn')?.addEventListener('click', async (e) => {
+    const btn = e.currentTarget as HTMLButtonElement;
+    const { startTour } = await import('../lib/tour');
+    startTour(btn.dataset.tour!, btn);
+  });
 </script>
