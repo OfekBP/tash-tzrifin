@@ -4,12 +4,12 @@
  */
 export type Step = { sel?: string; all?: boolean; title: string; text: string };
 
-const search: Step = { sel: '.ps .searchbar', title: 'חיפוש בעמוד', text: 'מתחילים להקליד והרשימה מסתננת מיד. אפשר גם ללחוץ בשדה ולבחור אחת מההצעות.' };
+const search: Step = { sel: '.ps .searchbar', title: 'חיפוש בעמוד', text: 'מקלידים, והרשימה מסתננת מיד. אפשר גם ללחוץ בשדה הריק ולבחור אחת מההצעות.' };
 const back: Step = { sel: '.topbar [data-back]', title: 'חזרה', text: 'החץ מחזיר לעמוד הקודם.' };
 
 export const tours: Record<string, Step[]> = {
   home: [
-    { title: 'ברוכים הבאים', text: 'כאן מוצאים מה מגיע לכם, אילו מסמכים צריך ולמי פונים. סיור קצר יראה איפה כל דבר.' },
+    { title: 'ברוכים הבאים', text: 'כאן מוצאים מה מגיע לכם, אילו מסמכים צריך ולמי פונים. נעשה סיור קצר ונראה איפה כל דבר.' },
     { sel: '.bento .tile.wide', title: 'זכויות והטבות', text: 'מי זכאי, אילו מסמכים מכינים ואיך מגישים בקשה.' },
     { sel: '.bento a[href$="/guides/"], .bento a[href$="/contacts/"]', all: true, title: 'מדריכים ואנשי קשר', text: 'הדרכות להפקת אישורים ולהגשת בקשה, והמש״קית של היחידה שלכם.' },
     { sel: '.bento a[href$="/faq/"], .bento a[href$="/guide-me/"]', all: true, title: 'לא בטוחים?', text: 'בשאלות הנפוצות יש תשובות קצרות. "מאיפה מתחילים?" הוא שאלון קצר שמכוון אתכם.' },
@@ -19,7 +19,7 @@ export const tours: Record<string, Step[]> = {
   rights: [
     search,
     { sel: 'main .chips', title: 'סינון לפי נושא', text: 'לוחצים על נושא כדי לראות רק את הזכויות שלו. אפשר לשלב עם החיפוש.' },
-    { sel: '#list .row:not([hidden])', title: 'רשימת הזכויות', text: 'לחיצה על זכות פותחת עמוד עם זכאות, מסמכים ואופן ההגשה.' },
+    { sel: '#list .row:not([hidden])', title: 'רשימת הזכויות', text: 'לחיצה על זכות פותחת עמוד עם כל הפרטים: מי זכאי ואיך מגישים.' },
   ],
   right: [
     { sel: 'main details.acc', title: 'סעיפים נפתחים', text: 'לוחצים על כותרת כדי לפתוח או לסגור את הסעיף.' },
@@ -29,12 +29,12 @@ export const tours: Record<string, Step[]> = {
   ],
   guides: [
     search,
-    { sel: '#list > .row:not([hidden])', title: 'בחרו מדריך', text: 'כל שורה פותחת מדריך: אישורים מהבנק, ת״ש בטאצ׳, שאלות נפוצות ומילון מושגים.' },
+    { sel: '#list > .row:not([hidden])', title: 'בחרו מדריך', text: 'לחיצה על שורה פותחת מדריך. ברשימה נמצאים גם השאלות הנפוצות ומילון המושגים.' },
   ],
   guide: [
     { sel: '.wt-nav', title: 'קפיצה לחלק במדריך', text: 'לוחצים כדי לדלג ישר לשלבים, לתקלות או לאופן ההגשה.' },
     { sel: '.wt-shots', title: 'צילומי מסך', text: 'לחיצה על תמונה פותחת אותה בהגדלה.' },
-    { sel: '.videos .video-card', title: 'סרטוני הדרכה', text: 'לוחצים על ניגון כדי לצפות. הסרטון נטען רק כשמגיעים אליו.' },
+    { sel: '.videos .video-card', title: 'סרטוני הדרכה', text: 'לוחצים על כפתור ההפעלה כדי לצפות.' },
     { sel: 'main > .timeline:not(.wt-steps)', title: 'שלב אחר שלב', text: 'עוברים על השלבים לפי הסדר.' },
     { sel: 'main details.acc', title: 'סעיפים נפתחים', text: 'לוחצים על כותרת כדי לפתוח את ההסבר.' },
     { sel: 'main > .btn.purple, main > .tash-row, main > .tash-card', title: 'מעבר למערכת', text: 'הכפתור פותח את המערכת בלשונית חדשה.' },
@@ -47,7 +47,7 @@ export const tours: Record<string, Step[]> = {
   ],
   bank: [
     { sel: '.tile.video', title: 'הדרכה בווידאו', text: 'נפתחת ביוטיוב ומראה איך מפיקים את האישורים.' },
-    { sel: 'main .seg', title: 'טלפון או מחשב', text: 'בוחרים מאיפה אתם עובדים, והשלבים משתנים בהתאם.' },
+    { sel: 'main .seg', title: 'טלפון / מחשב', text: 'בוחרים אם עובדים מהטלפון או מהמחשב, והשלבים משתנים בהתאם.' },
     { sel: 'main details.acc', title: 'מדריך כתוב', text: 'פותחים את סוג האישור שצריך ועוקבים אחרי השלבים.' },
     { sel: 'main a.btn.block[href$="/contacts/"]', title: 'נתקעתם?', text: 'מכאן עוברים לאנשי הקשר.' },
     back,
@@ -65,16 +65,16 @@ export const tours: Record<string, Step[]> = {
   contacts: [
     search,
     { sel: 'main .chips', title: 'לפי מסגרת', text: 'בוחרים את המסגרת שלכם ורואים רק את אנשי הקשר שלה.' },
-    { sel: '#groups .group > :first-child', title: 'חיוג ווואטסאפ', text: 'הכפתורים מחייגים או פותחים וואטסאפ. לחיצה על השם פותחת אפשרויות נוספות, כולל העתקת המספר.' },
+    { sel: '#groups .group > :first-child', title: 'טלפון / וואטסאפ', text: 'לוחצים על הטלפון כדי לחייג, או על סמל וואטסאפ כדי לשלוח הודעה. לחיצה על השם מאפשרת גם להעתיק את המספר.' },
     { sel: '#bug', title: 'תקלה או הצעה', text: 'מצאתם טעות או יש רעיון לשיפור? כאן מדווחים.' },
   ],
   search: [
-    { sel: '.searchbar', title: 'חיפוש בכל האתר', text: 'מקלידים זכות, מדריך, בנק, יחידה או שם, והתוצאות מופיעות מיד.' },
+    { sel: '.searchbar', title: 'חיפוש בכל האתר', text: 'מקלידים זכות, מדריך, בנק, יחידה או שם של איש קשר, והתוצאות מופיעות מיד.' },
     { sel: '#results', title: 'תוצאות', text: 'לחיצה על תוצאה פותחת את העמוד המתאים.' },
     back,
   ],
   'guide-me': [
-    { sel: '#options', title: 'בוחרים תשובה', text: 'עונים על כמה שאלות קצרות, ובסוף מקבלים את הזכויות שכדאי לבדוק.' },
+    { sel: '#options', title: 'שאלון קצר', text: 'בוחרים תשובה בכל שאלה, ובסוף מקבלים את הזכויות שכדאי לבדוק.' },
     { sel: '#quiz-nav', title: 'לתקן תשובה', text: 'אפשר לחזור לשאלה הקודמת או להתחיל מחדש.' },
     { sel: 'main .notice', title: 'חשוב לדעת', text: 'השאלון מכוון בלבד. הוא לא קובע זכאות.' },
     back,
