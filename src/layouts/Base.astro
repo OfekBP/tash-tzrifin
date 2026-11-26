@@ -212,6 +212,13 @@ const tabs = [
   });
   document.addEventListener('touchstart', () => {}, { passive: true });
 
+  // רשומת היסטוריה של חלון שכבר נסגר (אחרי רענון או "קדימה"): מדלגים עליה, כדי שלחיצת "חזרה" לא תהיה מתה
+  const skipStaleModal = () => {
+    if (history.state?.modal && !document.querySelector('dialog[open]')) history.back();
+  };
+  skipStaleModal();
+  addEventListener('popstate', () => setTimeout(skipStaleModal));
+
   // הדרכה: הקוד נטען רק בלחיצה
   document.querySelector<HTMLButtonElement>('.help-btn')?.addEventListener('click', async (e) => {
     const btn = e.currentTarget as HTMLButtonElement;

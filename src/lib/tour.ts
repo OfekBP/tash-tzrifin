@@ -3,6 +3,7 @@
  * צעד שהאלמנט שלו לא קיים או מוסתר בעמוד פשוט מדולג.
  */
 import { tours, type Step } from './tour-steps';
+import { modalHistory } from './modal-history';
 
 const visible = (el: Element) => {
   const r = el.getBoundingClientRect();
@@ -112,7 +113,10 @@ export function startTour(page: string, opener: HTMLElement) {
     dlg.remove();
     scrollTo({ top: startY, behavior: 'instant' });
     opener.focus({ preventScroll: true });
+    hist.closed();
   };
+  // כפתור חזרה של המכשיר סוגר את ההדרכה במקום לצאת מהעמוד
+  const hist = modalHistory(dlg, close);
 
   next.addEventListener('click', () => (i === steps.length - 1 ? close() : show(i + 1)));
   prev.addEventListener('click', () => show(i - 1));
@@ -127,5 +131,6 @@ export function startTour(page: string, opener: HTMLElement) {
   addEventListener('resize', place);
 
   dlg.showModal();
+  hist.opened();
   show(0);
 }

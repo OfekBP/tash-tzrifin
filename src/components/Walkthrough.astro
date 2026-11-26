@@ -108,17 +108,21 @@ const nav = [
 </dialog>
 
 <script>
+  import { modalHistory } from '../lib/modal-history';
   const dlg = document.getElementById('wt-zoom') as HTMLDialogElement;
   const img = document.createElement('img');
   dlg.append(img);
   let opener: HTMLElement | null = null;
   const close = () => { if (dlg.open) dlg.close(); };
+  // כפתור חזרה של המכשיר סוגר את ההגדלה במקום לצאת מהמדריך
+  const zoomHistory = modalHistory(dlg);
   document.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((b) =>
     b.addEventListener('click', () => {
       opener = b;
       img.src = b.dataset.zoom!;
       img.alt = b.querySelector('img')?.alt ?? '';
       dlg.showModal();
+      zoomHistory.opened();
     }),
   );
   dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });

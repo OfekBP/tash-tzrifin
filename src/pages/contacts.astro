@@ -73,6 +73,7 @@ const groups = frameworks
 <script>
   import { initPageSearch } from '../lib/page-search';
   import { getParam, setParam } from '../lib/url';
+  import { modalHistory } from '../lib/modal-history';
 
   const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-fw]')];
   const groups = [...document.querySelectorAll<HTMLElement>('#groups [data-group]')];
@@ -134,10 +135,10 @@ const groups = frameworks
     wa.hidden = !d.wa;
     if (d.wa) wa.href = d.wa;
     sheet.showModal();
-    history.pushState({ sheet: 1 }, '');
+    sheetHistory.opened();
   });
   // כפתור חזרה של המכשיר סוגר את החלון במקום לצאת מהעמוד
-  addEventListener('popstate', () => { if (sheet.open) sheet.close(); });
+  const sheetHistory = modalHistory(sheet);
   // גרירה מטה על הידית או על ראש הדף סוגרת אותו
   {
     let y0 = 0, dy = 0, active = false;
@@ -163,7 +164,6 @@ const groups = frameworks
     sheet.addEventListener('pointerup', end);
     sheet.addEventListener('pointercancel', end);
   }
-  sheet.addEventListener('close', () => { if (history.state && history.state.sheet) history.back(); });
   $('sheet-close').addEventListener('click', () => sheet.close());
   sheet.addEventListener('click', (e) => {
     if (e.target === sheet) sheet.close();
