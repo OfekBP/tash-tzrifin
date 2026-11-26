@@ -2660,3 +2660,8 @@ div.row { -webkit-user-select: text; user-select: text; -webkit-touch-callout: d
 .sp2-name { animation-delay: .55s; }
 .sp2-line { animation-delay: .75s; }
 .sp2-sub { animation-delay: .85s; }
+
+/* ===== חיפוש (שלב 3): היעד של קישור ישיר מודגש בעדינות, וכפתורי המשך כשאין תוצאות ===== */
+.acc:target > summary, .row:target .t { color: var(--purple); }
+.empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s2); margin-top: var(--s4); }
+.empty-actions .btn { min-height: 44px; }

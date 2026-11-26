@@ -9,7 +9,7 @@ const terms = (await getCollection('glossary')).sort((a, b) => a.data.term.local
   <PageSearch slot="head" placeholder="חיפוש מושג: תשמ״ש, הלנה…" label="חיפוש במילון" suggestions={terms.slice(0, 4).map((t) => t.data.term)} />
   <div class="group" id="list">
     {terms.map((t) => (
-      <div class="row" style="cursor: default; align-items: flex-start" data-search={`${t.data.term}|${t.data.aliases.join(' ')}|${t.data.meaning}`}>
+      <div class="row" id={`t-${t.id}`} style="cursor: default; align-items: flex-start" data-search={`${t.data.term}|${t.data.aliases.join(' ')}|${t.data.meaning}`}>
         <span class="tx">
           <span class="t" data-hl>{t.data.term}</span>
           <span class="s" data-hl style="-webkit-line-clamp: unset; display: block">{t.data.meaning}</span>

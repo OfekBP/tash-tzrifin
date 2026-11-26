@@ -16,7 +16,7 @@ const groups = [...new Set(faq.map((f) => f.data.group))];
       <h2 class="section">{g}</h2>
       <div>
         {faq.filter((f) => f.data.group === g).map((f) => (
-          <details class="acc" data-faq data-search={`${f.data.q}|${f.data.group}|${f.data.a}`}>
+          <details class="acc" id={`q-${f.id}`} data-faq data-search={`${f.data.q}|${f.data.group}|${f.data.a}`}>
             <summary data-hl>{f.data.q}</summary>
             <div class="acc-body">
               <p style="margin: 0" data-hl>{f.data.a}</p>
