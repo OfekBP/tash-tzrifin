@@ -27,16 +27,18 @@ export function displayPhone(p: string): string {
 export const telHref = (p: string) => `tel:+972${p.slice(1)}`;
 export const waHref = (p: string) => `https://wa.me/972${p.slice(1)}`;
 
+// הסדר כאן הוא סדר כפתורי הסינון בעמוד הזכויות
 export const categoryLabels: Record<string, string> = {
+  service: 'קליטה ושירות',
   holidays: 'חופשות',
   financial: 'כלכלה וסיוע',
-  'service-relief': 'הקלות בשירות',
   'lone-soldier': 'חייל בודד',
+  housing: 'דיור והלנה',
   family: 'משפחה והורות',
+  'service-relief': 'הקלות בשירות',
+  special: 'קיצור שירות',
+  work: 'עבודה',
   health: 'בריאות',
   equipment: 'ציוד',
-  housing: 'דיור והלנה',
-  work: 'עבודה',
-  special: 'קיצור שירות',
   other: 'אחר',
 };
