@@ -26,3 +26,8 @@ pnpm-debug.log*
 # מקורות מקומיים: לא עולים ל-git ולא לשרת
 _source/
 _work/
+
+# בדיקות אוטומטיות: תוצרים מקומיים
+test-results/
+playwright-report/
+.shots/

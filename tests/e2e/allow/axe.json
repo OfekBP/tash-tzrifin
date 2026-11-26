@@ -1,0 +1,45 @@
+{
+  "home": {},
+  "rights": {
+    "region": 2
+  },
+  "right": {
+    "region": 1
+  },
+  "right-long": {
+    "region": 1
+  },
+  "guides": {
+    "region": 2
+  },
+  "guide-walkthrough": {
+    "region": 1
+  },
+  "guide-videos": {
+    "region": 1
+  },
+  "guide-steps": {
+    "region": 1
+  },
+  "banks": {
+    "region": 2
+  },
+  "bank": {
+    "region": 1
+  },
+  "faq": {
+    "region": 2
+  },
+  "glossary": {
+    "region": 2
+  },
+  "contacts": {
+    "region": 2
+  },
+  "search": {
+    "region": 3
+  },
+  "quiz": {
+    "region": 1
+  }
+}
