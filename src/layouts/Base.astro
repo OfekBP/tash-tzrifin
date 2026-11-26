@@ -46,8 +46,9 @@ const tabs = [
     <meta property="og:locale" content="he_IL" />
     <meta property="og:type" content="website" />
     {Astro.site ? <meta property="og:image" content={new URL(href('/og.png'), Astro.site).href} /> : null}
-    <script is:inline>try{if(!sessionStorage.getItem('splash'))document.documentElement.classList.add('splash-on')}catch(e){}</script>
-    <style is:inline set:html={`html.css-wait{background:#cde8fc}html.css-wait body{visibility:hidden}@font-face{font-family:'Rubik Fail';font-weight:300 900;font-display:swap;src:url(${rubikHe}) format('woff2')}@font-face{font-family:'Heebo Fail';font-weight:100 900;font-display:swap;src:url(${heeboHe}) format('woff2')}`}></style>
+    {/* כניסה ראשונה: התוכן מוסתר לרגע עד שהעמוד מוכן, ומסך הפתיחה מופיע רק אם זה מתארך (הפונקציה boot בסוף ה-body) */}
+    <script is:inline>(function(){var h=document.documentElement;try{if(sessionStorage.getItem('splash'))return;sessionStorage.setItem('splash','1')}catch(e){return}h.classList.add('boot');window.__t0=performance.now()})()</script>
+    <style is:inline set:html={`html.css-wait,html.boot{background:#cde8fc}html.css-wait body{visibility:hidden}html.boot:not(.css-wait) body{visibility:hidden;animation:boot-open 0s 3.5s forwards}@keyframes boot-open{to{visibility:visible}}html.splash-on #splash{visibility:visible}@font-face{font-family:'Rubik Fail';font-weight:300 900;font-display:swap;src:url(${rubikHe}) format('woff2')}@font-face{font-family:'Heebo Fail';font-weight:100 900;font-display:swap;src:url(${heeboHe}) format('woff2')}`}></style>
     <script is:inline>document.documentElement.classList.add('css-wait')</script>
     <meta name="theme-color" content={tone === 'lav' ? '#e0d3ff' : '#cde8fc'} />
     <meta name="description" content={description} />
@@ -150,7 +151,12 @@ const tabs = [
       (function () {
         var d = document.documentElement;
         var ok = getComputedStyle(d).getPropertyValue('--dark').trim() !== '';
-        if (ok) { d.classList.remove('css-wait'); return; }
+        if (ok) {
+          d.classList.remove('css-wait');
+          if (d.classList.contains('boot')) { try { boot(); } catch (e) { d.classList.remove('boot'); } }
+          return;
+        }
+        d.classList.remove('boot');
         var tried = false;
         try { tried = sessionStorage.getItem('css-retry') === '1'; sessionStorage.setItem('css-retry', '1'); } catch (e) {}
         if (!tried) {
@@ -162,33 +168,47 @@ const tabs = [
         window.__cssReload = function () { try { sessionStorage.removeItem('css-retry'); } catch (e) {} location.reload(); };
         document.body.innerHTML = document.getElementById('css-fail').innerHTML;
         document.getElementById('css-reload').addEventListener('click', window.__cssReload);
+
+        /* כניסה ראשונה: התוכן נפתח ברגע שהגופנים והעמוד מוכנים. מסך הפתיחה מופיע רק אם זה לוקח יותר מרבע שנייה בערך,
+           נשאר לפחות 0.4 שנייה כדי לא להבהב, ולכל היותר 2.5 שניות. */
+        function boot() {
+          var el = document.getElementById('splash'), shown = 0, done = false;
+          var open = function () { d.classList.remove('boot'); };
+          var finish = function () {
+            if (done) return;
+            done = true;
+            clearTimeout(reveal);
+            clearTimeout(cap);
+            if (!shown) return open();
+            setTimeout(function () {
+              open();
+              el.classList.add('hide');
+              setTimeout(function () { d.classList.remove('splash-on'); }, 450);
+            }, Math.max(0, 400 - (performance.now() - shown)));
+          };
+          var reveal = setTimeout(function () {
+            if (done || !el) return;
+            shown = performance.now();
+            d.classList.add('splash-on');
+            var fly = el.querySelector('.sp2-fly');
+            if (fly && fly.setCurrentTime) fly.setCurrentTime(0);
+          }, Math.max(100, 280 - (performance.now() - (window.__t0 || 0))));
+          var cap = setTimeout(finish, 2500);
+          var F = document.fonts;
+          var fonts = F && F.load ? Promise.all([F.load('700 1em "Rubik Variable"', 'א'), F.load('400 1em "Heebo Variable"', 'א')]) : Promise.resolve();
+          var dcl = new Promise(function (r) {
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', r, { once: true });
+            else r();
+          });
+          Promise.all([fonts, dcl]).then(finish, finish);
+          addEventListener('pageshow', function (e) { if (e.persisted) finish(); });
+        }
       })();
     </script>
   </body>
 </html>
 
 <script>
-  // מסך טעינה: פעם אחת בכל כניסה, לפחות רגע קצר כדי שהלוגו ייראה
-  (() => {
-    const el = document.getElementById('splash');
-    if (!el) return;
-    let done = false;
-    const hide = () => {
-      if (done) return;
-      done = true;
-      try { sessionStorage.setItem('splash', '1'); } catch {}
-      el.classList.add('hide');
-      setTimeout(() => document.documentElement.classList.remove('splash-on'), 500);
-    };
-    if (!document.documentElement.classList.contains('splash-on')) return;
-    const started = performance.now();
-    const ready = () => setTimeout(hide, Math.max(0, 2100 - (performance.now() - started)));
-    if (document.readyState === 'complete') ready();
-    else addEventListener('load', ready, { once: true });
-    setTimeout(hide, 3600);
-    addEventListener('pageshow', (e) => { if (e.persisted) hide(); });
-  })();
-
   // חזרה אמיתית: אם הגענו מתוך האתר, חוזרים בהיסטוריה (מצב גלילה וסינון נשמרים)
   document.addEventListener('click', (e) => {
     const t = e.target as Element;
