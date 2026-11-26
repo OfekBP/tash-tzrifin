@@ -1,9 +1,11 @@
 ---
-import { marked } from 'marked';
 import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import TashButton from '../../components/TashButton.astro';
 import Icon from '../../components/Icon.astro';
+import JumpNav from '../../components/JumpNav.astro';
+import { docTypeOf } from '../../lib/docs';
+import { inline, splitSections } from '../../lib/md';
 import { href, isDraft, isVisible, SHOW_DRAFTS, visible } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -14,20 +16,30 @@ const { entry } = Astro.props;
 const d = entry.data;
 
 // פירוט נוסף בגוף הקובץ: כל "## כותרת" הופכת לכרטיס נפתח
-const chunks = (entry.body ?? '').trim().split(/^## /m);
-const introHtml = chunks[0].trim() ? (marked.parse(chunks[0].trim()) as string) : '';
-const parts = chunks.slice(1).map((c) => {
-  const nl = c.indexOf('\n');
-  return { title: c.slice(0, nl).trim(), html: marked.parse(c.slice(nl + 1).trim()) as string };
-});
+const { intro: introHtml, parts } = splitSections(entry.body);
 
 const related = (await Promise.all(d.related.map((r) => getEntry(r)))).filter((r) => r && isVisible(r as never)) as any[];
 
+// "למי זה מיועד" ו"תנאי זכאות" פתוחים כברירת מחדל: זו השאלה הראשונה של מי שנכנס לעמוד
 const lists = [
-  { title: 'למי זה מיועד?', items: d.eligibility },
-  { title: 'תנאי זכאות', items: d.conditions },
-  { title: 'מה מקבלים בפועל', items: d.benefits },
+  { id: 'who', title: 'למי זה מיועד?', short: 'למי מיועד', items: d.eligibility, open: true },
+  { id: 'conditions', title: 'תנאי זכאות', short: 'תנאים', items: d.conditions, open: true },
+  { id: 'benefits', title: 'מה מקבלים בפועל', short: 'מה מקבלים', items: d.benefits, open: false },
 ].filter((s) => s.items.length > 0);
+
+// שורת קפיצה, רק בעמוד ארוך (7 סעיפים נפתחים ומעלה)
+const jump = [
+  ...lists.map((s) => [`sec-${s.id}`, s.short]),
+  d.figures.length > 0 ? ['sec-figures', 'סכומים'] : null,
+  d.documents.length > 0 ? ['sec-documents', 'מסמכים'] : null,
+  d.how_to_apply.length > 0 ? ['sec-apply', 'איך מגישים'] : null,
+  d.approver ? ['sec-approver', 'מי מאשר'] : null,
+  d.exceptions.length > 0 ? ['sec-notes', 'חשוב לדעת'] : null,
+  parts.length > 0 ? ['sec-parts', 'פירוט'] : null,
+  d.faq.length > 0 ? ['sec-faq', 'שאלות'] : null,
+  ['sec-contact', 'למי פונים'],
+].filter((x): x is [string, string] => x !== null);
+const accordions = jump.length - 1 - (parts.length > 0 ? 1 : 0) - (d.faq.length > 0 ? 1 : 0) + parts.length + d.faq.length;
 
 const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 ---
@@ -36,16 +48,18 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
     <div class="draft-bar" style="margin-bottom: var(--s4)">לבדיקה לפני אישור: {d.to_verify.join(' · ')}</div>
   ) : null}
 
+  {accordions >= 7 ? <JumpNav items={jump} label="קפיצה לסעיף בעמוד" /> : null}
+
   <div>
     {lists.map((s, i) => (
-      <details class="acc" open={i === 0}>
+      <details class="acc" id={`sec-${s.id}`} open={s.open || i === 0}>
         <summary>{s.title}</summary>
-        <div class="acc-body"><ul>{s.items.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="acc-body"><ul>{s.items.map((x) => <li set:html={inline(x)} />)}</ul></div>
       </details>
     ))}
 
     {d.figures.length > 0 ? (
-      <details class="acc" open>
+      <details class="acc" id="sec-figures" open>
         <summary>סכומים ומספרים</summary>
         <div class="acc-body">
           <ul class="figs">
@@ -62,37 +76,43 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
     ) : null}
 
     {d.documents.length > 0 ? (
-      <details class="acc" open data-docs={entry.id}>
+      <details class="acc" id="sec-documents" open data-docs={entry.id}>
         <summary>מסמכים שצריך להכין</summary>
         <div class="acc-body">
           <p class="muted small" style="margin: 0 0 var(--s3)">סמנו מה כבר הכנתם. הסימון נשמר רק במכשיר הזה.</p>
           <ul class="checklist">
-            {d.documents.map((x, i) => (
-              <li><label><input type="checkbox" data-i={i} /><span>{x}</span></label></li>
-            ))}
+            {d.documents.map((x) => {
+              const doc = docTypeOf(x);
+              return (
+                <li>
+                  <label><input type="checkbox" data-doc-key={x} /><span set:html={inline(x)} /></label>
+                  {doc ? <a class="doc-how" href={href(`/guides/banks/?doc=${doc}`)}>איך מפיקים?</a> : null}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </details>
     ) : null}
 
     {d.how_to_apply.length > 0 ? (
-      <details class="acc">
+      <details class="acc" id="sec-apply" open>
         <summary>איך מגישים בקשה</summary>
-        <div class="acc-body"><ol class="steps">{d.how_to_apply.map((x) => <li>{x}</li>)}</ol></div>
+        <div class="acc-body"><ol class="steps">{d.how_to_apply.map((x) => <li set:html={inline(x)} />)}</ol></div>
       </details>
     ) : null}
 
     {d.approver ? (
-      <details class="acc">
+      <details class="acc" id="sec-approver">
         <summary>מי מאשר?</summary>
         <div class="acc-body">{d.approver}</div>
       </details>
     ) : null}
 
     {d.exceptions.length > 0 ? (
-      <details class="acc" open>
+      <details class="acc" id="sec-notes" open>
         <summary>חשוב לדעת</summary>
-        <div class="acc-body"><ul>{d.exceptions.map((x) => <li>{x}</li>)}</ul></div>
+        <div class="acc-body"><ul>{d.exceptions.map((x) => <li set:html={inline(x)} />)}</ul></div>
       </details>
     ) : null}
   </div>
@@ -100,7 +120,7 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
   {introHtml ? <div class="prose" set:html={introHtml} style="margin-top: var(--s4)" /> : null}
   {parts.length > 0 ? (
     <>
-      <h2 class="section">פירוט לפי נושא</h2>
+      <h2 class="section" id="sec-parts" tabindex="-1">פירוט לפי נושא</h2>
       <div>
         {parts.map((p) => (
           <details class="acc" open={parts.length === 1 || undefined}>
@@ -114,7 +134,7 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 
   {d.faq.length > 0 ? (
     <>
-      <h2 class="section">שאלות נפוצות</h2>
+      <h2 class="section" id="sec-faq" tabindex="-1">שאלות נפוצות</h2>
       <div>
         {d.faq.map((f) => (
           <details class="acc"><summary>{f.q}</summary><div class="acc-body">{f.a}</div></details>
@@ -137,7 +157,7 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
     </>
   ) : null}
 
-  <div class="card-soft" style="margin-top: var(--s6)">
+  <div class="card-soft" id="sec-contact" style="margin-top: var(--s6)">
     <strong>למי פונים?</strong>
     <p>הזכאות נקבעת על ידי הגורמים המוסמכים. מש״קית הת״ש תעזור לבדוק מה מתאים לך.</p>
     <a class="btn purple block" href={href('/contacts/')}><Icon name="contacts" />למש״קית הת״ש שלי</a>
@@ -151,17 +171,30 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 </Base>
 
 <script>
-  // רשימת מסמכים עם סימון שנשמר במכשיר
+  // רשימת מסמכים עם סימון שנשמר במכשיר. הסימון נשמר לפי שם המסמך, כדי שעריכת הרשימה לא תזיז סימונים למסמך אחר.
   document.querySelectorAll<HTMLElement>('[data-docs]').forEach((box) => {
     const key = `docs:${box.dataset.docs}`;
+    const boxes = [...box.querySelectorAll<HTMLInputElement>('input[type=checkbox]')];
     let saved: Record<string, boolean> = {};
     try { saved = JSON.parse(localStorage.getItem(key) ?? '{}'); } catch {}
-    box.querySelectorAll<HTMLInputElement>('input[type=checkbox]').forEach((cb) => {
-      cb.checked = !!saved[cb.dataset.i!];
+    const store = () => { try { localStorage.setItem(key, JSON.stringify(saved)); } catch {} };
+
+    // סימונים מגרסה קודמת נשמרו לפי מיקום ברשימה (0, 1, 2...): מעבירים אותם פעם אחת לשם המסמך
+    const old = Object.keys(saved).filter((k) => /^\d+$/.test(k));
+    for (const k of old) {
+      const cb = boxes[+k];
+      if (cb && saved[k]) saved[cb.dataset.docKey!] = true;
+      delete saved[k];
+    }
+    if (old.length) store();
+
+    for (const cb of boxes) {
+      cb.checked = !!saved[cb.dataset.docKey!];
       cb.addEventListener('change', () => {
-        saved[cb.dataset.i!] = cb.checked;
-        try { localStorage.setItem(key, JSON.stringify(saved)); } catch {}
+        if (cb.checked) saved[cb.dataset.docKey!] = true;
+        else delete saved[cb.dataset.docKey!];
+        store();
       });
-    });
+    }
   });
 </script>

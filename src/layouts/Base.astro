@@ -223,6 +223,16 @@ const tabs = [
   skipStaleModal();
   addEventListener('popstate', () => setTimeout(skipStaleModal));
 
+  // שורת "קפיצה לסעיף" (JumpNav): פותחים את הסעיף אם הוא סגור, וגוללים אליו
+  document.addEventListener('click', (e) => {
+    const go = (e.target as Element).closest<HTMLElement>('[data-go]');
+    const target = go && document.getElementById(go.dataset.go!);
+    if (!target) return;
+    e.preventDefault();
+    if (target instanceof HTMLDetailsElement) target.open = true;
+    target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  });
+
   // קישור ישיר לסעיף (#מזהה), למשל מתוצאת חיפוש: פותחים אותו אם הוא סעיף נפתח, וגוללים אליו
   const openTarget = () => {
     if (location.hash.length < 2) return;

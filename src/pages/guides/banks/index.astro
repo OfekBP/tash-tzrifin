@@ -8,6 +8,7 @@ const initial = (n: string) => n.replace(/^בנק\s+/, '').trim()[0];
 ---
 <Base title="אישורים מהבנק" lead="בחרו בנק וצפו בהדרכה" back="/guides/" description="הדרכות להפקת אישורים מכל בנק">
   <PageSearch slot="head" placeholder="חיפוש בנק: לאומי, הפועלים…" label="חיפוש בנק" suggestions={banks.slice(0, 4).map((b) => b.data.name.replace(/^בנק\s+/, ''))} />
+  <p class="notice" id="doc-note" hidden></p>
   <div class="bank-grid" id="list">
     {banks.map((b) => (
       <a class="plate" href={href(`/guides/banks/${b.id}/`)} data-search={`${b.data.name}|${b.data.aliases.join(' ')}|`}>
@@ -20,7 +21,24 @@ const initial = (n: string) => n.replace(/^בנק\s+/, '').trim()[0];
 </Base>
 
 <script>
+  import { docTypeLabels } from '../../../lib/constants';
+  import { isDocType } from '../../../lib/docs';
   import { initPageSearch } from '../../../lib/page-search';
+  import { getParam } from '../../../lib/url';
+
+  // הגענו מרשימת המסמכים של זכות (?doc=): מזכירים איזה אישור מחפשים, ומעבירים אותו הלאה לעמוד הבנק
+  const doc = getParam('doc');
+  if (isDocType(doc)) {
+    const note = document.getElementById('doc-note')!;
+    note.textContent = `בחרו בנק כדי לראות איך מפיקים: ${docTypeLabels[doc]}`;
+    note.hidden = false;
+    document.querySelectorAll<HTMLAnchorElement>('#list a.plate').forEach((a) => {
+      const u = new URL(a.href);
+      u.searchParams.set('doc', doc);
+      a.href = u.pathname + u.search;
+    });
+  }
+
   initPageSearch({
     input: document.getElementById('q') as HTMLInputElement,
     items: [...document.querySelectorAll<HTMLElement>('#list > [data-search]')],

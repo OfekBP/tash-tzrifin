@@ -1,10 +1,9 @@
 ---
-import { render } from 'astro:content';
-import { marked } from 'marked';
 import Base from '../../layouts/Base.astro';
 import TashButton from '../../components/TashButton.astro';
 import Icon from '../../components/Icon.astro';
 import Walkthrough from '../../components/Walkthrough.astro';
+import { splitSections } from '../../lib/md';
 import { href, isDraft, visible } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -15,12 +14,7 @@ const { entry } = Astro.props;
 const d = entry.data;
 
 // גוף המדריך: פתיח + כרטיסים נפתחים לפי "## כותרת"
-const chunks = (entry.body ?? '').trim().split(/^## /m);
-const intro = chunks[0].trim() ? (marked.parse(chunks[0].trim()) as string) : '';
-const parts = chunks.slice(1).map((c) => {
-  const nl = c.indexOf('\n');
-  return { title: c.slice(0, nl).trim(), html: marked.parse(c.slice(nl + 1).trim()) as string };
-});
+const { intro, parts } = splitSections(entry.body);
 ---
 <Base title={d.title} lead={d.lead} back="/guides/" draft={isDraft(entry)}>
   {d.link ? (

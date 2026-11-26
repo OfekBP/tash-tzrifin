@@ -73,6 +73,7 @@ test.describe('השאלון', () => {
         await page.locator('#options [data-k]').first().click();
       }
       await expect(page.locator('#step-title')).toHaveText(/כדאי/);
+      await expect(page.locator('#quiz-progress')).toBeHidden();
       await expect(page.locator('#options a[href]').first()).toBeVisible();
       await expect(page.locator('#quiz-nav')).toBeVisible();
     });
@@ -82,6 +83,7 @@ test.describe('השאלון', () => {
     await page.goto('guide-me/');
     const title = page.locator('#step-title');
     await page.locator('[data-branch="money"]').click();
+    await expect(page.locator('#quiz-progress')).toHaveText('שאלה 1 מתוך 3');
     const first = await title.textContent();
     await page.locator('#options [data-k]').first().click();
     await expect(title).not.toHaveText(first!);
@@ -121,6 +123,81 @@ test.describe('עמוד זכות', () => {
     await page.locator('[data-back]').click();
     await expect(page).toHaveURL(/\/rights\/(\?.*)?$/);
   });
+});
+
+test.describe('ממסמך ברשימה למדריך הבנק', () => {
+  test('קישור "איך מפיקים?" מוביל לבנקים, ועמוד הבנק נפתח על האישור המבוקש', async ({ page }) => {
+    await page.goto('rights/financial-aid/');
+    const link = page.locator('.checklist li', { hasText: 'ריכוז יתרות' }).locator('.doc-how');
+    await expect(link).toHaveText('איך מפיקים?');
+    await link.click();
+    await expect(page).toHaveURL(/\/guides\/banks\/\?doc=balance$/);
+    await expect(page.locator('#doc-note')).toContainText('ריכוז יתרות');
+
+    await page.locator('#list a.plate', { hasText: 'לאומי' }).first().click();
+    await expect(page).toHaveURL(/\/banks\/leumi\/\?doc=balance$/);
+    const section = page.locator('#doc-balance');
+    await expect(section).toHaveAttribute('open', '');
+    await expect(section).toBeInViewport();
+  });
+
+  test('בלי ?doc עמוד הבנקים רגיל, ומסמך שאינו בנקאי לא מקבל קישור', async ({ page }) => {
+    await page.goto('guides/banks/');
+    await expect(page.locator('#doc-note')).toBeHidden();
+    await page.goto('rights/financial-aid/');
+    await expect(page.locator('.checklist li', { hasText: 'אישורים על חובות' }).locator('.doc-how')).toHaveCount(0);
+  });
+});
+
+test.describe('עמוד זכות ארוך', () => {
+  test('שורת הקפיצה פותחת סעיף וגוללת אליו, ו"איך מגישים" פתוח מראש', async ({ page }) => {
+    await page.goto('rights/financial-aid/');
+    await expect(page.locator('#sec-apply')).toHaveAttribute('open', '');
+    await expect(page.locator('#sec-conditions')).toHaveAttribute('open', '');
+    await page.locator('#sec-documents > summary').click(); // סוגרים, כדי לוודא שהקפיצה פותחת
+    await expect(page.locator('#sec-documents')).not.toHaveAttribute('open', '');
+    await page.locator('.jump .chip', { hasText: 'מסמכים' }).click();
+    await expect(page.locator('#sec-documents')).toHaveAttribute('open', '');
+    await expect(page.locator('#sec-documents > summary')).toBeInViewport();
+  });
+
+  test('בעמוד קצר אין שורת קפיצה', async ({ page }) => {
+    await page.goto('rights/dental/');
+    await expect(page.locator('.jump')).toHaveCount(0);
+  });
+
+  test('סימון מסמך מגרסה קודמת (לפי מיקום) עובר לשם המסמך', async ({ page }) => {
+    await page.goto('rights/private-work-permit/');
+    await page.evaluate(() => localStorage.setItem('docs:private-work-permit', JSON.stringify({ 1: true })));
+    await page.reload();
+    const boxes = page.locator('.checklist input[type=checkbox]');
+    await expect(boxes.nth(1)).toBeChecked();
+    await expect(boxes.nth(0)).not.toBeChecked();
+    const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('docs:private-work-permit') ?? '{}'));
+    expect(Object.keys(stored).some((k) => /^\d+$/.test(k))).toBe(false);
+    expect(Object.values(stored)).toEqual([true]);
+  });
+
+  test('מספר טלפון בתוכן הוא קישור חיוג', async ({ page }) => {
+    await page.goto('rights/lone-soldier/');
+    await expect(page.locator('#sec-notes a[href="tel:1111"]')).toHaveText('1111');
+  });
+});
+
+test.describe('עמוד בנק במחשב', () => {
+  test.use({ viewport: { width: 1280, height: 800 }, isMobile: false, hasTouch: false });
+  test('ברירת המחדל של המתג היא "במחשב"', async ({ page }) => {
+    await page.goto('guides/banks/leumi/');
+    await expect(page.locator('[data-device="pc"]')).toHaveAttribute('aria-pressed', 'true');
+  });
+});
+
+test('עמוד בנק בטלפון: ברירת המחדל היא "בטלפון", והבחירה נשמרת', async ({ page }) => {
+  await page.goto('guides/banks/leumi/');
+  await expect(page.locator('[data-device="phone"]')).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('[data-device="pc"]').click();
+  await page.reload();
+  await expect(page.locator('[data-device="pc"]')).toHaveAttribute('aria-pressed', 'true');
 });
 
 // בלי הדילוג על מסך הפתיחה שבשאר הבדיקות

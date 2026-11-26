@@ -1,4 +1,5 @@
 ---
+import JumpNav from './JumpNav.astro';
 import { href } from '../lib/site';
 
 interface Shot { file: string; alt: string }
@@ -28,15 +29,13 @@ const icons = [
   '<circle cx="12" cy="12" r="8"/><path d="M10 9v6M14 9v6"/>',
   '<circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7"/><path d="M12 17h.01"/>',
 ];
-const nav = [
+const nav: [string, string][] = [
   ['wt-steps', 'השלבים'],
   ['wt-trouble', 'כשמשהו לא עובד'],
   ['wt-rights', 'איך מגישים'],
 ];
 ---
-<nav class="chips wt-nav" aria-label="קפיצה לחלק במדריך">
-  {nav.map(([id, label]) => <a class="chip" href={`#${id}`} data-go={id}>{label}</a>)}
-</nav>
+<JumpNav items={nav} label="קפיצה לחלק במדריך" class="wt-nav" />
 
 <h2 class="section" id="wt-steps" tabindex="-1">{w.stepsTitle}</h2>
 <p class="wt-hint">לחיצה על תמונה פותחת אותה בהגדלה</p>
@@ -128,11 +127,4 @@ const nav = [
   dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
   document.getElementById('wt-zoom-x')!.addEventListener('click', close);
   dlg.addEventListener('close', () => { img.removeAttribute('src'); opener?.focus(); });
-  document.querySelectorAll<HTMLAnchorElement>('[data-go]').forEach((a) =>
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      const t = document.getElementById(a.dataset.go!);
-      t?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-    }),
-  );
 </script>

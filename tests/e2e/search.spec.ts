@@ -144,6 +144,35 @@ test.describe('חיפוש בעמוד', () => {
     await expect(page.locator('[data-ps-empty] a')).toHaveAttribute('href', /search\/\?q=zzzzqq/);
   });
 
+  for (const width of [320, 360, 375]) {
+    test(`טקסט הרמז בשדה החיפוש נכנס במלואו ב-${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 700 });
+      for (const route of ['rights/', 'guides/', 'guides/banks/', 'faq/', 'glossary/', 'contacts/', 'search/']) {
+        await page.goto(route);
+        const fits = await page.evaluate(async () => {
+          await document.fonts.ready;
+          const q = document.getElementById('q') as HTMLInputElement;
+          const cs = getComputedStyle(q);
+          const ph = getComputedStyle(q, '::placeholder');
+          const ctx = document.createElement('canvas').getContext('2d')!;
+          ctx.font = `${ph.fontWeight} ${ph.fontSize} ${ph.fontFamily}`;
+          // רוחב אזור הטקסט: רוחב השדה פחות מסגרת וריפוד (clientWidth של שדה קלט אינו עקבי בין דפדפנים)
+          const px = (v: string) => parseFloat(v) || 0;
+          const room = q.getBoundingClientRect().width - px(cs.borderLeftWidth) - px(cs.borderRightWidth) - px(cs.paddingLeft) - px(cs.paddingRight);
+          return ctx.measureText(q.placeholder).width <= room;
+        });
+        expect(fits, route).toBe(true);
+      }
+    });
+  }
+
+  test('אנשי קשר: שורת תתי-היחידות מוצגת במלואה גם ב-320px', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await page.goto('contacts/');
+    const clipped = await page.evaluate(() => [...document.querySelectorAll('.prow .row .s')].filter((s) => s.scrollHeight > s.clientHeight + 1).length);
+    expect(clipped).toBe(0);
+  });
+
   test('אנשי קשר: המסגרת שנבחרה נשמרת בכתובת', async ({ page }) => {
     await page.goto('contacts/');
     await page.locator('[data-fw="lahav"]').click();

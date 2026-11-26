@@ -1,0 +1,15 @@
+---
+/**
+ * שורת קפיצה לסעיפים בעמוד ארוך. כל פריט: מזהה של אלמנט בעמוד, וטקסט קצר.
+ * הלחיצה מטופלת ב-Base.astro (data-go): פותחת את הסעיף אם הוא סגור, וגוללת אליו.
+ */
+interface Props {
+  items: [id: string, text: string][];
+  label: string;
+  class?: string;
+}
+const { items, label, class: className } = Astro.props;
+---
+<nav class:list={['chips', 'jump', className]} aria-label={label}>
+  {items.map(([id, text]) => <a class="chip" href={`#${id}`} data-go={id}>{text}</a>)}
+</nav>

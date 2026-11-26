@@ -2,6 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import Icon from '../../../components/Icon.astro';
 import { docTypeLabels } from '../../../lib/constants';
+import { inline } from '../../../lib/md';
 import { href, SHOW_DRAFTS, visible } from '../../../lib/site';
 
 export async function getStaticPaths() {
@@ -38,12 +39,12 @@ const docs = (Object.keys(docTypeLabels) as (keyof typeof docTypeLabels)[]).filt
       </div>
       <div style="margin-top: var(--s3)">
         {docs.map((k) => (
-          <details class="acc">
+          <details class="acc" id={`doc-${k}`}>
             <summary>{docTypeLabels[k]}</summary>
             <div class="acc-body">
               {(['phone', 'pc'] as const).map((dev) => (
                 <ol class="steps" data-device-panel={dev} hidden={dev !== 'phone'}>
-                  {(d.guide?.[k]?.[dev] ?? []).map((s) => <li>{s}</li>)}
+                  {(d.guide?.[k]?.[dev] ?? []).map((s) => <li set:html={inline(s)} />)}
                 </ol>
               ))}
             </div>
@@ -60,15 +61,30 @@ const docs = (Object.keys(docTypeLabels) as (keyof typeof docTypeLabels)[]).filt
 </Base>
 
 <script>
+  import { getParam } from '../../../lib/url';
+
   const btns = [...document.querySelectorAll<HTMLButtonElement>('[data-device]')];
   const panels = [...document.querySelectorAll<HTMLElement>('[data-device-panel]')];
   let saved: string | null = null;
   try { saved = localStorage.getItem('device'); } catch {}
-  function set(dev: string) {
+  function show(dev: string) {
     btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.device === dev)));
     panels.forEach((p) => (p.hidden = p.dataset.devicePanel !== dev));
-    try { localStorage.setItem('device', dev); } catch {}
   }
-  btns.forEach((b) => b.addEventListener('click', () => set(b.dataset.device!)));
-  if (saved === 'pc' || saved === 'phone') set(saved);
+  btns.forEach((b) =>
+    b.addEventListener('click', () => {
+      show(b.dataset.device!);
+      try { localStorage.setItem('device', b.dataset.device!); } catch {}
+    }),
+  );
+  // מה שנבחר בעבר. אם עוד לא נבחר כלום: במחשב (עכבר) מציגים את השלבים למחשב, בטלפון את השלבים לטלפון
+  if (saved === 'pc' || saved === 'phone') show(saved);
+  else if (matchMedia('(hover: hover) and (pointer: fine)').matches) show('pc');
+
+  // הגענו מרשימת המסמכים של זכות (?doc=): פותחים את סוג האישור המבוקש וגוללים אליו
+  const wanted = document.getElementById(`doc-${getParam('doc')}`);
+  if (wanted instanceof HTMLDetailsElement) {
+    wanted.open = true;
+    wanted.scrollIntoView({ block: 'center' });
+  }
 </script>

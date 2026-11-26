@@ -2665,3 +2665,23 @@ div.row { -webkit-user-select: text; user-select: text; -webkit-touch-callout: d
 .acc:target > summary, .row:target .t { color: var(--purple); }
 .empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s2); margin-top: var(--s4); }
 .empty-actions .btn { min-height: 44px; }
+
+/* ===== שלב 4: מסלולים קיימים (חזרה: התג pre-stage4) ===== */
+/* שורת קפיצה לסעיפים בעמוד זכות ארוך */
+.jump { margin-bottom: var(--s4); }
+.jump .chip { text-decoration: none; }
+/* רשימת מסמכים: קישור "איך מפיקים?" ליד אישור בנקאי */
+.checklist li { display: flex; align-items: center; gap: var(--s2); }
+.checklist label { flex: 1; min-width: 0; }
+.doc-how { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding-inline: var(--s2); color: var(--purple); font: 700 14px/1.2 var(--display); text-decoration: none; white-space: nowrap; }
+.doc-how:active { opacity: 0.6; }
+/* מספר טלפון לחיץ בתוך רשימה */
+.acc-body a[href^='tel:'] { color: var(--purple); font-weight: 700; text-decoration: none; white-space: nowrap; }
+/* עמוד הבנקים: תזכורת איזה אישור מחפשים */
+#doc-note { margin-bottom: var(--s4); }
+/* אנשי קשר: כל תתי-היחידות מוצגות, בלי קיטוע */
+.prow .row .s { display: block; -webkit-line-clamp: unset; line-clamp: unset; overflow: visible; }
+/* טקסט הרמז בשדה החיפוש נכנס במלואו גם במסך צר: כשהשדה ריק אין כפתור ניקוי, ולכן אין צורך ברווח ששמור לו */
+.ps .searchbar input:placeholder-shown { padding-inline-end: var(--s4); }
+@media (max-width: 374px) { .searchbar input::placeholder { font-size: 15px; } }
+@media (max-width: 340px) { .searchbar input::placeholder { font-size: 14px; } }
