@@ -9,13 +9,17 @@ export function normalize(s: string): string {
   return s.normalize('NFKC').replace(NIQQUD, '').replace(QUOTES, '').toLowerCase();
 }
 
-/** מפרק לטוקנים. עבור מילים עבריות ארוכות מוסיף גם גרסה בלי אות שימוש (ה/ב/ל...) בתחילת המילה. */
+/** מילות הטקסט אחרי נירמול, כפי שנכתבו (בלי גרסאות נוספות). */
+export function words(s: string): string[] {
+  return normalize(s).split(PUNCT).filter(Boolean);
+}
+
+/** המילה עצמה, ולמילה עברית ארוכה גם הגרסה בלי אות שימוש (ה/ב/ל...) בתחילתה. */
+export function variants(t: string): string[] {
+  return t.length > 3 && PREFIXES.includes(t[0]) ? [t, t.slice(1)] : [t];
+}
+
+/** מפרק לטוקנים לאינדקס: כל מילה עם כל הגרסאות שלה. */
 export function tokenize(s: string): string[] {
-  const out: string[] = [];
-  for (const t of normalize(s).split(PUNCT)) {
-    if (!t) continue;
-    out.push(t);
-    if (t.length > 3 && PREFIXES.includes(t[0]) && /[א-ת]/.test(t[0])) out.push(t.slice(1));
-  }
-  return out;
+  return words(s).flatMap(variants);
 }

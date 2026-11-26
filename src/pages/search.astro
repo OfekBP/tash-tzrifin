@@ -18,7 +18,7 @@ import { href } from '../lib/site';
 </script>
 <script>
   import MiniSearch from 'minisearch';
-  import { normalize, tokenize } from '../lib/text';
+  import { tokenize, words } from '../lib/text';
 
   const q = document.getElementById('q') as HTMLInputElement;
   const results = document.getElementById('results')!;
@@ -43,8 +43,10 @@ import { href } from '../lib/site';
   async function run() {
     const term = q.value.trim();
     history.replaceState(null, '', term ? `?q=${encodeURIComponent(term)}` : location.pathname);
-    if (!normalize(term)) {
+    const ws = words(term);
+    if (!ws.length) {
       results.innerHTML = '';
+      count.textContent = '';
       hint.hidden = false;
       return;
     }
@@ -54,8 +56,15 @@ import { href } from '../lib/site';
       results.innerHTML = '<p class="empty">החיפוש לא זמין כרגע. נסו שוב מאוחר יותר.</p>';
       return;
     }
-    const hits = ms.search(term).slice(0, 20);
-    count.textContent = hits.length ? `נמצאו ${hits.length} תוצאות` : 'לא נמצאו תוצאות';
+    // כל מילה חייבת להתאים ("וגם"). לכל מילה מספיקה אחת הגרסאות שלה, עם או בלי אות שימוש ("או"):
+    // כך "בבנק", "לשחרור" או שגיאת הקלדה לא מפילים את כל התוצאות.
+    const all = ms.search({ combineWith: 'AND' as const, queries: ws.map((w) => ({ combineWith: 'OR' as const, queries: [w] })) });
+    const hits = all.slice(0, 20);
+    count.textContent = !all.length
+      ? 'לא נמצאו תוצאות'
+      : all.length === 1
+        ? 'נמצאה תוצאה אחת'
+        : `נמצאו ${all.length} תוצאות${all.length > hits.length ? `, מוצגות ${hits.length} הראשונות` : ''}`;
     results.innerHTML = hits.length
       ? hits.map((h: any) => `<a class="result" href="${esc(h.url)}"><div class="t">${esc(h.title)}</div><div class="s">${esc(h.type)}${h.summary ? ' · ' + esc(h.summary) : ''}</div></a>`).join('')
       : '<p class="empty">לא מצאנו תוצאות. נסו מילה אחרת, או פנו למש״קית הת״ש דרך לשונית אנשי הקשר.</p>';
@@ -68,5 +77,7 @@ import { href } from '../lib/site';
   if (initial) {
     q.value = initial;
     run();
+  } else {
+    q.focus({ preventScroll: true });
   }
 </script>
