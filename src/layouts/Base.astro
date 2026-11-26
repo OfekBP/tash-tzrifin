@@ -153,6 +153,7 @@ const tabs = [
         var ok = getComputedStyle(d).getPropertyValue('--dark').trim() !== '';
         if (ok) {
           d.classList.remove('css-wait');
+          try { sessionStorage.removeItem('css-retry'); } catch (e) {}
           if (d.classList.contains('boot')) { try { boot(); } catch (e) { d.classList.remove('boot'); } }
           return;
         }
