@@ -40,9 +40,14 @@ const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data
 
 <script>
   import { initPageSearch } from '../../lib/page-search';
+  import { getParam, setParam } from '../../lib/url';
   const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-cat]')];
   const cards = [...document.querySelectorAll<HTMLElement>('[data-cats]')];
-  let cat = 'all';
+  // הנושא שנבחר נשמר בכתובת (?cat=), כדי שרענון, חזרה אחורה או שיתוף קישור יחזירו לאותה רשימה
+  const fromUrl = getParam('cat');
+  let cat = chips.some((c) => c.dataset.cat === fromUrl) ? fromUrl : 'all';
+  const mark = () => chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.cat === cat)));
+  mark();
   const ps = initPageSearch({
     input: document.getElementById('q') as HTMLInputElement,
     items: cards,
@@ -56,9 +61,14 @@ const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data
   chips.forEach((c) =>
     c.addEventListener('click', () => {
       cat = c.dataset.cat!;
-      chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      mark();
+      setParam('cat', cat === 'all' ? '' : cat);
       c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
       ps.refresh(false);
     }),
   );
+  // נושא שחזר מהכתובת: מביאים את הצ׳יפ שלו לתוך שורת הצ׳יפים, רק כשהיא על המסך (בלי להזיז את העמוד)
+  const active = chips.find((c) => c.dataset.cat === cat);
+  const row = active?.parentElement?.getBoundingClientRect();
+  if (active && cat !== 'all' && row && row.top >= 0 && row.bottom <= innerHeight) active.scrollIntoView({ inline: 'center', block: 'nearest' });
 </script>

@@ -72,10 +72,15 @@ const groups = frameworks
 
 <script>
   import { initPageSearch } from '../lib/page-search';
+  import { getParam, setParam } from '../lib/url';
 
   const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-fw]')];
   const groups = [...document.querySelectorAll<HTMLElement>('#groups [data-group]')];
-  let fw = 'all';
+  // המסגרת שנבחרה נשמרת בכתובת (?fw=), כדי שרענון או שיתוף קישור יחזירו לאותה רשימה
+  const fromUrl = getParam('fw');
+  let fw = chips.some((c) => c.dataset.fw === fromUrl) ? fromUrl : 'all';
+  const mark = () => chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.fw === fw)));
+  mark();
   const ps = initPageSearch({
     input: document.getElementById('q') as HTMLInputElement,
     items: [...document.querySelectorAll<HTMLElement>('#groups [data-person]')],
@@ -90,11 +95,15 @@ const groups = frameworks
   chips.forEach((c) =>
     c.addEventListener('click', () => {
       fw = c.dataset.fw!;
-      chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+      mark();
+      setParam('fw', fw === 'all' ? '' : fw);
       c.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
       ps.refresh(false);
     }),
   );
+  const active = chips.find((c) => c.dataset.fw === fw);
+  const row = active?.parentElement?.getBoundingClientRect();
+  if (active && fw !== 'all' && row && row.top >= 0 && row.bottom <= innerHeight) active.scrollIntoView({ inline: 'center', block: 'nearest' });
 
   // דף תחתון: פרטי איש קשר, חיוג, העתקה
   const sheet = document.getElementById('sheet') as HTMLDialogElement;
