@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ContactCard from '../components/ContactCard.astro';
 import Icon from '../components/Icon.astro';
@@ -84,14 +84,9 @@ const groups = frameworks
   const mark = () => chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.fw === fw)));
   mark();
   const ps = initPageSearch({
-    input: document.getElementById('q') as HTMLInputElement,
     items: [...document.querySelectorAll<HTMLElement>('#groups [data-person]')],
     groups,
     extra: (el) => fw === 'all' || el.closest<HTMLElement>('[data-group]')?.dataset.group === fw,
-    empty: document.querySelector('[data-ps-empty]'),
-    count: document.getElementById('ps-count'),
-    clear: document.getElementById('ps-clear'),
-    suggest: document.getElementById('ps-suggest'),
   });
 
   chips.forEach((c) =>

@@ -83,7 +83,7 @@ const rights = defineCollection({
     .superRefine((d, ctx) => approvalRules(d, ctx, { requireSources: true })),
 });
 
-const video = z.string().url().optional();
+const video = z.url().optional();
 
 
 const steps = z.object({ pc: z.array(z.string()).default([]), phone: z.array(z.string()).default([]) });
@@ -124,7 +124,7 @@ const guides = defineCollection({
       lead: z.string().optional(), // תת כותרת בראש העמוד, שורה אחת (עד ~32 תווים)
       order: z.number().default(100),
       keywords: z.array(z.string()).default([]),
-      link: z.string().url().optional(),
+      link: z.url().optional(),
       linkLabel: z.string().optional(),
       /** סרטוני הדרכה: file הוא שם קובץ תחת public/videos/<שם-המדריך>/ */
       /** מציג את הסעיפים כשלבים פתוחים לפי סדר */
@@ -184,7 +184,7 @@ const links = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    url: z.string().url(),
+    url: z.url(),
     ...approvalFields,
   }),
 });

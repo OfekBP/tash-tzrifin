@@ -28,3 +28,6 @@ export function variants(t: string): string[] {
 export function tokenize(s: string): string[] {
   return words(s).flatMap(variants);
 }
+
+/** הופך טקסט לבטוח להכנסה לתוך HTML */
+export const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);

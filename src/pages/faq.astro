@@ -41,12 +41,7 @@ const groups = [...new Set(faq.map((f) => f.data.group))];
 <script>
   import { initPageSearch } from '../lib/page-search';
   initPageSearch({
-    input: document.getElementById('q') as HTMLInputElement,
     items: [...document.querySelectorAll<HTMLElement>('[data-faq]')],
     groups: [...document.querySelectorAll<HTMLElement>('[data-group]')],
-    empty: document.querySelector('[data-ps-empty]'),
-    count: document.getElementById('ps-count'),
-    clear: document.getElementById('ps-clear'),
-    suggest: document.getElementById('ps-suggest'),
   });
 </script>

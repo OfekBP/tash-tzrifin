@@ -40,12 +40,7 @@ const initial = (n: string) => n.replace(/^בנק\s+/, '').trim()[0];
   }
 
   initPageSearch({
-    input: document.getElementById('q') as HTMLInputElement,
     items: [...document.querySelectorAll<HTMLElement>('#list > [data-search]')],
     reorder: true,
-    empty: document.querySelector('[data-ps-empty]'),
-    count: document.getElementById('ps-count'),
-    clear: document.getElementById('ps-clear'),
-    suggest: document.getElementById('ps-suggest'),
   });
 </script>

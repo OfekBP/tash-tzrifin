@@ -1,4 +1,4 @@
-import { normalize } from './text';
+import { esc, normalize } from './text';
 import { getParam, setParam } from './url';
 import { highlightTerms, makeDoc, parseQuery, scoreDoc, type SearchDoc } from './search-core';
 
@@ -10,7 +10,8 @@ import { highlightTerms, makeDoc, parseQuery, scoreDoc, type SearchDoc } from '.
 
 type Doc = { el: HTMLElement; doc: SearchDoc; index: number };
 export interface PageSearchOptions {
-  input: HTMLInputElement;
+  /** השדה, ההודעה הריקה, המונה, כפתור הניקוי וההצעות: ברירת המחדל היא האלמנטים של PageSearch.astro */
+  input?: HTMLInputElement;
   items: HTMLElement[];
   /** מקבצים (קטגוריות/קבוצות): מוסתרים כשאין בהם פריט מוצג */
   groups?: HTMLElement[];
@@ -25,8 +26,6 @@ export interface PageSearchOptions {
   /** שורת "בכל האתר" בתוצאה ריקה */
   globalHref?: string;
 }
-
-const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
 const SEP = /[\s,.;:!?/()\[\]{}\-–—_|·]/;
 
@@ -93,7 +92,15 @@ function clearMarks(root: Element) {
   root.normalize();
 }
 
-export function initPageSearch(o: PageSearchOptions) {
+export function initPageSearch(options: PageSearchOptions) {
+  const o = {
+    input: document.getElementById('q') as HTMLInputElement,
+    empty: document.querySelector<HTMLElement>('[data-ps-empty]'),
+    count: document.getElementById('ps-count'),
+    clear: document.getElementById('ps-clear'),
+    suggest: document.getElementById('ps-suggest'),
+    ...options,
+  };
   const docs: Doc[] = o.items.map((el, index) => {
     const [t = '', k = '', s = ''] = (el.dataset.search ?? el.textContent ?? '').split('|');
     return { el, index, doc: makeDoc(t, k, s) };

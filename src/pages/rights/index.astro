@@ -49,14 +49,9 @@ const used = Object.keys(categoryLabels).filter((c) => rights.some((r) => r.data
   const mark = () => chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.cat === cat)));
   mark();
   const ps = initPageSearch({
-    input: document.getElementById('q') as HTMLInputElement,
     items: cards,
     reorder: true,
     extra: (el) => cat === 'all' || el.dataset.cats!.split(' ').includes(cat),
-    empty: document.querySelector('[data-ps-empty]'),
-    count: document.getElementById('ps-count'),
-    clear: document.getElementById('ps-clear'),
-    suggest: document.getElementById('ps-suggest'),
   });
   chips.forEach((c) =>
     c.addEventListener('click', () => {

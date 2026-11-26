@@ -28,6 +28,8 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
 </Base>
 
 <script>
+  import { esc } from '../lib/text';
+
   type Branch = { id: string; label: string; base: string[]; questions: { q: string; options: { label: string; add: string[] }[] }[] };
   const root = document.getElementById('app')!;
   const data = JSON.parse(root.dataset.payload!) as { branches: Branch[]; rights: Record<string, { title: string; summary: string; url: string }>; contacts: string; rightsList: string; logo: string; banks: string; docs: string };
@@ -37,7 +39,6 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
   const restartBtn = document.getElementById('restart')!;
   const backBtn = document.getElementById('back-step')!;
   const progress = document.getElementById('quiz-progress')!;
-  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
   const row = (label: string, attr: string) => `<button class="row" type="button" ${attr}><span class="tx"><span class="t">${esc(label)}</span></span></button>`;
 

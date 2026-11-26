@@ -20,6 +20,7 @@ const urls = { index: href('/search-index.json'), quiz: href('/guide-me/'), righ
 
 <script>
   import { makeDoc, rank, type SearchDoc } from '../lib/search-core';
+  import { esc } from '../lib/text';
   import { getParam, setParam } from '../lib/url';
 
   type Item = { kind: string; title: string; type: string; summary: string; keywords: string; body?: string; url: string; doc: SearchDoc };
@@ -43,7 +44,6 @@ const urls = { index: href('/search-index.json'), quiz: href('/guide-me/'), righ
     return items;
   })().catch(() => null);
 
-  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
   async function run() {
     const term = q.value.trim();
