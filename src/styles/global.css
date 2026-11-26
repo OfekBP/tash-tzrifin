@@ -2646,3 +2646,13 @@ dialog.tour::backdrop { background: transparent; }
 
 /* שורה שאינה קישור או כפתור (מילון המושגים): אפשר לסמן ולהעתיק את הטקסט */
 div.row { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+
+/* בית במסך צר: הלוגואים זזים מעט ימינה, רק כמה שצריך כדי לא להתנגש בכפתורי החיפוש והעזרה (חזרה: התג pre-home-narrow).
+   104px = הקצה הימני של שני הכפתורים (12 + 40 + 6 + 40) ועוד 6px רווח. במסך של 390px ומעלה אין הזזה. */
+.hero-bar .unit-mark {
+  --logo: clamp(42px, 13.6vw, 54px);
+  --logo-gap: clamp(6px, 2vw, 10px);
+  gap: var(--logo-gap);
+  transform: translate(max(0px, 104px - (100vw - 3 * var(--logo) - 2 * var(--logo-gap)) / 2), 20px);
+}
+.hero-bar .unit-mark img { width: var(--logo); height: var(--logo); }
