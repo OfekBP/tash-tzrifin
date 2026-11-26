@@ -21,6 +21,7 @@ const groups = frameworks
 <Base title="אנשי קשר" lead="המש״קית של היחידה שלך" description="מש״קיות ומש״קי הת״ש לפי מסגרת ויחידה">
   <PageSearch slot="head" placeholder="חיפוש יחידה או שם" label="חיפוש יחידה או שם" suggestions={groups.slice(0, 4).map((g) => g.f.data.name)} />
 
+  <WaLogo mode="symbol" />
   <div class="chips" role="group" aria-label="מסגרת">
     <button class="chip" type="button" data-fw="all" aria-pressed="true">הכול</button>
     {groups.map((g) => <button class="chip" type="button" data-fw={g.f.id} aria-pressed="false">{logos[g.f.id] ? <img class="fw-logo" src={href(`/logos/${logos[g.f.id]}.webp`)} alt="" width="40" height="40" decoding="async" /> : null}{g.f.data.name}</button>)}

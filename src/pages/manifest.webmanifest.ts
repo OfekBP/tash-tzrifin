@@ -11,7 +11,8 @@ export const GET = () =>
       start_url: href('/'),
       scope: href('/'),
       display: 'standalone',
-      background_color: '#003173',
+      description: 'זכויות, מדריכים ואנשי קשר בת״ש לחיילי חובה בחיל האוויר בצריפין',
+      background_color: '#cde8fc',
       theme_color: '#cde8fc',
       icons: [
         { src: href('/icons/192.png'), sizes: '192x192', type: 'image/png' },

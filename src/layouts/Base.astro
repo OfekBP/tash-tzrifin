@@ -62,6 +62,7 @@ const tabs = [
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="ת״ש צריפין" />
     <link rel="alternate icon" href={href('/favicon.ico')} sizes="32x32" />
+    {onVercel ? <script is:inline>window.webAnalyticsBeforeSend=function(e){try{var u=new URL(e.url);u.search='';u.hash='';e.url=u.toString()}catch(x){}return e}</script> : null}
     {onVercel ? <Analytics /> : null}
   </head>
   <body>
