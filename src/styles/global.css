@@ -1432,7 +1432,7 @@ a, button, summary, label, input, .row, .tile {
   font-size: 13px;
   min-width: 0;
 }
-body:has(input:focus) .dock {
+body:has(.searchbar input:focus) .dock {
   display: none;
 }
 @media (max-height: 480px) and (orientation: landscape) {
