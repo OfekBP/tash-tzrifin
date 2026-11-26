@@ -2704,3 +2704,9 @@ details.acc > summary > :is(h2, h3) { margin: 0; font: inherit; color: inherit; 
 /* דף הבית: כפתורי החיפוש והעזרה נשארים בגודל 40px כדי לא להתנגש בלוגואים, ואזור המגע שלהם מורחב ל-44px */
 .hero-bar .icon-btn { position: relative; }
 .hero-bar .icon-btn::after { content: ''; position: absolute; inset: -2px; border-radius: 50%; }
+
+/* ===== שלב 5.3: ירוק הוואטסאפ בכפתור העגול (חזרה: התג pre-wa-green) =====
+   הירוק הרשמי (#25d366) על לבן נותן ניגודיות 1.98, מתחת ל-3 שנדרש לסמל שהוא הסימן היחיד לכפתור.
+   הירוק הכהה מעט (#1aa34f) נותן 3.28. בכפתור הגדול שבחלון איש הקשר יש כיתוב, ולכן הוא לא השתנה. */
+.call.wa { color: #1aa34f; box-shadow: 0 0 0 1.5px #1aa34f inset; }
+.call.wa svg { fill: #1aa34f; }
