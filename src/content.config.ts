@@ -55,6 +55,7 @@ const rights = defineCollection({
       summary: z.string(), // שורה אחת למסך הרשימה
       lead: z.string().optional(), // תת כותרת בראש העמוד, שורה אחת (עד ~32 תווים)
       keywords: z.array(z.string()).default([]), // כינויים לחיפוש
+      notice: z.string().optional(), // הבהרה מודגשת בראש העמוד
       eligibility: z.array(z.string()).default([]),
       conditions: z.array(z.string()).default([]),
       documents: z.array(z.string()).default([]),

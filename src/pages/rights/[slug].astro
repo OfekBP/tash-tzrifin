@@ -48,6 +48,8 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 
   {accordions >= 7 ? <JumpNav items={jump} label="קפיצה לסעיף בעמוד" /> : null}
 
+  {d.notice ? <p class="notice key">{d.notice}</p> : null}
+
   <div>
     {lists.map((s, i) => (
       <details class="acc" id={`sec-${s.id}`} open={s.open || i === 0}>
