@@ -9,13 +9,15 @@ interface Props {
   phone: string;
   whatsapp: 'yes' | 'no' | 'unknown';
   units?: string[];
+  /** שם המסגרת (למשל אופק 324): לא מוצג בכרטיס, רק נכנס לחיפוש בעמוד */
+  framework?: string;
   role?: string;
   hue?: 'a' | 'b' | 'c' | 'd';
 }
-const { id, name, phone, whatsapp, units = [], role, hue = 'a' } = Astro.props;
+const { id, name, phone, whatsapp, units = [], framework = '', role, hue = 'a' } = Astro.props;
 const sub = units.length > 0 ? units.join(' · ') : (role ?? '');
 ---
-<div class="prow" id={`p-${id}`} data-person data-search={`${name}|${[...units, role ?? ''].join(' ')}|`}>
+<div class="prow" id={`p-${id}`} data-person data-search={`${name}|${[framework, ...units, role ?? ''].join(' ')}|`}>
   <button
     class="row"
     type="button"

@@ -36,7 +36,7 @@ const groups = frameworks
         <div class="group">
           {g.items.map((a) => {
             const p = people.get(a.data.person.id)!;
-            return <ContactCard id={`${a.id}`} name={p.data.name} phone={p.data.phone} whatsapp={p.data.whatsapp} units={a.data.units} hue={hues[g.f.id] ?? 'a'} />;
+            return <ContactCard id={`${a.id}`} name={p.data.name} phone={p.data.phone} whatsapp={p.data.whatsapp} units={a.data.units} framework={g.f.data.name} hue={hues[g.f.id] ?? 'a'} />;
           })}
         </div>
       </section>
