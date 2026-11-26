@@ -2655,3 +2655,8 @@ div.row { -webkit-user-select: text; user-select: text; -webkit-touch-callout: d
   transform: translate(max(0px, 104px - (100vw - 3 * var(--logo) - 2 * var(--logo-gap)) / 2), 20px);
 }
 .hero-bar .unit-mark img { width: var(--logo); height: var(--logo); }
+
+/* מסך הפתיחה קצר יותר (שנייה וחצי במקום 2.1 שניות): הכותרת, הקו והכיתוב נכנסים מעט מוקדם יותר, כדי שהרצף יושלם בזמן (חזרה: התג pre-splash-restore) */
+.sp2-name { animation-delay: .55s; }
+.sp2-line { animation-delay: .75s; }
+.sp2-sub { animation-delay: .85s; }
