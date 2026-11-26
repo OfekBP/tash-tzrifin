@@ -47,7 +47,9 @@ related: [financial-aid]
 sources:
   - { doc: book, page: 192 }
   - { doc: book, page: 193 }
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-26
 origin: official
 lastVerified: 2026-11-26
 open_issues: []

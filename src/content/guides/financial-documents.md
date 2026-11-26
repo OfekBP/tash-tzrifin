@@ -7,7 +7,9 @@ keywords: [עו״ש, ריכוז יתרות, פירוט אשראי, אישור ה
 sources:
   - { doc: book, page: 165 }
   - { doc: book, page: 167 }
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-26
 origin: official
 lastVerified: 2026-11-26
 open_issues: []

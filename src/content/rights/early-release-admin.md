@@ -51,7 +51,9 @@ to_verify:
 sources:
   - { doc: book, page: 207 }
   - { doc: book, page: 208 }
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-26
 origin: official
 lastVerified: 2026-11-26
 ---
