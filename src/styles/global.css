@@ -2643,3 +2643,6 @@ dialog.tour::backdrop { background: transparent; }
 .tour-prev { background: var(--lav-a); color: var(--dark); }
 .tour-prev[hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) { .tour-spot { transition: none; } }
+
+/* שורה שאינה קישור או כפתור (מילון המושגים): אפשר לסמן ולהעתיק את הטקסט */
+div.row { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
