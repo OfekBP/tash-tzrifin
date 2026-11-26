@@ -61,7 +61,7 @@ const { intro, parts } = splitSections(entry.body);
     <div style="margin-top: var(--s5)">
       {parts.map((p, i) => (
         <details class="acc" open={i === 0}>
-          <summary>{p.title}</summary>
+          <summary><h2>{p.title}</h2></summary>
           <div class="acc-body prose" set:html={p.html} />
         </details>
       ))}

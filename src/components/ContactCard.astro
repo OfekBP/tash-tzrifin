@@ -21,6 +21,7 @@ const sub = units.length > 0 ? units.join(' · ') : (role ?? '');
   <button
     class="row"
     type="button"
+    aria-haspopup="dialog"
     data-open
     data-name={name}
     data-sub={sub}

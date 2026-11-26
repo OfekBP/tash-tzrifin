@@ -17,7 +17,7 @@ const groups = [...new Set(faq.map((f) => f.data.group))];
       <div>
         {faq.filter((f) => f.data.group === g).map((f) => (
           <details class="acc" id={`q-${f.id}`} data-faq data-search={`${f.data.q}|${f.data.group}|${f.data.a}`}>
-            <summary data-hl>{f.data.q}</summary>
+            <summary data-hl><h3>{f.data.q}</h3></summary>
             <div class="acc-body">
               <p style="margin: 0" data-hl>{f.data.a}</p>
               {f.data.rights.filter((r) => allRights.has(r.id)).map((r) => (

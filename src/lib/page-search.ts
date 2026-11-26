@@ -101,6 +101,7 @@ export function initPageSearch(o: PageSearchOptions) {
   const globalHref = o.globalHref ?? (o.input.closest<HTMLElement>('.ps')?.dataset.global ?? '');
   const parent = o.reorder && o.items[0] ? o.items[0].parentElement : null;
   const hl = (el: HTMLElement) => [...el.querySelectorAll<HTMLElement>('[data-hl]')];
+  o.empty?.setAttribute('role', 'status'); // ההודעה "לא מצאנו תוצאות" מוקראת בקורא מסך
   /** התוצאה המובילה בחיפוש הנוכחי: היעד של Enter */
   let top: HTMLElement | null = null;
 

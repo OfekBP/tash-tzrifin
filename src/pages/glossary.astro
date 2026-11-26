@@ -7,16 +7,14 @@ const terms = (await getCollection('glossary')).sort((a, b) => a.data.term.local
 ---
 <Base title="מילון מושגים" lead="המילים של עולם הת״ש, בלי ז׳רגון" back="/guides/" description="מילון מושגי ת״ש לחיילי חובה">
   <PageSearch slot="head" placeholder="חיפוש מושג: תשמ״ש, הלנה…" label="חיפוש במילון" suggestions={terms.slice(0, 4).map((t) => t.data.term)} />
-  <div class="group" id="list">
+  <dl class="group gloss" id="list">
     {terms.map((t) => (
-      <div class="row" id={`t-${t.id}`} style="cursor: default; align-items: flex-start" data-search={`${t.data.term}|${t.data.aliases.join(' ')}|${t.data.meaning}`}>
-        <span class="tx">
-          <span class="t" data-hl>{t.data.term}</span>
-          <span class="s" data-hl style="-webkit-line-clamp: unset; display: block">{t.data.meaning}</span>
-        </span>
+      <div class="row" id={`t-${t.id}`} data-search={`${t.data.term}|${t.data.aliases.join(' ')}|${t.data.meaning}`}>
+        <dt class="t" data-hl>{t.data.term}</dt>
+        <dd class="s" data-hl>{t.data.meaning}</dd>
       </div>
     ))}
-  </div>
+  </dl>
   <p class="ps-empty" data-ps-empty hidden></p>
 </Base>
 

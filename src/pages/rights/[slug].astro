@@ -53,14 +53,14 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
   <div>
     {lists.map((s, i) => (
       <details class="acc" id={`sec-${s.id}`} open={s.open || i === 0}>
-        <summary>{s.title}</summary>
+        <summary><h2>{s.title}</h2></summary>
         <div class="acc-body"><ul>{s.items.map((x) => <li set:html={inline(x)} />)}</ul></div>
       </details>
     ))}
 
     {d.figures.length > 0 ? (
       <details class="acc" id="sec-figures" open>
-        <summary>סכומים ומספרים</summary>
+        <summary><h2>סכומים ומספרים</h2></summary>
         <div class="acc-body">
           <ul class="figs">
             {d.figures.map((f) => (
@@ -77,7 +77,7 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 
     {d.documents.length > 0 ? (
       <details class="acc" id="sec-documents" open data-docs={entry.id}>
-        <summary>מסמכים שצריך להכין</summary>
+        <summary><h2>מסמכים שצריך להכין</h2></summary>
         <div class="acc-body">
           <p class="muted small" style="margin: 0 0 var(--s3)">סמנו מה כבר הכנתם. הסימון נשמר רק במכשיר הזה.</p>
           <ul class="checklist">
@@ -97,21 +97,21 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 
     {d.how_to_apply.length > 0 ? (
       <details class="acc" id="sec-apply" open>
-        <summary>איך מגישים בקשה</summary>
+        <summary><h2>איך מגישים בקשה</h2></summary>
         <div class="acc-body"><ol class="steps">{d.how_to_apply.map((x) => <li set:html={inline(x)} />)}</ol></div>
       </details>
     ) : null}
 
     {d.approver ? (
       <details class="acc" id="sec-approver">
-        <summary>מי מאשר?</summary>
+        <summary><h2>מי מאשר?</h2></summary>
         <div class="acc-body">{d.approver}</div>
       </details>
     ) : null}
 
     {d.exceptions.length > 0 ? (
       <details class="acc" id="sec-notes" open>
-        <summary>חשוב לדעת</summary>
+        <summary><h2>חשוב לדעת</h2></summary>
         <div class="acc-body"><ul>{d.exceptions.map((x) => <li set:html={inline(x)} />)}</ul></div>
       </details>
     ) : null}
@@ -124,7 +124,7 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
       <div>
         {parts.map((p) => (
           <details class="acc" open={parts.length === 1 || undefined}>
-            <summary>{p.title}</summary>
+            <summary><h3>{p.title}</h3></summary>
             <div class="acc-body prose" set:html={p.html} />
           </details>
         ))}
@@ -137,7 +137,7 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
       <h2 class="section" id="sec-faq" tabindex="-1">שאלות נפוצות</h2>
       <div>
         {d.faq.map((f) => (
-          <details class="acc"><summary>{f.q}</summary><div class="acc-body">{f.a}</div></details>
+          <details class="acc"><summary><h3>{f.q}</h3></summary><div class="acc-body">{f.a}</div></details>
         ))}
       </div>
     </>

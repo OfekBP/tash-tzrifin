@@ -111,6 +111,7 @@ const tabs = [
 
       <main id="main">
         {SHOW_DRAFTS && draft ? <div class="draft-bar">טיוטה: תוכן שטרם אושר, לא יפורסם באתר</div> : null}
+        <noscript><p class="notice" style="margin-bottom: var(--s4)">חלק מהאתר זקוק ל-JavaScript: החיפוש, השאלון וחלון איש הקשר. אם משהו לא עובד, כדאי להפעיל אותו בדפדפן.</p></noscript>
         <slot />
       </main>
 

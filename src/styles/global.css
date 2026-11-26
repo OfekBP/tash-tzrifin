@@ -2528,7 +2528,7 @@ dialog.sheet .grab { background-color: #b9c8ea; }
 @keyframes sp2-bob { to { transform: translateY(-6px); } }
 @media (prefers-reduced-motion: reduce) { .sp2-fly { display: none; } .sp2-emblem { opacity: 1; animation: none; } }
 /* חלון איש קשר: כפתורים בלי מסגרות */
-.sheet .acts .btn, .sheet .acts .btn.wa, .sheet .acts #sheet-copy, .sheet .acts #sheet-close { border: 0 !important; outline: 0 !important; box-shadow: none !important; }
+.sheet .acts .btn, .sheet .acts .btn.wa, .sheet .acts #sheet-copy, .sheet .acts #sheet-close { border: 0 !important; box-shadow: none !important; }
 .sheet .acts .btn.wa { background: #d9f5e8; color: #0b7a3b; }
 .sheet .acts .btn:not(.ghost):not(.wa) { background: var(--lav-a); color: var(--dark); }
 
@@ -2685,3 +2685,13 @@ div.row { -webkit-user-select: text; user-select: text; -webkit-touch-callout: d
 .ps .searchbar input:placeholder-shown { padding-inline-end: var(--s4); }
 @media (max-width: 374px) { .searchbar input::placeholder { font-size: 15px; } }
 @media (max-width: 340px) { .searchbar input::placeholder { font-size: 14px; } }
+
+/* ===== שלב 5: נגישות (חזרה: התג pre-stage5) ===== */
+/* כותרת בתוך סעיף נפתח: נראית בדיוק כמו קודם, ומסומנת ככותרת לקוראי מסך */
+details.acc > summary > :is(h2, h3) { margin: 0; font: inherit; color: inherit; letter-spacing: inherit; }
+/* מילון כרשימת הגדרות: אותה תצוגה כמו שורה רגילה */
+.gloss { margin: 0; }
+.gloss .row { display: grid; align-items: start; gap: 1px; cursor: default; }
+.gloss .s { display: block; margin: 0; -webkit-line-clamp: unset; line-clamp: unset; overflow: visible; }
+/* חלון איש קשר: בפתיחה הפוקוס על השם, בלי מסגרת. מסגרת הפוקוס של הכפתורים מופיעה רק בניווט במקלדת */
+#sheet-name:focus { outline: none; }

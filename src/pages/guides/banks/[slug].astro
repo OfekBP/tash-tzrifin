@@ -40,7 +40,7 @@ const docs = (Object.keys(docTypeLabels) as (keyof typeof docTypeLabels)[]).filt
       <div style="margin-top: var(--s3)">
         {docs.map((k) => (
           <details class="acc" id={`doc-${k}`}>
-            <summary>{docTypeLabels[k]}</summary>
+            <summary><h3>{docTypeLabels[k]}</h3></summary>
             <div class="acc-body">
               {(['phone', 'pc'] as const).map((dev) => (
                 <ol class="steps" data-device-panel={dev} hidden={dev !== 'phone'}>
