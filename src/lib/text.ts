@@ -4,9 +4,14 @@ const NIQQUD = /[֑-ׇ]/g;
 const QUOTES = /["'״׳`´“”‘’]/g;
 const PUNCT = /[\s,.;:!?/()\[\]{}\-–—_|]+/;
 const PREFIXES = 'הוכלמבש';
+const FINALS: Record<string, string> = { ך: 'כ', ם: 'מ', ן: 'נ', ף: 'פ', ץ: 'צ' };
 
+/**
+ * בלי ניקוד ובלי גרשיים, באותיות קטנות, ואות סופית הופכת לאות רגילה (כדי ש"מסמך" ו"מסמכים" יתחילו אותו דבר).
+ * אורך הטקסט נשמר, חוץ מניקוד וגרשיים שנעלמים.
+ */
 export function normalize(s: string): string {
-  return s.normalize('NFKC').replace(NIQQUD, '').replace(QUOTES, '').toLowerCase();
+  return s.normalize('NFKC').replace(NIQQUD, '').replace(QUOTES, '').toLowerCase().replace(/[ךםןףץ]/g, (c) => FINALS[c]);
 }
 
 /** מילות הטקסט אחרי נירמול, כפי שנכתבו (בלי גרסאות נוספות). */

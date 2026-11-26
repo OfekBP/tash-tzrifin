@@ -2,17 +2,46 @@
 import { expect, test } from './helpers';
 
 test.describe('חיפוש כללי', () => {
-  /** שאילתה ← טקסט שחייב להופיע בתוצאות. שאילתות אמיתיות, כולל אותיות שימוש ושגיאות הקלדה. */
-  const cases: [string, RegExp][] = [
+  /**
+   * טבלת הזהב: שאילתה אמיתית ← התוצאה שחייבת להופיע ראשונה (או בין הראשונות).
+   * כוללת את מה שחיילים באמת מקלידים: צורות רבים, אותיות שימוש, שגיאות הקלדה, מילים נרדפות ומילות קישור.
+   */
+  const first: [string, RegExp][] = [
     ['חופשה', /חופשות מיוחדות/],
-    ['שכר דירה', /דיור|חייל בודד/],
-    ['לאומי', /לאומי/],
-    ['ריכוז יתרות', /אישורים/],
+    ['חופשות', /חופשות מיוחדות/],
+    ['חופש', /חופשות מיוחדות/],
+    ['בחופשה', /חופשות מיוחדות/], // אות שימוש
+    ['שכר דירה', /הלנה ופתרונות דיור/],
+    ['לאומי', /בנק לאומי/],
+    ['ריכוז יתרות', /אישורים מהבנק/],
     ['הלואה', /סיוע כלכלי/], // שגיאת הקלדה
-    ['בבנק', /בנק/], // אות שימוש
     ['לשחרור', /קיצור שירות/], // אות שימוש
+    ['כסף', /סיוע כלכלי/], // מילה נרדפת
+    ['אני צריך כסף', /סיוע כלכלי/], // מילות קישור
+    ['חתונה', /חייל נשוי/], // מילה נרדפת
+    ['רופא שיניים', /פרוטזות/],
+    ['אבד לי ציוד', /אובדן ציוד/],
+    ['אמא חולה', /הקלות בתנאי שירות/],
+    ['תלוש', /מסמכים כלכליים/],
+    ['משקית', /אנשי קשר/],
+    ['וואטסאפ', /אנשי קשר/],
+    ['מינוס', /סיוע כלכלי/],
+    ['תשמש', /תשלומי משפחה/],
+    ['שאלות', /שאלות נפוצות/],
+  ];
+  for (const [query, expected] of first) {
+    test(`"${query}" מוביל קודם כול ל-${expected.source}`, async ({ page }) => {
+      await page.goto(`search/?q=${encodeURIComponent(query)}`);
+      await expect(page.locator('#results .result').first().locator('.t')).toHaveText(expected);
+    });
+  }
+
+  /** שאילתה ← טקסט שחייב להופיע איפשהו בתוצאות. */
+  const cases: [string, RegExp][] = [
+    ['בבנק', /בנק/],
     ['אבד ציוד', /אובדן ציוד/],
     ['מענק', /סיוע כלכלי|חייל/],
+    ['אופק', /איש קשר/],
   ];
 
   for (const [query, expected] of cases) {
@@ -23,10 +52,37 @@ test.describe('חיפוש כללי', () => {
     });
   }
 
-  test('שאילתה בלי תוצאות מציגה הודעה, והספירה מוקראת', async ({ page }) => {
+  test('שאילתה בלי תוצאות מציגה הודעה, שלושה כפתורי המשך, והספירה מוקראת', async ({ page }) => {
     await page.goto('search/?q=zzzzqq');
     await expect(page.locator('#results .empty')).toBeVisible();
     await expect(page.locator('#count')).toHaveText('לא נמצאו תוצאות');
+    await expect(page.locator('.empty-actions a')).toHaveCount(3);
+    await page.locator('.empty-actions a', { hasText: 'כל הזכויות' }).click();
+    await expect(page).toHaveURL(/\/rights\/$/);
+  });
+
+  test('כשאין התאמה לכל המילים מוצגות תוצאות קרובות, עם הסבר', async ({ page }) => {
+    await page.goto(`search/?q=${encodeURIComponent('חופשה zzzzqq')}`);
+    await expect(page.locator('#near')).toBeVisible();
+    await expect(page.locator('#results .result').first()).toContainText('חופש');
+  });
+
+  test('תוצאה של שאלה נפוצה מובילה ישר לשאלה ופותחת אותה', async ({ page }) => {
+    await page.goto(`search/?q=${encodeURIComponent('מה ההבדל בין מענק להלוואה')}`);
+    const hit = page.locator('#results .result', { hasText: 'מה ההבדל בין מענק להלוואה' }).first();
+    await expect(hit).toHaveAttribute('href', /\/faq\/#q-/);
+    await hit.click();
+    await expect(page).toHaveURL(/\/faq\/#q-/);
+    const target = page.locator('details.acc:target');
+    await expect(target).toHaveAttribute('open', '');
+    await expect(target).toBeInViewport();
+  });
+
+  test('תוצאה של מושג מובילה ישר למושג במילון', async ({ page }) => {
+    await page.goto(`search/?q=${encodeURIComponent('רמת פעילות')}`);
+    const hit = page.locator('#results .result[href*="/glossary/#t-"]').first();
+    await hit.click();
+    await expect(page.locator('#list .row:target')).toBeInViewport();
   });
 
   test('השדה מוכן להקלדה בכניסה, והכתובת מתעדכנת', async ({ page }) => {

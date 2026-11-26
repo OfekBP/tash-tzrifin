@@ -2,41 +2,45 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { href } from '../lib/site';
+
+const urls = { index: href('/search-index.json'), quiz: href('/guide-me/'), rights: href('/rights/'), contacts: href('/contacts/') };
 ---
 <Base title="חיפוש" lead="זכות, מדריך, בנק, יחידה או שם" back="/">
   <div slot="head" class="searchbar">
     <Icon name="search" />
     <input type="search" id="q" placeholder="למשל: ריכוז יתרות, חופשה, ליאן" aria-label="חיפוש" autocomplete="off" enterkeyhint="search" />
   </div>
-  <p class="muted small" id="hint">התחילו להקליד, והתוצאות יופיעו כאן.</p>
-  <p class="sr-only" role="status" id="count"></p>
-  <div class="group" id="results"></div>
+  <div id="search-app" data-urls={JSON.stringify(urls)}>
+    <p class="muted small" id="hint">התחילו להקליד, והתוצאות יופיעו כאן.</p>
+    <p class="sr-only" role="status" id="count"></p>
+    <p class="muted small" id="near" hidden>לא נמצאה התאמה לכל המילים. אלה התוצאות הקרובות ביותר:</p>
+    <div class="group" id="results"></div>
+  </div>
 </Base>
 
-<script define:vars={{ indexUrl: href('/search-index.json') }}>
-  window.__indexUrl = indexUrl;
-</script>
 <script>
-  import MiniSearch from 'minisearch';
-  import { tokenize, words } from '../lib/text';
+  import { makeDoc, rank, type SearchDoc } from '../lib/search-core';
   import { getParam, setParam } from '../lib/url';
+
+  type Item = { kind: string; title: string; type: string; summary: string; keywords: string; body?: string; url: string; doc: SearchDoc };
 
   const q = document.getElementById('q') as HTMLInputElement;
   const results = document.getElementById('results')!;
   const hint = document.getElementById('hint')!;
-
+  const near = document.getElementById('near')!;
   const count = document.getElementById('count')!;
+  const urls = JSON.parse(document.getElementById('search-app')!.dataset.urls!) as { index: string; quiz: string; rights: string; contacts: string };
+
+  /** זכויות ומדריכים לפני שאלות נפוצות ומילון, כשההתאמה דומה */
+  const BOOST: Record<string, number> = { right: 1.6, page: 1.5, guide: 1.3, bank: 1.3, contact: 1.3, faq: 1, term: 0.9 };
+  const MAX = 20;
+
   const ready = (async () => {
-    const res = await fetch((window as any).__indexUrl);
-    const docs = await res.json();
-    const ms = new MiniSearch({
-      fields: ['title', 'keywords', 'summary'],
-      storeFields: ['title', 'type', 'summary', 'url'],
-      tokenize,
-      searchOptions: { prefix: true, fuzzy: (t: string) => (t.length > 4 ? 0.15 : 0), boost: { title: 3, keywords: 2 }, combineWith: 'AND', tokenize },
-    });
-    ms.addAll(docs);
-    return ms;
+    const res = await fetch(urls.index);
+    if (!res.ok) throw new Error(String(res.status));
+    const items = (await res.json()) as Item[];
+    for (const it of items) it.doc = makeDoc(it.title, it.keywords, it.summary, it.body ?? '');
+    return items;
   })().catch(() => null);
 
   const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
@@ -44,31 +48,33 @@ import { href } from '../lib/site';
   async function run() {
     const term = q.value.trim();
     setParam('q', term);
-    const ws = words(term);
-    if (!ws.length) {
+    near.hidden = true;
+    if (!term) {
       results.innerHTML = '';
       count.textContent = '';
       hint.hidden = false;
       return;
     }
     hint.hidden = true;
-    const ms = await ready;
-    if (!ms) {
+    const items = await ready;
+    if (!items) {
       results.innerHTML = '<p class="empty">החיפוש לא זמין כרגע. נסו שוב מאוחר יותר.</p>';
       return;
     }
-    // כל מילה חייבת להתאים ("וגם"). לכל מילה מספיקה אחת הגרסאות שלה, עם או בלי אות שימוש ("או"):
-    // כך "בבנק", "לשחרור" או שגיאת הקלדה לא מפילים את כל התוצאות.
-    const all = ms.search({ combineWith: 'AND' as const, queries: ws.map((w) => ({ combineWith: 'OR' as const, queries: [w] })) });
-    const hits = all.slice(0, 20);
-    count.textContent = !all.length
+    const { hits, partial } = rank(items, (i) => i.doc, term, (i) => BOOST[i.kind] ?? 1);
+    const shown = hits.slice(0, MAX);
+    near.hidden = !partial || !hits.length;
+    count.textContent = !hits.length
       ? 'לא נמצאו תוצאות'
-      : all.length === 1
-        ? 'נמצאה תוצאה אחת'
-        : `נמצאו ${all.length} תוצאות${all.length > hits.length ? `, מוצגות ${hits.length} הראשונות` : ''}`;
-    results.innerHTML = hits.length
-      ? hits.map((h: any) => `<a class="result" href="${esc(h.url)}"><div class="t">${esc(h.title)}</div><div class="s">${esc(h.type)}${h.summary ? ' · ' + esc(h.summary) : ''}</div></a>`).join('')
-      : '<p class="empty">לא מצאנו תוצאות. נסו מילה אחרת, או פנו למש״קית הת״ש דרך לשונית אנשי הקשר.</p>';
+      : partial
+        ? `לא נמצאה התאמה מלאה. ${hits.length === 1 ? 'תוצאה קרובה אחת' : `${hits.length} תוצאות קרובות`}`
+        : hits.length === 1
+          ? 'נמצאה תוצאה אחת'
+          : `נמצאו ${hits.length} תוצאות${hits.length > shown.length ? `, מוצגות ${shown.length} הראשונות` : ''}`;
+    results.innerHTML = shown.length
+      ? shown.map((h) => `<a class="result" href="${esc(h.url)}"><div class="t">${esc(h.title)}</div><div class="s">${esc(h.type)}${h.summary ? ' · ' + esc(h.summary) : ''}</div></a>`).join('')
+      : `<div class="empty"><p>לא מצאנו תוצאות ל״${esc(term)}״.</p><p>אפשר לנסות מילה אחרת, או להמשיך מכאן:</p>
+        <div class="empty-actions"><a class="btn ghost" href="${esc(urls.quiz)}">מאיפה מתחילים?</a><a class="btn ghost" href="${esc(urls.rights)}">כל הזכויות</a><a class="btn ghost" href="${esc(urls.contacts)}">אנשי קשר</a></div></div>`;
   }
 
   let t: number;

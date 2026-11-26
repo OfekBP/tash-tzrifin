@@ -1,13 +1,14 @@
-import { normalize, tokenize, variants, words } from './text';
+import { normalize } from './text';
 import { getParam, setParam } from './url';
+import { highlightTerms, makeDoc, parseQuery, scoreDoc, type SearchDoc } from './search-core';
 
 /**
  * חיפוש חי בתוך עמוד: מסנן ומדרג את הפריטים שכבר מופיעים בעמוד, תוך כדי הקלדה.
- * כל פריט מסומן ב-data-search בפורמט "כותרת|מילות מפתח|תקציר". כל מילה בחיפוש חייבת להתאים (AND),
- * התאמה בתחילת מילה או בכותרת מדורגת גבוה יותר, ויש סבילות לטעות הקלדה אחת במילים ארוכות.
+ * כל פריט מסומן ב-data-search בפורמט "כותרת|מילות מפתח|תקציר".
+ * כללי ההתאמה והדירוג נמצאים ב-search-core.ts ומשותפים לחיפוש הכללי.
  */
 
-type Doc = { el: HTMLElement; t: string[]; k: string[]; s: string[]; index: number };
+type Doc = { el: HTMLElement; doc: SearchDoc; index: number };
 export interface PageSearchOptions {
   input: HTMLInputElement;
   items: HTMLElement[];
@@ -26,30 +27,6 @@ export interface PageSearchOptions {
 }
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
-
-/** מרחק עריכה 1 לכל היותר (החלפה, הוספה, הסרה, היפוך סמוכים) */
-function near(a: string, b: string): boolean {
-  if (Math.abs(a.length - b.length) > 1) return false;
-  let i = 0;
-  while (i < a.length && i < b.length && a[i] === b[i]) i++;
-  if (i === a.length && i === b.length) return true;
-  if (a.length === b.length) {
-    if (a.slice(i + 1) === b.slice(i + 1)) return true;
-    return a[i] === b[i + 1] && a[i + 1] === b[i] && a.slice(i + 2) === b.slice(i + 2);
-  }
-  return a.length > b.length ? a.slice(i + 1) === b.slice(i) : b.slice(i + 1) === a.slice(i);
-}
-
-function matchToken(q: string, words: string[]): number {
-  let best = 0;
-  for (const w of words) {
-    if (w === q) return 10;
-    if (w.startsWith(q)) best = Math.max(best, 7);
-    else if (q.length >= 3 && w.includes(q)) best = Math.max(best, 3);
-    else if (q.length >= 4 && w.length >= 4 && near(q, w.slice(0, q.length + 1))) best = Math.max(best, 2);
-  }
-  return best;
-}
 
 const SEP = /[\s,.;:!?/()\[\]{}\-–—_|·]/;
 
@@ -119,7 +96,7 @@ function clearMarks(root: Element) {
 export function initPageSearch(o: PageSearchOptions) {
   const docs: Doc[] = o.items.map((el, index) => {
     const [t = '', k = '', s = ''] = (el.dataset.search ?? el.textContent ?? '').split('|');
-    return { el, index, t: tokenize(t), k: tokenize(k), s: tokenize(s) };
+    return { el, index, doc: makeDoc(t, k, s) };
   });
   const globalHref = o.globalHref ?? (o.input.closest<HTMLElement>('.ps')?.dataset.global ?? '');
   const parent = o.reorder && o.items[0] ? o.items[0].parentElement : null;
@@ -129,46 +106,34 @@ export function initPageSearch(o: PageSearchOptions) {
 
   function refresh(replace = true) {
     const raw = o.input.value.trim();
-    // כל מילה בחיפוש חייבת להתאים (AND). לכל מילה מספיקה אחת הגרסאות שלה: כפי שנכתבה, או בלי אות שימוש
-    const ws = words(raw);
-    const hlTerms = [...new Set(ws.flatMap(variants))];
+    const query = parseQuery(raw);
+    const n = query.words.length;
+    const marks = highlightTerms(query);
     o.clear && (o.clear.hidden = !raw);
     if (o.suggest) o.suggest.hidden = !!raw || document.activeElement !== o.input;
     if (replace) setParam('q', raw);
 
     const scored = docs.map((d) => {
-      let score = 0;
-      let ok = true;
-      for (const w of ws) {
-        let best = 0;
-        for (const v of variants(w)) {
-          best = Math.max(best, matchToken(v, d.t) * 3, matchToken(v, d.k) * 2, matchToken(v, d.s));
-        }
-        if (!best) { ok = false; break; }
-        score += best;
-      }
-      const pass = (!ws.length || ok) && (!o.extra || o.extra(d.el));
-      return { d, score: ws.length ? score : 0, pass };
+      const r = n ? scoreDoc(d.doc, query) : { score: 0, matched: 0 };
+      return { d, score: r.score, matched: r.matched, allowed: !o.extra || o.extra(d.el) };
     });
+    // כל המילים חייבות להתאים. אם אין אף פריט כזה, מוצגים פריטים שמתאימים לחלק מהמילים ("תוצאות קרובות")
+    const partial = n > 1 && !scored.some((x) => x.allowed && x.matched === n) && scored.some((x) => x.allowed && x.matched > 0);
+    const passes = (x: (typeof scored)[number]) => x.allowed && (n === 0 || (partial ? x.matched > 0 : x.matched === n));
 
-    for (const { d, pass } of scored) {
-      d.el.hidden = !pass;
-      for (const h of hl(d.el)) clearMarks(h);
-      if (pass && ws.length) for (const h of hl(d.el)) highlight(h, hlTerms);
-    }
-    if (parent) {
-      const order = [...scored].sort((a, b) => (ws.length ? b.score - a.score : 0) || a.d.index - b.d.index);
-      for (const { d } of order) parent.append(d.el);
-    }
-    top = null;
-    let bestScore = -1;
     for (const x of scored) {
-      if (x.pass && x.score > bestScore) {
-        bestScore = x.score;
-        top = x.d.el;
-      }
+      const pass = passes(x);
+      x.d.el.hidden = !pass;
+      for (const h of hl(x.d.el)) clearMarks(h);
+      if (pass && n) for (const h of hl(x.d.el)) highlight(h, marks);
     }
-    const shown = scored.filter((x) => x.pass).length;
+    const byRank = (a: (typeof scored)[number], b: (typeof scored)[number]) =>
+      (n ? (partial ? b.matched - a.matched : 0) || b.score - a.score : 0) || a.d.index - b.d.index;
+    const ranked = [...scored].sort(byRank);
+    if (parent) for (const { d } of ranked) parent.append(d.el);
+    top = ranked.find(passes)?.d.el ?? null;
+
+    const shown = scored.filter(passes).length;
     o.groups?.forEach((g) => (g.hidden = ![...g.querySelectorAll<HTMLElement>('[data-search]')].some((i) => !i.hidden)));
     if (o.empty) {
       o.empty.hidden = shown > 0;
@@ -179,7 +144,8 @@ export function initPageSearch(o: PageSearchOptions) {
     }
     if (o.count) {
       o.count.hidden = !raw;
-      o.count.textContent = raw ? (shown ? `${shown === 1 ? 'תוצאה אחת' : `${shown} תוצאות`}` : '') : '';
+      const label = shown === 1 ? (partial ? 'תוצאה קרובה אחת' : 'תוצאה אחת') : `${shown} ${partial ? 'תוצאות קרובות' : 'תוצאות'}`;
+      o.count.textContent = raw && shown ? label : '';
     }
   }
 
@@ -208,6 +174,7 @@ export function initPageSearch(o: PageSearchOptions) {
       refresh();
     }),
   );
+
   const initial = getParam('q');
   if (initial) o.input.value = initial;
   refresh(false);

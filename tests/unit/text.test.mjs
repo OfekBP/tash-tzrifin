@@ -6,7 +6,8 @@ import { normalize, tokenize, variants, words } from '../../src/lib/text.ts';
 test('normalize: גרשיים, ניקוד ואותיות לטיניות', () => {
   assert.equal(normalize('ת״ש'), 'תש');
   assert.equal(normalize("מש'קית"), 'משקית');
-  assert.equal(normalize('שָׁלוֹם'), 'שלום');
+  assert.equal(normalize('שָׁלוֹם'), 'שלומ'); // אות סופית הופכת לרגילה
+  assert.equal(normalize('מסמך'), 'מסמכ');
   assert.equal(normalize('AI'), 'ai');
 });
 
@@ -24,6 +25,6 @@ test('variants: מילה ארוכה שמתחילה באות שימוש מקבל�
 });
 
 test('tokenize: כל מילה עם כל הגרסאות שלה', () => {
-  assert.deepEqual(tokenize('לשחרור מוקדם'), ['לשחרור', 'שחרור', 'מוקדם', 'וקדם']);
+  assert.deepEqual(tokenize('לשחרור מוקדם'), ['לשחרור', 'שחרור', 'מוקדמ', 'וקדמ']);
   assert.deepEqual(tokenize('ת״ש בטאצ׳'), ['תש', 'בטאצ', 'טאצ']);
 });
