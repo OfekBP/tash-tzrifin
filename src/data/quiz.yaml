@@ -91,28 +91,23 @@
   order: 8
   base: [early-release-personal, early-release-admin]
   questions: []
-- id: unit
-  label: הגעתי ליחידה חדשה
-  order: 9
-  base: [interviews-visits]
-  questions: []
 - id: health
   label: טיפולי שיניים
-  order: 10
+  order: 9
   base: [dental]
   questions: []
 - id: student
   label: אני עתודאי
-  order: 11
+  order: 10
   base: [atudaim]
   questions: []
 - id: docs
   label: אני צריך עזרה עם מסמכים
-  order: 12
+  order: 11
   base: []
   questions: []
 - id: other
   label: נושא אחר
-  order: 13
+  order: 12
   base: []
   questions: []
