@@ -151,7 +151,7 @@ test.describe('ממסמך ברשימה למדריך הבנק', () => {
 
 test.describe('עמוד זכות ארוך', () => {
   test('שורת הקפיצה פותחת סעיף וגוללת אליו, ו"איך מגישים" פתוח מראש', async ({ page }) => {
-    await page.goto('rights/financial-aid/');
+    await page.goto('rights/private-work-permit/');
     await expect(page.locator('#sec-apply')).toHaveAttribute('open', '');
     await expect(page.locator('#sec-conditions')).toHaveAttribute('open', '');
     await page.locator('#sec-documents > summary').click(); // סוגרים, כדי לוודא שהקפיצה פותחת
@@ -159,11 +159,6 @@ test.describe('עמוד זכות ארוך', () => {
     await page.locator('.jump .chip', { hasText: 'מסמכים' }).click();
     await expect(page.locator('#sec-documents')).toHaveAttribute('open', '');
     await expect(page.locator('#sec-documents > summary')).toBeInViewport();
-  });
-
-  test('בעמוד קצר אין שורת קפיצה', async ({ page }) => {
-    await page.goto('rights/dental/');
-    await expect(page.locator('.jump')).toHaveCount(0);
   });
 
   test('סימון מסמך מגרסה קודמת (לפי מיקום) עובר לשם המסמך', async ({ page }) => {

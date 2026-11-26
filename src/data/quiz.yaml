@@ -13,12 +13,12 @@
         - { label: לא, add: [] }
     - q: האם גם המשפחה שלכם במצוקה כלכלית?
       options:
-        - { label: כן, add: [family-payments] }
+        - { label: כן, add: [family-payments, early-release-personal] }
         - { label: לא, add: [] }
-    - q: איזה סוג סיוע אתם צריכים?
+    - q: האם תרצו ליווי בהתנהלות כלכלית?
       options:
-        - { label: חד-פעמי, add: [] }
-        - { label: לאורך זמן, add: [assistance-eligible] }
+        - { label: כן, add: [financial-education] }
+        - { label: לא, add: [] }
 - id: home
   label: קושי בבית או במשפחה
   order: 2
@@ -27,21 +27,25 @@
     - q: האם אתם גרים בבית ההורים?
       options:
         - { label: כן, add: [] }
-        - { label: לא, add: [assistance-eligible, housing] }
-    - q: האם יש בעיה רפואית או סוציאלית במשפחה?
+        - { label: לא, add: [assistance-eligible, lone-soldier] }
+    - q: יש בבית בעיה רפואית, כלכלית או סוציאלית קשה?
       options:
-        - { label: כן, add: [early-release-personal] }
+        - { label: כן, add: [early-release-personal, family-payments] }
+        - { label: לא, add: [] }
+    - q: אתם באוכלוסייה שזכאית להקלה מובנית (למשל יתומים, הורים לילד, בן יחיד)?
+      options:
+        - { label: כן או לא בטוח, add: [built-in-relief, or-population] }
         - { label: לא, add: [] }
 - id: living
-  label: אני לא יכול לגור בבית
+  label: קשה לי לגור בבית
   order: 3
-  base: [housing, assistance-eligible]
+  base: [housing]
   questions:
-    - q: מה הסיבה שאי אפשר לגור בבית?
+    - q: מה הסיבה?
       options:
-        - { label: נסיבות משפחתיות, add: [lone-soldier] }
-        - { label: מרחק, add: [] }
-        - { label: צפיפות, add: [] }
+        - { label: נתק או קשר מורכב עם ההורים, add: [lone-soldier, assistance-eligible, military-housing] }
+        - { label: מרחק או צפיפות, add: [military-housing] }
+        - { label: אני שוכר דירה, add: [rent] }
 - id: work
   label: אני צריך לעבוד
   order: 4
@@ -52,37 +56,67 @@
         - { label: כן, add: [special-leave, financial-aid] }
         - { label: לא, add: [] }
 - id: leave
-  label: אני צריך חופשה
+  label: אני צריך חופשה או יום סידורים
   order: 5
   base: [special-leave]
   questions:
     - q: מה הצורך?
       options:
         - { label: כלכלי, add: [private-work-permit, financial-aid] }
-        - { label: לימודים, add: [] }
-        - { label: משפחה, add: [married-soldier] }
-        - { label: מעבר דירה או אירוע אישי, add: [lone-soldier, married-soldier] }
+        - { label: חתונה או לידה, add: [married-soldier] }
+        - { label: סידורים אישיים, add: [errands-day] }
+        - { label: ביקור הורים בחו״ל, add: [lone-soldier, lone-flights] }
 - id: lone
-  label: אני חייל בודד או חושב שאני זכאי להכרה
+  label: אני חייל בודד או זכאי סיוע
   order: 6
   base: [lone-soldier, assistance-eligible]
-  questions: []
+  questions:
+    - q: מה מעניין אתכם?
+      options:
+        - { label: מגורים, add: [military-housing, rent, housing] }
+        - { label: טיסה להורים, add: [lone-flights] }
+        - { label: לקראת שחרור, add: [lone-release] }
 - id: family
   label: אני נשוי או הורה לילדים
   order: 7
   base: [married-soldier]
   questions:
-    - q: האם בן הזוג או ההורים זקוקים לסיוע?
+    - q: מה תרצו לבדוק?
       options:
-        - { label: כן, add: [family-payments] }
-        - { label: לא, add: [] }
+        - { label: תשלומי משפחה, add: [family-payments] }
+        - { label: שכר דירה, add: [rent] }
+        - { label: הקלות בתנאי שירות, add: [built-in-relief] }
+- id: release
+  label: אני רוצה לקצר את השירות
+  order: 8
+  base: [early-release-personal, early-release-admin]
+  questions: []
+- id: unit
+  label: הגעתי ליחידה חדשה
+  order: 9
+  base: [unit-intake, or-population, interviews-visits]
+  questions: []
+- id: health
+  label: שיניים או ציוד שאבד
+  order: 10
+  base: []
+  questions:
+    - q: במה מדובר?
+      options:
+        - { label: כתרים, שתלים או טיפול פרוטטי, add: [dental] }
+        - { label: ציוד אישי שאבד או נהרס, add: [lost-equipment] }
+- id: student
+  label: אני עתודאי
+  order: 11
+  base: [atudaim]
+  questions: []
 - id: docs
   label: אני צריך עזרה עם מסמכים
-  order: 8
+  order: 12
   base: []
   questions: []
 - id: other
   label: נושא אחר
-  order: 9
+  order: 13
   base: []
   questions: []
