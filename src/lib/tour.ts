@@ -31,7 +31,11 @@ const isFixed = (el: HTMLElement) => {
 
 export function startTour(page: string, opener: HTMLElement) {
   if (document.querySelector('dialog.tour')) return;
-  const steps = (tours[page] ?? tours.other).filter((s) => !s.sel || targets(s).length > 0);
+  const usable = (s: Step) => !s.sel || targets(s).length > 0;
+  let steps = (tours[page] ?? tours.other).filter(usable);
+  // עמוד שאף צעד שלו לא קיים בו (למשל עמוד 404): נשאר הצעד הכללי, ואם גם הוא חסר לא נפתחת הדרכה
+  if (!steps.length) steps = tours.other.filter(usable);
+  if (!steps.length) return;
   const startY = scrollY;
   let i = 0;
 
