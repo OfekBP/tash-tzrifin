@@ -21,7 +21,7 @@ how_to_apply:
   - "לא רוצים לנצל החודש? חותמים ויתור בת״ש בטאצ׳, עד 7 ימים לפני סוף החודש"
 exceptions:
   - "ביטול רק בגלל פעילות מבצעית: מפקד רס״ן לחודש אחד בלבד. לחודשיים ויותר: אישור סא״ל"
-related: [or-population, married-soldier, lone-soldier]
+related: [married-soldier, lone-soldier]
 sources:
   - { doc: book, page: 20 }
   - { doc: book, page: 21 }

@@ -19,7 +19,7 @@ exceptions:
   - "לא מעוניינים בראיון? חותמים ויתור בפני מפקד בדרגת רס״ן"
   - "לא מעוניינים בביקור בית? מפקד רס״ן ומעלה מראיין וממלא דו״ח ביקור, וחותמים בפניו הצהרה עם הסיבות"
   - "בחופשה מיוחדת כשמגיע מועד הראיון: אפשר לעשות אותו ביום החזרה ליחידה"
-related: [or-population, lone-soldier, assistance-eligible]
+related: [lone-soldier, assistance-eligible]
 sources:
   - { doc: book, page: 24 }
   - { doc: book, page: 25 }

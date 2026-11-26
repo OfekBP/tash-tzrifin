@@ -34,7 +34,7 @@
         - { label: לא, add: [] }
     - q: אתם באוכלוסייה שזכאית להקלה מובנית (למשל יתומים, הורים לילד, בן יחיד)?
       options:
-        - { label: כן או לא בטוח, add: [built-in-relief, or-population] }
+        - { label: כן או לא בטוח, add: [built-in-relief] }
         - { label: לא, add: [] }
 - id: living
   label: קשה לי לגור בבית
@@ -94,7 +94,7 @@
 - id: unit
   label: הגעתי ליחידה חדשה
   order: 9
-  base: [or-population, interviews-visits]
+  base: [interviews-visits]
   questions: []
 - id: health
   label: טיפולי שיניים
