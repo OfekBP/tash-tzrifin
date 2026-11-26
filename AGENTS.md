@@ -21,6 +21,22 @@ npm run verify
 - Accessibility findings and tap targets under 44px are ratcheted in `tests/e2e/allow/`. After fixing some, refresh the lists with `UPDATE_ALLOW=1 npx playwright test tests/e2e/a11y.spec.ts`.
 - Vercel builds with `npm run build:checked` (content check, unit tests, build), so a failing check keeps the previous version live.
 
+## CSS cleanup
+
+`src/styles/global.css` grows by appending overrides. To clean it without changing anything visible:
+
+```
+npm run build
+STYLES=before npx playwright test tests/e2e/styles.spec.ts
+node scripts/css-audit.mjs --list     # what would go: dead rules, unused animations, overridden declarations
+node scripts/css-audit.mjs --write
+npm run build
+STYLES=after npx playwright test tests/e2e/styles.spec.ts
+node scripts/compare-styles.mjs before after
+```
+
+The last command must report that the snapshots are identical. Never remove the `--dark` variable: `Base.astro` reads it to detect that the stylesheet has loaded.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build
