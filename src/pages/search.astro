@@ -19,6 +19,7 @@ import { href } from '../lib/site';
 <script>
   import MiniSearch from 'minisearch';
   import { tokenize, words } from '../lib/text';
+  import { getParam, setParam } from '../lib/url';
 
   const q = document.getElementById('q') as HTMLInputElement;
   const results = document.getElementById('results')!;
@@ -42,7 +43,7 @@ import { href } from '../lib/site';
 
   async function run() {
     const term = q.value.trim();
-    history.replaceState(null, '', term ? `?q=${encodeURIComponent(term)}` : location.pathname);
+    setParam('q', term);
     const ws = words(term);
     if (!ws.length) {
       results.innerHTML = '';
@@ -73,7 +74,7 @@ import { href } from '../lib/site';
   let t: number;
   q.addEventListener('input', () => { clearTimeout(t); t = window.setTimeout(run, 120); });
   q.addEventListener('keydown', (e) => { if (e.key === 'Enter') q.blur(); });
-  const initial = new URLSearchParams(location.search).get('q');
+  const initial = getParam('q');
   if (initial) {
     q.value = initial;
     run();

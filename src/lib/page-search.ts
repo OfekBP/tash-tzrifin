@@ -1,4 +1,5 @@
-import { normalize, tokenize } from './text';
+import { normalize, tokenize, variants, words } from './text';
+import { getParam, setParam } from './url';
 
 /**
  * חיפוש חי בתוך עמוד: מסנן ומדרג את הפריטים שכבר מופיעים בעמוד, תוך כדי הקלדה.
@@ -50,22 +51,38 @@ function matchToken(q: string, words: string[]): number {
   return best;
 }
 
+const SEP = /[\s,.;:!?/()\[\]{}\-–—_|·]/;
+
+/** הטקסט המנורמל, ולכל תו בו המיקום שלו בטקסט המקורי (גרשיים וניקוד נעלמים בנירמול). */
+function normMap(text: string): { norm: string; map: number[] } {
+  let norm = '';
+  const map: number[] = [];
+  for (let i = 0; i < text.length; i++) {
+    for (const c of normalize(text[i])) {
+      norm += c;
+      map.push(i);
+    }
+  }
+  return { norm, map };
+}
+
 function highlight(root: Element, terms: string[]) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodes: Text[] = [];
   while (walker.nextNode()) nodes.push(walker.currentNode as Text);
   for (const n of nodes) {
     const text = n.nodeValue ?? '';
-    const norm = normalize(text);
-    if (norm.length !== text.length) continue; // ניקוד/גרשיים שמשנים אורך: לא מדגישים
+    const { norm, map } = normMap(text);
     const ranges: [number, number][] = [];
     for (const t of terms) {
       let from = 0;
       for (;;) {
         const at = norm.indexOf(t, from);
         if (at < 0) break;
-        // התחלת מילה בלבד, כדי שההדגשה תהיה צפויה
-        if (at === 0 || /[\s,.;:!?/()\-"״׳']/.test(norm[at - 1]) || 'הוכלמבש'.includes(norm[at - 1])) ranges.push([at, at + t.length]);
+        // התחלת מילה בלבד (אפשר אחרי אות שימוש אחת), כדי שההדגשה תהיה צפויה
+        const wordStart = at === 0 || SEP.test(norm[at - 1]);
+        const afterPrefix = at > 0 && 'הוכלמבש'.includes(norm[at - 1]) && (at === 1 || SEP.test(norm[at - 2]));
+        if (wordStart || afterPrefix) ranges.push([at, at + t.length]);
         from = at + t.length;
       }
     }
@@ -80,11 +97,14 @@ function highlight(root: Element, terms: string[]) {
     const frag = document.createDocumentFragment();
     let pos = 0;
     for (const [a, b] of merged) {
-      if (a > pos) frag.append(text.slice(pos, a));
+      // מהמיקום המנורמל חזרה לטקסט המקורי: גרשיים שבתוך ההתאמה נכנסים להדגשה
+      const start = map[a];
+      const end = map[b - 1] + 1;
+      if (start > pos) frag.append(text.slice(pos, start));
       const m = document.createElement('mark');
-      m.textContent = text.slice(a, b);
+      m.textContent = text.slice(start, end);
       frag.append(m);
-      pos = b;
+      pos = end;
     }
     if (pos < text.length) frag.append(text.slice(pos));
     n.replaceWith(frag);
@@ -104,40 +124,49 @@ export function initPageSearch(o: PageSearchOptions) {
   const globalHref = o.globalHref ?? (o.input.closest<HTMLElement>('.ps')?.dataset.global ?? '');
   const parent = o.reorder && o.items[0] ? o.items[0].parentElement : null;
   const hl = (el: HTMLElement) => [...el.querySelectorAll<HTMLElement>('[data-hl]')];
+  /** התוצאה המובילה בחיפוש הנוכחי: היעד של Enter */
+  let top: HTMLElement | null = null;
 
   function refresh(replace = true) {
     const raw = o.input.value.trim();
-    const terms = [...new Set(tokenize(raw).filter((x) => x.length > 0))];
-    // מילת שימוש בודדת (ה/ב/ל...) שנוספה על ידי tokenize כגרסה קצרה: משתמשים רק במקור + בגרסה, AND על מילות המקור
-    const words = normalize(raw).split(/[\s,.;:!?/()\-]+/).filter(Boolean);
+    // כל מילה בחיפוש חייבת להתאים (AND). לכל מילה מספיקה אחת הגרסאות שלה: כפי שנכתבה, או בלי אות שימוש
+    const ws = words(raw);
+    const hlTerms = [...new Set(ws.flatMap(variants))];
     o.clear && (o.clear.hidden = !raw);
     if (o.suggest) o.suggest.hidden = !!raw || document.activeElement !== o.input;
-    if (replace) history.replaceState(null, '', raw ? `?q=${encodeURIComponent(raw)}` : location.pathname);
+    if (replace) setParam('q', raw);
 
     const scored = docs.map((d) => {
       let score = 0;
       let ok = true;
-      for (const w of words) {
-        const variants = tokenize(w).filter((x, i, a) => a.indexOf(x) === i);
+      for (const w of ws) {
         let best = 0;
-        for (const v of variants) {
+        for (const v of variants(w)) {
           best = Math.max(best, matchToken(v, d.t) * 3, matchToken(v, d.k) * 2, matchToken(v, d.s));
         }
         if (!best) { ok = false; break; }
         score += best;
       }
-      const pass = (!words.length || ok) && (!o.extra || o.extra(d.el));
-      return { d, score: words.length ? score : 0, pass };
+      const pass = (!ws.length || ok) && (!o.extra || o.extra(d.el));
+      return { d, score: ws.length ? score : 0, pass };
     });
 
     for (const { d, pass } of scored) {
       d.el.hidden = !pass;
       for (const h of hl(d.el)) clearMarks(h);
-      if (pass && words.length) for (const h of hl(d.el)) highlight(h, words);
+      if (pass && ws.length) for (const h of hl(d.el)) highlight(h, hlTerms);
     }
     if (parent) {
-      const order = [...scored].sort((a, b) => (words.length ? b.score - a.score : 0) || a.d.index - b.d.index);
+      const order = [...scored].sort((a, b) => (ws.length ? b.score - a.score : 0) || a.d.index - b.d.index);
       for (const { d } of order) parent.append(d.el);
+    }
+    top = null;
+    let bestScore = -1;
+    for (const x of scored) {
+      if (x.pass && x.score > bestScore) {
+        bestScore = x.score;
+        top = x.d.el;
+      }
     }
     const shown = scored.filter((x) => x.pass).length;
     o.groups?.forEach((g) => (g.hidden = ![...g.querySelectorAll<HTMLElement>('[data-search]')].some((i) => !i.hidden)));
@@ -161,8 +190,10 @@ export function initPageSearch(o: PageSearchOptions) {
   o.input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      clearTimeout(timer);
+      refresh();
       o.input.blur();
-      docs.find((d) => !d.el.hidden)?.el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      if (o.input.value.trim()) top?.scrollIntoView({ block: 'center', behavior: 'smooth' });
     } else if (e.key === 'Escape' && o.input.value) {
       o.input.value = '';
       refresh();
@@ -177,16 +208,7 @@ export function initPageSearch(o: PageSearchOptions) {
       refresh();
     }),
   );
-  // כפתור החיפוש בכותרת מעביר לשדה של העמוד במקום לחיפוש הכללי
-  document.querySelectorAll<HTMLAnchorElement>('.topbar a[href$="/search/"]').forEach((a) =>
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      scrollTo({ top: 0, behavior: 'smooth' });
-      o.input.focus({ preventScroll: true });
-    }),
-  );
-
-  const initial = new URLSearchParams(location.search).get('q');
+  const initial = getParam('q');
   if (initial) o.input.value = initial;
   refresh(false);
   return { refresh };
