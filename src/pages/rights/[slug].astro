@@ -19,11 +19,11 @@ const { intro: introHtml, parts } = splitSections(entry.body);
 
 const related = (await Promise.all(d.related.map((r) => getEntry(r)))).filter((r) => r && isVisible(r as never)) as any[];
 
-// "למי זה מיועד" ו"תנאי זכאות" פתוחים כברירת מחדל: זו השאלה הראשונה של מי שנכנס לעמוד
+// מי זכאי ומה מקבלים פתוחים כברירת מחדל: אלה השאלות הראשונות של מי שנכנס לעמוד
 const lists = [
   { id: 'who', title: 'למי זה מיועד?', short: 'למי מיועד', items: d.eligibility, open: true },
   { id: 'conditions', title: 'תנאי זכאות', short: 'תנאים', items: d.conditions, open: true },
-  { id: 'benefits', title: 'מה מקבלים בפועל', short: 'מה מקבלים', items: d.benefits, open: false },
+  { id: 'benefits', title: 'מה מקבלים בפועל', short: 'מה מקבלים', items: d.benefits, open: true },
 ].filter((s) => s.items.length > 0);
 
 // שורת קפיצה, רק בעמוד ארוך (7 סעיפים נפתחים ומעלה)
@@ -157,7 +157,7 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 
   <p class="sources">
     {d.lastVerified ? `עודכן לאחרונה: ${d.lastVerified.toLocaleDateString('he-IL')}. ` : ''}
-    {d.sources.length > 0 ? `מקור: ${d.sources.map((s) => `${s.doc === 'book' ? 'הספר המקצועי' : s.doc}, עמ׳ ${s.page}`).join('; ')}.` : ''}
+    {d.sources.length > 0 ? `מקור: ${[...new Set(d.sources.map((s) => s.doc))].map((doc) => `${doc === 'book' ? 'הספר המקצועי' : doc}, עמ׳ ${d.sources.filter((s) => s.doc === doc).map((s) => s.page).join(', ')}`).join('; ')}.` : ''}
   </p>
 </Base>
 
