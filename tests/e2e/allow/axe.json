@@ -1,12 +1,8 @@
 {
   "home": {},
   "rights": {},
-  "right": {
-    "color-contrast": 1
-  },
-  "right-long": {
-    "color-contrast": 3
-  },
+  "right": {},
+  "right-long": {},
   "guides": {},
   "guide-walkthrough": {},
   "guide-videos": {},

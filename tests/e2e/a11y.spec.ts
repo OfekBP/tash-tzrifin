@@ -22,7 +22,11 @@ test.describe.configure({ mode: 'serial' });
 
 for (const [name, route] of Object.entries(PAGE_TYPES)) {
   test(`נגישות: ${name}`, async ({ page }) => {
+    // בלי אנימציות: סעיף שנפתח בהדרגה נראה ל-axe כטקסט בהיר מדי, והתוצאה משתנה מריצה לריצה
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(route, { waitUntil: 'load' });
+    await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; }' });
+    await page.evaluate(() => document.fonts.ready);
 
     // 1. axe: כמה אלמנטים נכשלים בכל כלל
     const { violations } = await new AxeBuilder({ page }).analyze();
