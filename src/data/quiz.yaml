@@ -97,14 +97,10 @@
   base: [unit-intake, or-population, interviews-visits]
   questions: []
 - id: health
-  label: שיניים או ציוד שאבד
+  label: טיפולי שיניים
   order: 10
-  base: []
-  questions:
-    - q: במה מדובר?
-      options:
-        - { label: כתרים, שתלים או טיפול פרוטטי, add: [dental] }
-        - { label: ציוד אישי שאבד או נהרס, add: [lost-equipment] }
+  base: [dental]
+  questions: []
 - id: student
   label: אני עתודאי
   order: 11

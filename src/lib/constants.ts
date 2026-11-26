@@ -1,4 +1,4 @@
-export const categories = ['service', 'holidays','financial', 'service-relief', 'lone-soldier', 'family', 'health', 'equipment', 'housing', 'work', 'special', 'other'] as const;
+export const categories = ['service', 'holidays','financial', 'service-relief', 'lone-soldier', 'family', 'health', 'housing', 'work', 'special', 'other'] as const;
 
 export const docTypeLabels = {
   ownership: 'אישור בעלות חשבון',

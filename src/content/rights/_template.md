@@ -2,7 +2,7 @@
 # תבנית לזכות חדשה. העתיקו לקובץ חדש בשם <שם-באנגלית>.md (בלי קו תחתון בהתחלה).
 # קובץ שמתחיל ב-_ לא מתפרסם.
 title: שם הזכות
-category: [financial]        # holidays | financial | service-relief | lone-soldier | family | health | equipment | other
+category: [financial]        # holidays | financial | service-relief | lone-soldier | family | health | other
 summary: משפט אחד שמסביר מה הזכות
 keywords: [כינוי לחיפוש, ראשי תיבות]
 eligibility:                 # מי זכאי

@@ -39,6 +39,5 @@ export const categoryLabels: Record<string, string> = {
   special: 'קיצור שירות',
   work: 'עבודה',
   health: 'בריאות',
-  equipment: 'ציוד',
   other: 'אחר',
 };
