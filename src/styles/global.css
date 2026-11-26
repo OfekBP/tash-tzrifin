@@ -1,4 +1,3 @@
-@import '@fontsource/gveret-levin/hebrew-400.css';
 /* גופנים: רק התת-קבוצות שבאמת בשימוש (עברית + לטינית לספרות), כדי לחסוך משקל */
 @font-face {
   font-family: 'Heebo Variable';
