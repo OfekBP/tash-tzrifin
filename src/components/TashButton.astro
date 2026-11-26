@@ -9,7 +9,7 @@ interface Props {
   label?: string;
 }
 const { url = 'https://tash.digital.idf.il/landing/', compact = false, label = 'כניסה לת״ש בטאצ׳' } = Astro.props;
-const logo = href('/logos/tash-btouch-badge.png');
+const logo = href('/logos/tash-btouch-badge.webp');
 ---
 {compact ? (
   <a class="tash-row" href={url} target="_blank" rel="noopener">

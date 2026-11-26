@@ -12,7 +12,7 @@ const branches = (await getCollection('quiz')).sort((a, b) => a.data.order - b.d
 const rights = Object.fromEntries(
   (await getCollection('rights')).filter(isVisible).map((r) => [r.id, { title: r.data.title, summary: r.data.summary, url: href(`/rights/${r.id}/`) }]),
 );
-const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'), rightsList: href('/rights/'), logo: href('/logos/tash-btouch-badge.png'), banks: href('/guides/banks/'), docs: href('/guides/financial-documents/') });
+const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'), rightsList: href('/rights/'), logo: href('/logos/tash-btouch-badge.webp'), banks: href('/guides/banks/'), docs: href('/guides/financial-documents/') });
 ---
 <Base title="מאיפה מתחילים?" lead="כמה שאלות קצרות, ונכוון אותך" back="/" description="שאלון קצר שמכוון לזכויות ולמסלולי הסיוע הרלוונטיים">
   <div id="app" data-payload={payload}>
