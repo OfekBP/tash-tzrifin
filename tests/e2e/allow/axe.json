@@ -1,45 +1,21 @@
 {
   "home": {},
-  "rights": {
-    "region": 2
-  },
+  "rights": {},
   "right": {
-    "region": 1
+    "color-contrast": 1
   },
   "right-long": {
-    "region": 1
+    "color-contrast": 3
   },
-  "guides": {
-    "region": 2
-  },
-  "guide-walkthrough": {
-    "region": 1
-  },
-  "guide-videos": {
-    "region": 1
-  },
-  "guide-steps": {
-    "region": 1
-  },
-  "banks": {
-    "region": 2
-  },
-  "bank": {
-    "region": 1
-  },
-  "faq": {
-    "region": 2
-  },
-  "glossary": {
-    "region": 2
-  },
-  "contacts": {
-    "region": 2
-  },
-  "search": {
-    "region": 3
-  },
-  "quiz": {
-    "region": 1
-  }
+  "guides": {},
+  "guide-walkthrough": {},
+  "guide-videos": {},
+  "guide-steps": {},
+  "banks": {},
+  "bank": {},
+  "faq": {},
+  "glossary": {},
+  "contacts": {},
+  "search": {},
+  "quiz": {}
 }

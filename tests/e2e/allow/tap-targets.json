@@ -7,24 +7,14 @@
   "right": [],
   "right-long": [],
   "guides": [],
-  "guide-walkthrough": [
-    "a.block.btn.purple",
-    "a.wt-link"
-  ],
-  "guide-videos": [
-    "a.block.btn.purple"
-  ],
-  "guide-steps": [
-    "a.block.btn.purple"
-  ],
+  "guide-walkthrough": [],
+  "guide-videos": [],
+  "guide-steps": [],
   "banks": [],
   "bank": [],
   "faq": [],
   "glossary": [],
-  "contacts": [
-    "a.call",
-    "a.call.wa"
-  ],
+  "contacts": [],
   "search": [],
   "quiz": []
 }
