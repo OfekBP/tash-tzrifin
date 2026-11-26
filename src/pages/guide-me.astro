@@ -12,11 +12,11 @@ const branches = (await getCollection('quiz')).sort((a, b) => a.data.order - b.d
 const rights = Object.fromEntries(
   (await getCollection('rights')).filter(isVisible).map((r) => [r.id, { title: r.data.title, summary: r.data.summary, url: href(`/rights/${r.id}/`) }]),
 );
-const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'), logo: href('/logos/tash-btouch-badge.png'), banks: href('/guides/banks/'), docs: href('/guides/financial-documents/') });
+const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'), rightsList: href('/rights/'), logo: href('/logos/tash-btouch-badge.png'), banks: href('/guides/banks/'), docs: href('/guides/financial-documents/') });
 ---
 <Base title="מאיפה מתחילים?" lead="כמה שאלות קצרות, ונכוון אותך" back="/" description="שאלון קצר שמכוון לזכויות ולמסלולי הסיוע הרלוונטיים">
   <div id="app" data-payload={payload}>
-    <h2 class="section" id="step-title" tabindex="-1" aria-live="polite">מה הקושי העיקרי שלך?</h2>
+    <h2 class="section" id="step-title" tabindex="-1">מה הקושי העיקרי שלך?</h2>
     <div class="group" id="options"></div>
     <div class="quiz-nav" id="quiz-nav" hidden>
       <button class="btn ghost" id="back-step" type="button">חזרה לשאלה הקודמת</button>
@@ -29,7 +29,7 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
 <script>
   type Branch = { id: string; label: string; base: string[]; questions: { q: string; options: { label: string; add: string[] }[] }[] };
   const root = document.getElementById('app')!;
-  const data = JSON.parse(root.dataset.payload!) as { branches: Branch[]; rights: Record<string, { title: string; summary: string; url: string }>; contacts: string; logo: string; banks: string; docs: string };
+  const data = JSON.parse(root.dataset.payload!) as { branches: Branch[]; rights: Record<string, { title: string; summary: string; url: string }>; contacts: string; rightsList: string; logo: string; banks: string; docs: string };
   const title = document.getElementById('step-title')!;
   const box = document.getElementById('options')!;
   const restart = document.getElementById('quiz-nav')!;
@@ -65,13 +65,20 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
 
   function result(b: Branch, picked: string[]) {
     const ids = [...new Set([...b.base, ...picked])].filter((id) => data.rights[id]);
-    title.textContent = 'כדאי לבדוק:';
     box.className = '';
     const items = ids.map((id) => `<a class="row" href="${data.rights[id].url}"><span class="tx"><span class="t">${esc(data.rights[id].title)}</span><span class="s">${esc(data.rights[id].summary)}</span></span></a>`).join('');
     const docs = b.id === 'docs' ? `<div class="group" style="margin-bottom: var(--s4)"><a class="row" href="${data.banks}"><span class="tx"><span class="t">הוצאת אישורים מהבנק</span></span></a><a class="row" href="${data.docs}"><span class="tx"><span class="t">מסמכים כלכליים: מה זה ואיך מפיקים</span></span></a></div>` : '';
-    box.innerHTML = `${docs}${items ? `<div class="group">${items}</div>` : ''}
-      <div class="card-soft" style="margin-top: var(--s5)"><strong>הצעד הבא</strong><p>כדאי לדבר עם מש״קית הת״ש ולהכין את המסמכים שמופיעים בכל עמוד.</p>
+    // ענף שלא מוביל לאף זכות (למשל "נושא אחר"): לא מציגים "כדאי לבדוק:" מעל רשימה ריקה
+    const empty = !items && !docs;
+    title.textContent = empty ? 'כדאי לדבר עם מש״קית הת״ש' : 'כדאי לבדוק:';
+    const next = empty
+      ? `<p style="margin-top: 0">אפשר גם לעבור על רשימת הזכויות המלאה.</p>
       <a class="btn purple block" href="${data.contacts}">למש״קית הת״ש שלי</a>
+      <a class="btn ghost block" style="margin-top: var(--s2)" href="${data.rightsList}">לכל הזכויות</a>`
+      : `<strong>הצעד הבא</strong><p>כדאי לדבר עם מש״קית הת״ש ולהכין את המסמכים שמופיעים בכל עמוד.</p>
+      <a class="btn purple block" href="${data.contacts}">למש״קית הת״ש שלי</a>`;
+    box.innerHTML = `${docs}${items ? `<div class="group">${items}</div>` : ''}
+      <div class="card-soft" style="margin-top: ${empty ? '0' : 'var(--s5)'}">${next}
       <a class="tash-row" style="margin-top: var(--s3)" href="https://tash.digital.idf.il/landing/" target="_blank" rel="noopener"><img class="tb-logo" src="${data.logo}" alt="" width="44" height="44" decoding="async" /><span class="tb-tx"><strong>ת״ש בטאצ׳</strong><span>בקשות ומעקב במערכת הדיגיטלית</span></span></a></div>`;
     restart.hidden = false;
   }
@@ -84,15 +91,16 @@ const payload = JSON.stringify({ branches, rights, contacts: href('/contacts/'),
     ask(b, 0, []);
     focusTitle();
   });
-  addEventListener('popstate', (e) => {
-    const st = e.state as { b: string; i: number; picked: string[] } | null;
+  // מצב השאלון נשמר בהיסטוריה: כפתור החזרה חוזר שאלה אחת, ורענון ממשיך מאותו שלב
+  const restore = (st: { b?: string; i?: number; picked?: string[] } | null) => {
     const b = st && data.branches.find((x) => x.id === st.b);
-    if (st && b) ask(b, st.i, st.picked);
+    if (st && b) ask(b, st.i ?? 0, st.picked ?? []);
     else start();
-  });
+  };
+  addEventListener('popstate', (e) => restore(e.state));
   restartBtn.addEventListener('click', () => { history.pushState({ root: 1 }, ''); start(); });
   backBtn.addEventListener('click', () => history.back());
-  start();
+  restore(history.state);
 </script>
 
 <style>
