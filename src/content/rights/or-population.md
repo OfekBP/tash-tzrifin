@@ -28,7 +28,9 @@ sources:
   - { doc: book, page: 21 }
   - { doc: book, page: 22 }
   - { doc: book, page: 23 }
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-26
 origin: official
 lastVerified: 2026-11-26
 ---

@@ -41,7 +41,9 @@ sources:
   - { doc: book, page: 248 }
   - { doc: book, page: 249 }
   - { doc: book, page: 250 }
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-26
 origin: official
 lastVerified: 2026-11-26
 open_issues: []

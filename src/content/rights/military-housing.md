@@ -40,7 +40,9 @@ sources:
   - { doc: book, page: 136 }
   - { doc: book, page: 138 }
   - { doc: book, page: 139 }
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-26
 origin: official
 lastVerified: 2026-11-26
 open_issues: []

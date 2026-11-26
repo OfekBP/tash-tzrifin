@@ -47,7 +47,9 @@ sources:
   - { doc: book, page: 54 }
   - { doc: book, page: 55 }
   - { doc: book, page: 56 }
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-26
 origin: official
 lastVerified: 2026-11-26
 ---

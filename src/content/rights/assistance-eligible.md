@@ -32,7 +32,9 @@ sources:
   - { doc: book, page: 84 }
   - { doc: book, page: 85 }
   - { doc: book, page: 86 }
-status: reviewed
+status: approved
+approvedBy: "אופק בן פורת"
+approvedOn: 2026-11-26
 origin: official
 lastVerified: 2026-11-26
 ---
