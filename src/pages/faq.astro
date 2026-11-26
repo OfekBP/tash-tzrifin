@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageSearch from '../components/PageSearch.astro';
+import { inline, plain } from '../lib/md';
 import { href, isVisible } from '../lib/site';
 
 const faq = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
@@ -16,10 +17,10 @@ const groups = [...new Set(faq.map((f) => f.data.group))];
       <h2 class="section">{g}</h2>
       <div>
         {faq.filter((f) => f.data.group === g).map((f) => (
-          <details class="acc" id={`q-${f.id}`} data-faq data-search={`${f.data.q}|${f.data.group}|${f.data.a}`}>
+          <details class="acc" id={`q-${f.id}`} data-faq data-search={`${f.data.q}|${f.data.group}|${plain(f.data.a)}`}>
             <summary data-hl><h3>{f.data.q}</h3></summary>
             <div class="acc-body">
-              <p style="margin: 0" data-hl>{f.data.a}</p>
+              <p style="margin: 0" data-hl set:html={inline(f.data.a)} />
               {f.data.rights.filter((r) => allRights.has(r.id)).map((r) => (
                 <a class="btn ghost" style="margin-top: var(--s3); min-height: 44px" href={href(`/rights/${r.id}/`)}>{allRights.get(r.id)!.data.title}</a>
               ))}

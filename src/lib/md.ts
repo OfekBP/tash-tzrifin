@@ -16,3 +16,6 @@ export function splitSections(body: string | undefined): { intro: string; parts:
  * כך כותבים מספר טלפון לחיץ: "מוקד: [1111](tel:1111)".
  */
 export const inline = (text: string): string => marked.parseInline(text) as string;
+
+/** אותה שורה בלי סימון הקישורים, לחיפוש ולתקצירים. */
+export const plain = (text: string): string => text.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');

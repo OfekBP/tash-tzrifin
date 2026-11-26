@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { docTypeLabels } from '../lib/constants';
 import { categoryLabels, href, isVisible, visible } from '../lib/site';
+import { plain } from '../lib/md';
 import { words } from '../lib/text';
 
 /** אינדקס חיפוש שנבנה בזמן build ומכיל רק תוכן שמותר לפרסם. הדירוג עצמו נעשה בדפדפן (src/lib/search-core.ts). */
@@ -132,10 +133,10 @@ export const GET: APIRoute = async () => {
 
   // שאלה נפוצה ומושג במילון: הקישור מוביל ישר אליהם (#q-… / #t-…), והעמוד פותח וגולל (Base.astro)
   for (const f of await getCollection('faq')) {
-    items.push({ id: `f-${f.id}`, kind: 'faq', title: f.data.q, type: 'שאלה נפוצה', summary: f.data.a, keywords: f.data.group, url: `${href('/faq/')}#q-${f.id}` });
+    items.push({ id: `f-${f.id}`, kind: 'faq', title: f.data.q, type: 'שאלה נפוצה', summary: plain(f.data.a), keywords: f.data.group, url: `${href('/faq/')}#q-${f.id}` });
   }
   for (const t of await getCollection('glossary')) {
-    items.push({ id: `t-${t.id}`, kind: 'term', title: t.data.term, type: 'מילון', summary: t.data.meaning, keywords: t.data.aliases.join(' '), url: `${href('/glossary/')}#t-${t.id}` });
+    items.push({ id: `t-${t.id}`, kind: 'term', title: t.data.term, type: 'מילון', summary: plain(t.data.meaning), keywords: t.data.aliases.join(' '), url: `${href('/glossary/')}#t-${t.id}` });
   }
 
   return new Response(JSON.stringify(items), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });

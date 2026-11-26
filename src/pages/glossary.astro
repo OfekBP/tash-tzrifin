@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageSearch from '../components/PageSearch.astro';
+import { inline, plain } from '../lib/md';
 
 const terms = (await getCollection('glossary')).sort((a, b) => a.data.term.localeCompare(b.data.term, 'he'));
 ---
@@ -9,9 +10,9 @@ const terms = (await getCollection('glossary')).sort((a, b) => a.data.term.local
   <PageSearch slot="head" placeholder="חיפוש מושג: תשמ״ש, הלנה…" label="חיפוש במילון" suggestions={terms.slice(0, 4).map((t) => t.data.term)} />
   <dl class="group gloss" id="list">
     {terms.map((t) => (
-      <div class="row" id={`t-${t.id}`} data-search={`${t.data.term}|${t.data.aliases.join(' ')}|${t.data.meaning}`}>
+      <div class="row" id={`t-${t.id}`} data-search={`${t.data.term}|${t.data.aliases.join(' ')}|${plain(t.data.meaning)}`}>
         <dt class="t" data-hl>{t.data.term}</dt>
-        <dd class="s" data-hl>{t.data.meaning}</dd>
+        <dd class="s" data-hl set:html={inline(t.data.meaning)} />
       </div>
     ))}
   </dl>
