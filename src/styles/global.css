@@ -2695,3 +2695,12 @@ details.acc > summary > :is(h2, h3) { margin: 0; font: inherit; color: inherit; 
 .gloss .s { display: block; margin: 0; -webkit-line-clamp: unset; line-clamp: unset; overflow: visible; }
 /* חלון איש קשר: בפתיחה הפוקוס על השם, בלי מסגרת. מסגרת הפוקוס של הכפתורים מופיעה רק בניווט במקלדת */
 #sheet-name:focus { outline: none; }
+
+/* ===== שלב 5.2: מטרות מגע של 44px לפחות (חזרה: התג pre-stage5) ===== */
+.call { width: 44px; height: 44px; }
+.tash-card .btn { min-height: 44px; }
+.ps-suggest-row button { min-height: 44px; }
+.wt-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 0; }
+/* דף הבית: כפתורי החיפוש והעזרה נשארים בגודל 40px כדי לא להתנגש בלוגואים, ואזור המגע שלהם מורחב ל-44px */
+.hero-bar .icon-btn { position: relative; }
+.hero-bar .icon-btn::after { content: ''; position: absolute; inset: -2px; border-radius: 50%; }
