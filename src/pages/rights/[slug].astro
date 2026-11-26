@@ -1,7 +1,6 @@
 ---
 import { getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import TashButton from '../../components/TashButton.astro';
 import Icon from '../../components/Icon.astro';
 import JumpNav from '../../components/JumpNav.astro';
 import { docTypeOf } from '../../lib/docs';
@@ -37,9 +36,8 @@ const jump = [
   d.exceptions.length > 0 ? ['sec-notes', 'חשוב לדעת'] : null,
   parts.length > 0 ? ['sec-parts', 'פירוט'] : null,
   d.faq.length > 0 ? ['sec-faq', 'שאלות'] : null,
-  ['sec-contact', 'למי פונים'],
 ].filter((x): x is [string, string] => x !== null);
-const accordions = jump.length - 1 - (parts.length > 0 ? 1 : 0) - (d.faq.length > 0 ? 1 : 0) + parts.length + d.faq.length;
+const accordions = jump.length - (parts.length > 0 ? 1 : 0) - (d.faq.length > 0 ? 1 : 0) + parts.length + d.faq.length;
 
 const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
 ---
@@ -156,13 +154,6 @@ const asOf = (v: string) => (/^\d{4}/.test(v) ? `נכון ל-${v}` : v);
       </div>
     </>
   ) : null}
-
-  <div class="card-soft" id="sec-contact" style="margin-top: var(--s6)">
-    <strong>למי פונים?</strong>
-    <p>הזכאות נקבעת על ידי הגורמים המוסמכים. מש״קית הת״ש תעזור לבדוק מה מתאים לך.</p>
-    <a class="btn purple block" href={href('/contacts/')}><Icon name="contacts" />למש״קית הת״ש שלי</a>
-    {d.tashButton ? <div style="margin-top: var(--s4)"><TashButton compact /></div> : null}
-  </div>
 
   <p class="sources">
     {d.lastVerified ? `עודכן לאחרונה: ${d.lastVerified.toLocaleDateString('he-IL')}. ` : ''}
