@@ -94,7 +94,7 @@
 - id: unit
   label: הגעתי ליחידה חדשה
   order: 9
-  base: [unit-intake, or-population, interviews-visits]
+  base: [or-population, interviews-visits]
   questions: []
 - id: health
   label: טיפולי שיניים
