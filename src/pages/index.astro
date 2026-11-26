@@ -16,27 +16,27 @@ import { href, SITE_NAME } from '../lib/site';
 
   <h2 class="sr-only">מה תרצו לעשות?</h2>
   <div class="bento">
-    <a class="tile wide" href={href('/rights/')}>
+    <a class="tile wide" data-astro-prefetch="viewport" href={href('/rights/')}>
       <span class="ico"><Icon name="rights" /></span>
       <strong>זכויות והטבות</strong>
       <span class="d">מה מגיע לך</span>
     </a>
-    <a class="tile tint" href={href('/guides/')}>
+    <a class="tile tint" data-astro-prefetch="viewport" href={href('/guides/')}>
       <span class="ico"><Icon name="guides" /></span>
       <strong>מדריכים וכלים</strong>
       <span class="d">הסברים והדרכות</span>
     </a>
-    <a class="tile mist" href={href('/contacts/')}>
+    <a class="tile mist" data-astro-prefetch="viewport" href={href('/contacts/')}>
       <span class="ico"><Icon name="contacts" /></span>
       <strong>אנשי קשר</strong>
       <span class="d">אל מי לפנות</span>
     </a>
-    <a class="tile mist" href={href('/faq/')}>
+    <a class="tile mist" data-astro-prefetch="viewport" href={href('/faq/')}>
       <span class="ico"><Icon name="doc" /></span>
       <strong>שאלות נפוצות</strong>
       <span class="d">מה כולם שואלים</span>
     </a>
-    <a class="tile tint" href={href('/guide-me/')}>
+    <a class="tile tint" data-astro-prefetch="viewport" href={href('/guide-me/')}>
       <span class="ico"><Icon name="search" /></span>
       <strong>מאיפה מתחילים?</strong>
       <span class="d">שאלון קצר לאפיון</span>

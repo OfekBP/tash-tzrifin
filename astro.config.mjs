@@ -11,7 +11,9 @@ export default defineConfig({
     : 'https://ofekbp.github.io',
   base: onVercel ? '/' : '/tash-tzrifin',
   trailingSlash: 'always',
-  // טעינה מוקדמת של עמודים כשהקישור נכנס לתצוגה: מעבר כמעט מיידי
-  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
+  // טעינה מוקדמת של עמודים, כדי שהמעבר יהיה כמעט מיידי.
+  // קישורי הניווט הראשיים (הסרגל התחתון וכרטיסי דף הבית) נטענים כשהם על המסך (data-astro-prefetch="viewport").
+  // שאר הקישורים, למשל 13 הזכויות ברשימה, נטענים רק בתחילת הלחיצה, כדי לא לבזבז גלישה על עמודים שלא ייפתחו.
+  prefetch: { prefetchAll: true, defaultStrategy: 'tap' },
   build: { format: 'directory' },
 });

@@ -128,7 +128,7 @@ const tabs = [
                 <span class="sr-only">נפתח בלשונית חדשה</span>
               </a>
             ) : null}
-            <a class="tab" data-id={t.id} href={href(t.url)} aria-current={t.match(path) ? 'page' : undefined}>
+            <a class="tab" data-id={t.id} href={href(t.url)} data-astro-prefetch="viewport" aria-current={t.match(path) ? 'page' : undefined}>
               <Icon name={t.id} />
               <span>{t.label}</span>
             </a>
